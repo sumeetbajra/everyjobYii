@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\User;
 
 class SiteController extends Controller
 {
@@ -47,13 +48,15 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionIndex()
-    {
-        return $this->render('index');
+    public function actionIndex(){
+        $this->layout = 'master';
+        $model = new LoginForm();
+        return $this->render('index', ['model'=>$model]);
     }
 
     public function actionLogin()
     {
+        $this->layout = 'noSideMenu';
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -73,6 +76,12 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionRegister(){
+        $this->layout='noSideMenu';
+        $model = new User;
+        return $this->render('register', ['model'=>$model]);
     }
 
     public function actionContact()

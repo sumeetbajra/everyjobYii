@@ -1,38 +1,31 @@
 <?php
 
 namespace app\models;
+use app\models\Users as Users;
 
 class User extends \yii\base\Object implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
+    public $user_id;
+    public $email;
+    public $fname;
     public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
+    public $authKey, $username;
+    public $accessToken, $lname, $gender, $dob, $display_name, $created_at, $active, $verified, $updated_at;
 
     /**
      * @inheritdoc
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        $dbUser = Users::find()
+        ->where([
+            "user_id" => $id
+            ])
+        ->one();
+        if (!count($dbUser)) {
+            return null;
+        }
+        return new static($dbUser);
     }
 
     /**
@@ -40,14 +33,14 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
+        $dbUser = Users::find()
+       ->where(["accessToken" => $token])
+       ->one();
+       if (!count($dbUser)) {
         return null;
     }
+    return new static($dbUser);
+}
 
     /**
      * Finds user by username
@@ -55,23 +48,24 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      * @param  string      $username
      * @return static|null
      */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
+   public static function findByUsername($username) {
+    $dbUser = Users::find()
+            ->where([
+                "email" => $username
+            ])
+            ->one();
+    if (!count($dbUser)) {
         return null;
     }
+    return new static($dbUser);
+}
 
     /**
      * @inheritdoc
      */
     public function getId()
     {
-        return $this->id;
+        return $this->user_id;
     }
 
     /**

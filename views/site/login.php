@@ -9,38 +9,50 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
 
-    <?php $form = ActiveForm::begin([
+<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+        <?php $form = ActiveForm::begin([
         'id' => 'login-form',
-        'options' => ['class' => 'form-horizontal'],
         'fieldConfig' => [
-            'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-            'labelOptions' => ['class' => 'col-lg-1 control-label'],
+            'template' => "<div class=\"form-group\">{input}</div>",
+            'inputOptions' => ['class' => 'form-control input-lg'],
         ],
     ]); ?>
 
-    <?= $form->field($model, 'username') ?>
+            <fieldset>
+                <h2>Please Sign In</h2>
+                   <div class="alert alert-danger"><?=  $form->errorSummary($model); ?></div>
+                <hr class="colorgraph">
+              
 
-    <?= $form->field($model, 'password')->passwordInput() ?>
+        <?= $form->field($model, 'email')->input('email');?>
+                <?= $form->field($model, 'password')->passwordInput() ?>
+              
+<span class="button-checkbox">
+                    <button type="button" class="btn btn-default" data-color="info"><i class="state-icon glyphicon glyphicon-unchecked"></i>&nbsp;Remember Me</button>
+                                <?= $form->field($model, 'rememberMe', [
+        'template' => "<span class=\"button-checkbox\">{input}</div>",
+        'options' => ['class'=>'hidden', 'checked'=>'checked' ], 
+        ])->checkbox() ?>
 
-    <?= $form->field($model, 'rememberMe', [
-        'template' => "<div class=\"col-lg-offset-1 col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
-    ])->checkbox() ?>
+                  
 
-    <div class="form-group">
-        <div class="col-lg-offset-1 col-lg-11">
-            <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-        </div>
+        
+                    <a href="" class="btn btn-link pull-right">Forgot Password?</a>
+                </span>
+                <hr class="colorgraph">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                           <?= Html::submitButton('Login', ['class' => 'btn btn-lg btn-success btn-block', 'name' => 'login-button']) ?>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <a href="" class="btn btn-lg btn-primary btn-block">Register</a>
+                    </div>
+                </div>
+            </fieldset>
+        <?php ActiveForm::end(); ?>
+    </div>   
+
     </div>
 
-    <?php ActiveForm::end(); ?>
-
-    <div class="col-lg-offset-1" style="color:#999;">
-        You may login with <strong>admin/admin</strong> or <strong>demo/demo</strong>.<br>
-        To modify the username/password, please check out the code <code>app\models\User::$users</code>.
-    </div>
-</div>
