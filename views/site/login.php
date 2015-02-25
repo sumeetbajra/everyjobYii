@@ -22,7 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <fieldset>
                 <h2>Please Sign In</h2>
-                   <div class="alert alert-danger"><?=  $form->errorSummary($model); ?></div>
+                   
+                   <?=  $form->errorSummary($model, ['class'=>'alert alert-warning']); ?>
                 <hr class="colorgraph">
               
 

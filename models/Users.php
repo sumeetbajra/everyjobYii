@@ -13,6 +13,9 @@ use Yii;
  * @property string $gender
  * @property string $dob
  * @property string $display_name
+ * @property string $address
+ * @property string $about
+ * @property string $profilePic
  * @property string $password
  * @property string $created_at
  * @property integer $active
@@ -38,12 +41,20 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fname', 'lname', 'gender', 'dob', 'display_name', 'password', 'created_at', 'email', 'updated_at'], 'required'],
+            [['fname', 'lname', 'gender', 'dob', 'display_name', 'address', 'about', 'password', 'created_at', 'email', 'about', 'address'], 'required'],
             [['dob', 'created_at', 'updated_at'], 'safe'],
+            [['about'], 'string'],
             [['active', 'verified'], 'integer'],
+            ['fname', 'match', 'pattern' => '/^[a-zA-Z\s]+$/', 'message' => 'First Name can only contain alphabet characters'],
+            ['lname', 'match', 'pattern' => '/^[a-zA-Z\s]+$/', 'message' => 'First Name can only contain alphabet characters'],
+            ['email', 'email'],
+            ['email', 'unique'],
+            ['display_name', 'unique'],
             [['fname', 'lname', 'display_name', 'email', 'accessToken'], 'string', 'max' => 200],
             [['gender'], 'string', 'max' => 6],
-            [['password'], 'string', 'max' => 255],
+            [['password'], 'string', 'min'=>8],
+            [['about'], 'string', 'min'=>20, 'max'=>300],
+            [['address', 'profilePic', 'password'], 'string', 'max' => 255],
             [['authKey'], 'string', 'max' => 100]
         ];
     }
@@ -55,11 +66,14 @@ class Users extends \yii\db\ActiveRecord
     {
         return [
             'user_id' => 'User ID',
-            'fname' => 'Fname',
-            'lname' => 'Lname',
+            'fname' => 'First name',
+            'lname' => 'Last name',
             'gender' => 'Gender',
             'dob' => 'Dob',
             'display_name' => 'Display Name',
+            'address' => 'Address',
+            'about' => 'About',
+            'profilePic' => 'Profile Pic',
             'password' => 'Password',
             'created_at' => 'Created At',
             'active' => 'Active',

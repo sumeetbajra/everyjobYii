@@ -2,6 +2,7 @@
     font-family: oleo;
     src: url('../fonts/OleoScript-Regular.ttf');
 }
+
 .navbar-inverse{
 	background: white;
 	border-bottom: solid thin #ECECEC;
@@ -753,4 +754,23 @@ filter: blur(5px);
 .cover-image{
   height: 300px;
   overflow: hidden;
+}
+
+a[disabled]{
+	pointer-events: none;
+}
+
+.profile-side-menu ul{
+	list-style: none;
+	line-height: 26px;
+}
+
+.profile-side-menu .profile-pic{
+	position: relative;
+	left: 39px;
+}
+
+.montserrat{
+	font-family: 'Montserrat';
+
 }

@@ -32,6 +32,7 @@ AppAsset::register($this);
 
     <!-- Custom CSS -->
     <link href="<?= Yii::getAlias('@web'); ?>/css/heroic-features.css" rel="stylesheet">
+    <link href="<?= Yii::getAlias('@web'); ?>/css/fileinput.css" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -43,7 +44,7 @@ AppAsset::register($this);
 
     </head>
 
-<?php $this->beginBody() ?>
+
     <body>
 
         <!-- Navigation -->
@@ -90,7 +91,7 @@ AppAsset::register($this);
             <!-- /.container -->
         </nav>
 
-<div class="container" style="border-right: solid thin #ECECEC; border-left: solid thin #ECECEC">
+<div class="container">
 
 <div class="row">
         <?= $content; ?>
@@ -233,10 +234,11 @@ AppAsset::register($this);
 
 <!-- Bootstrap Core JavaScript -->
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootstrap.min.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/fileinput.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/custom.js"></script>
 
 </body>
-<?php $this->endBody() ?>
+
 
 </html>
 <?php $this->endPage() ?>

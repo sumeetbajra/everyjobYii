@@ -80,7 +80,7 @@ AppAsset::register($this);
                         </li>
                           <?php else: ?>
                           <li><a href="#">My profile</a></li>
-                          <li><a href= '<?= Url::to(["site/logout"]) ?>' data-method = 'POST'>Logout (<?= Yii::$app->user->identity->display_name ?>)</li>
+                          <li><a href= '<?= Url::to(["site/logout"]) ?>' data-method = 'POST'>Logout (<?= Yii::$app->user->identity->display_name ?>)</a></li>
                           <?php endif; ?>
                         
                     </ul>

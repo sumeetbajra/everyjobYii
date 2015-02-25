@@ -9,7 +9,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $email;
     public $fname;
     public $password;
-    public $authKey, $username;
+    public $authKey, $username, $address, $about, $profilePic;
     public $accessToken, $lname, $gender, $dob, $display_name, $created_at, $active, $verified, $updated_at;
 
     /**

@@ -288,19 +288,8 @@ use yii\bootstrap\ActiveForm;
           <div class="modal-body">
               <div class="row">
                   <div class="col-xs-6">
-                      <div class="well">
-                      	
-
-    
-
-  
-
-     
-     	
-	
-        
-
-           <?php $form = ActiveForm::begin([
+                      <div class="well">                    	
+          <?php $form = ActiveForm::begin([
         'id' => 'loginForm',
         'method'=>'POST',
         'action' => ['site/login'],
@@ -314,7 +303,7 @@ use yii\bootstrap\ActiveForm;
     ]); ?>
 
 <?= $form->errorSummary($model); ?>
-    <?= $form->field($model, 'email', ['options'=>['id'=>'email', 'placeholder'=>'example@gmail.com']])->label('Email'); ?>
+    <?= $form->field($model, 'email', ['options'=>['id'=>'email', 'placeholder'=>'example@gmail.com']])->label('Email')->input('email'); ?>
 
     <?= $form->field($model, 'password')->passwordInput() ?>
 
