@@ -1,4 +1,10 @@
-<div class="col-md-12 alert alert-info">Welcome back <b><?= $user->display_name; ?></b>!!</div>
+<?php
+use yii\helpers\Url;
+use yii\grid\GridView;
+?>
+<?php if(!empty(Yii::$app->session->getFlash('message'))){ ?>
+<div class="col-md-12 alert alert-info"><?= Yii::$app->session->getFlash('message'); ?></div>
+<?php } ?>
 <div class="row" style="margin-top:35px">
     <div class="col-md-3">
     	<div class="profile-side-menu">
@@ -7,8 +13,10 @@
     		<h4 class="montserrat"><?= $user->display_name; ?></h4>
     	</div>
        <ul >
-        <li><a><i class="fa fa-plus"></i> Create a post</a></li>
+        <li><a href="<?= Url::to(['post/create']) ?>"><i class="fa fa-plus"></i> Create a post</a></li>
         <li><a><i class="fa fa-tasks"></i> Active tasks</a></li>
+        <li><a><i class="fa fa-envelope"></i> Messeges (0)</a></li>
+        <li><a><i class="fa fa-globe"></i> Notifications (0)</a></li>
         <li><a><i class="fa fa-check-square-o"></i> Ordered services</a></li>
         <li><a><i class="fa fa-user"></i> View profile</a></li>
         <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
@@ -41,7 +49,27 @@
     	<p><i class="fa fa-birthday-cake"></i> <?= $user->dob; ?></p>
     	<hr>
     	<h4>Created posts</h4>
+        <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+       // 'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
 
-    	
+            //'post_id',
+            'description:ntext',
+            //'category_id',
+           // 'owner_id',
+            'price',
+            // 'image_url:url',
+            // 'expiry_date',
+            // 'datetimestamp',
+            // 'max_active_orders',
+            // 'max_delivery_days',
+            // 'active',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
+
     </div>
 </div>

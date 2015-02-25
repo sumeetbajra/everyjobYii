@@ -772,5 +772,8 @@ a[disabled]{
 
 .montserrat{
 	font-family: 'Montserrat';
-
 }
+
+ .navbar-nav>li>.dropdown-menu li{
+ 	padding: 5px 0;
+ }
