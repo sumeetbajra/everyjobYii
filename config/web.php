@@ -11,6 +11,10 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'au63y5XBEKEYZQgj9xHZHvPTNsOKtLzp',
         ],
+         'image' =>[
+                'class' => 'yii\image\ImageDriver',
+                'driver' => 'GD',  //GD or Imagick                
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

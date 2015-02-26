@@ -144,29 +144,13 @@ $('#myCarousel .item').each(function(){
         $(this).remove();
     });
 
-        $('#registerForm').on('beforeSubmit', function(event, jqXHR, settings) {
-                var form = $(this);
-                if(form.find('.has-error').length) {
-                        return false;
-                }
-                
-                $.ajax({
-                        url: form.attr('action'),
-                        type: 'post',
-                        data: form.serialize(),
-                        success: function(data) {
-                                // do something ...
-                        }
-                });
-                
-                return false;
-        });
-
         $('.tnc_register').on('change', function(){
             if($(this).is(':checked')){
                 $('#activate-step-3').prop('disabled', false);    
             }else{
                 $('#activate-step-3').prop('disabled', true);
             }
-        })
+        });
+
+
 });

@@ -3,6 +3,12 @@
     src: url('../fonts/OleoScript-Regular.ttf');
 }
 
+.caption p{
+	word-wrap: break-word;
+	height: 40px;
+	overflow: hidden;
+}
+
 .navbar-inverse{
 	background: white;
 	border-bottom: solid thin #ECECEC;

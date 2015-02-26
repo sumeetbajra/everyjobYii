@@ -18,12 +18,11 @@ class UserController extends \yii\web\Controller
         $this->layout = 'columnLeft';
         $searchModel = new PostSearch();
         $user_id = \Yii::$app->user->getID();
-        $dataProvider = $searchModel->search(['owner'=>$user_id, 'active'=>'1']);
+        $posts = PostServices::find()->where(['owner_id'=>$user_id])->all();
         $user = User::findIdentity($user_id);
         return $this->render('profile', [
             'user'=>$user,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'posts'=>$posts,
             ]);
     }
 

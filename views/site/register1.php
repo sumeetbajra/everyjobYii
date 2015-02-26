@@ -17,9 +17,6 @@
 
  </style>
  
-
- <?php $countries = array("Afghanistan", "Albania", "Algeria", "American Samoa", "Andorra", "Angola", "Anguilla", "Antarctica", "Antigua and Barbuda", "Argentina", "Armenia", "Aruba", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bermuda", "Bhutan", "Bolivia", "Bosnia and Herzegowina", "Botswana", "Bouvet Island", "Brazil", "British Indian Ocean Territory", "Brunei Darussalam", "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Cayman Islands", "Central African Republic", "Chad", "Chile", "China", "Christmas Island", "Cocos (Keeling) Islands", "Colombia", "Comoros", "Congo", "Congo, the Democratic Republic of the", "Cook Islands", "Costa Rica", "Cote d'Ivoire", "Croatia (Hrvatska)", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Falkland Islands (Malvinas)", "Faroe Islands", "Fiji", "Finland", "France", "France Metropolitan", "French Guiana", "French Polynesia", "French Southern Territories", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Gibraltar", "Greece", "Greenland", "Grenada", "Guadeloupe", "Guam", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Heard and Mc Donald Islands", "Holy See (Vatican City State)", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iran (Islamic Republic of)", "Iraq", "Ireland", "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea, Democratic People's Republic of", "Korea, Republic of", "Kuwait", "Kyrgyzstan", "Lao, People's Democratic Republic", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libyan Arab Jamahiriya", "Liechtenstein", "Lithuania", "Luxembourg", "Macau", "Macedonia, The Former Yugoslav Republic of", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Martinique", "Mauritania", "Mauritius", "Mayotte", "Mexico", "Micronesia, Federated States of", "Moldova, Republic of", "Monaco", "Mongolia", "Montserrat", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal", "Netherlands", "Netherlands Antilles", "New Caledonia", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Niue", "Norfolk Island", "Northern Mariana Islands", "Norway", "Oman", "Pakistan", "Palau", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Pitcairn", "Poland", "Portugal", "Puerto Rico", "Qatar", "Reunion", "Romania", "Russian Federation", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Seychelles", "Sierra Leone", "Singapore", "Slovakia (Slovak Republic)", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Georgia and the South Sandwich Islands", "Spain", "Sri Lanka", "St. Helena", "St. Pierre and Miquelon", "Sudan", "Suriname", "Svalbard and Jan Mayen Islands", "Swaziland", "Sweden", "Switzerland", "Syrian Arab Republic", "Taiwan, Province of China", "Tajikistan", "Tanzania, United Republic of", "Thailand", "Togo", "Tokelau", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Turks and Caicos Islands", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "United States Minor Outlying Islands", "Uruguay", "Uzbekistan", "Vanuatu", "Venezuela", "Vietnam", "Virgin Islands (British)", "Virgin Islands (U.S.)", "Wallis and Futuna Islands", "Western Sahara", "Yemen", "Yugoslavia", "Zambia", "Zimbabwe"); ?>
-
  <div class="row form-group">
  	<div class="col-xs-12">
  		<h2>Please Sign Up <small>It's free and always will be.</small></h2>
@@ -46,16 +43,31 @@
  			<h3>Please fill out the following</h3><hr>
  			<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
  				<?php $form = ActiveForm::begin([	
+ 					'options' => ['enctype'=>'multipart/form-data'],
  					'id' => 'registerForm',
  					'method'=>'POST',
  					'action'=>['site/register'],
-					//'enableAjaxValidation' =>false,
+					'enableAjaxValidation' =>true,
 					//'enableClientValidation'=>true,
  					'fieldConfig' => [
  					'template' =>  "<div class=\"form-group\">{input}</div><div class=\"form-error\">{error}</div>",
  					'inputOptions' => ['class'=>'form-control input-lg'],
  					],
  					]);
+ 					?>
+ 					<?php $form = ActiveForm::begin([	
+ 					'id' => 'registerForm',
+ 					'options' => ['enctype'=>'multipart/form-data'],
+ 					'method'=>'POST',
+ 					'action'=>['site/register'],
+					'enableAjaxValidation'=>true,
+					//'enableClientValidation'=>false,
+ 					'fieldConfig' => [
+ 					'template' =>  "<div class=\"form-group\">{input}</div><div class=\"alert alert-danger\">{error}</div>",
+ 					'inputOptions' => ['class'=>'form-control input-lg'],
+ 					],
+ 					]);
+
  					?>
  					<div class="row">
  						<div class="col-xs-12 col-sm-6 col-md-6">
@@ -72,7 +84,13 @@
  					<?= $form->field($model, 'display_name')->textInput(['placeholder'=>'Display Name']);?>
  					<?= $form->field($model, 'email')->input('email')->textInput(['placeholder'=>'Email']);?>
 
- 					
+ 					<h4>Upload a profile picture (Optional)</h4>
+ 					<div class="row">
+ 						<div class="col-xs-12 col-sm-12 col-md-12 bootstrap-file">
+ 							<?= $form->field($model, 'profilePic')->fileInput(['id'=>'input-2', 'class'=>'file', 'multiple'=>'true', 'data-show-upload'=>"false", 'data-show-caption'=>"true"]) ?>
+ 							<!-- <input id="input-2" type="file" class="file" multiple="true" data-show-upload="false" data-show-caption="true"> -->
+ 						</div>
+ 					</div>
  					<div class="row">
  						<div class="col-xs-12 col-sm-6 col-md-6">
  							<?= $form->field($model, 'gender')->dropDownList([''=>'Select Gender', 'male'=>'Male', 'female'=>'Female', 'others'=>'Others']);?>
@@ -120,14 +138,7 @@
  							<?= Html::dropDownList('country', '', $countries, ['class'=>'form-control input-lg', 'placeholder'=>'City']);?>
  						</div>
  					</div><br>
- 					<h4>Upload a profile picture (Optional)</h4>
- 					<div class="row">
- 						<div class="col-xs-12 col-sm-12 col-md-12 bootstrap-file">
- 							<?= $form->field($model, 'profilePic')->fileInput(['id'=>'input-2', 'class'=>'file', 'multiple'=>'true', 'data-show-upload'=>"false", 'data-show-caption'=>"true"]) ?>
- 							<!-- <input id="input-2" type="file" class="file" multiple="true" data-show-upload="false" data-show-caption="true"> -->
-
- 						</div>
- 					</div>
+ 					
  					<div class="row">
  						<div class="col-xs-4 col-sm-3 col-md-3">
  							<span class="button-checkbox">

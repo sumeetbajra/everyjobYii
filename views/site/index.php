@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
+use app\models\User;
 ?>
 
  <div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel">
@@ -114,119 +116,28 @@ use yii\bootstrap\ActiveForm;
 
         <!-- Page Features -->
         <div class="row text-center">
-
+  <?php foreach ($posts as $post) { ?>
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
+                <?php if($post->featured == 1) : ?>
                 <div class="ribbon-wrapper-green"><div class="ribbon-green">Featured</div></div>
-                    <img src="images/services/1.jpg" alt="">
+            <?php endif; ?>
+                    <img src="<?= Yii::getAlias('@web'); ?>/images/services/<?= $post->image_url; ?>" alt="Promotional image">
                     <div class="caption">
-                        <h4>Price: Rs 455</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                        <h4>Price: <?= $post->currency, ' ', $post->price; ?></h4>
+                        <p><?= $post->title; ?></p>
                         <p>
                             <a href="#" class="btn btn-primary">Order Now!</a> <a href="#" class="btn btn-default">More Info</a>
                         </p>
                     </div>
+                    <span class="pull-left" style="position: relative; top: -16px">by <b><a href="#"><?= User::findIdentity($post->owner_id)->display_name; ?></b></a></span>
+                    <span class="pull-right" style="position: relative; top: -16px"><i class="fa fa-thumbs-up"></i> 15 &nbsp;<i class="fa fa-thumbs-down"></i> 1</span>
                 </div>
             </div>
+           
+     <?php  } ?>
 
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                    <img src="images/services/2.jpg" alt="">
-                    <div class="caption">
-                        <h4>Price: Rs 1200</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <p>
-                            <a href="#" class="btn btn-primary">Order Now!</a> <a href="#" class="btn btn-default">More Info</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                <div class="ribbon-wrapper-green"><div class="ribbon-green">Featured</div></div>
-                    <img src="images/services/6.png" alt="">
-                    <div class="caption">
-                        <h4>Price: Rs 980</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <p>
-                            <a href="#" class="btn btn-primary">Order Now!</a> <a href="#" class="btn btn-default">More Info</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                <div class="ribbon-wrapper-green"><div class="ribbon-green">Featured</div></div>
-                    <img src="images/services/4.png" alt="">
-                    <div class="caption">
-                        <h4>Price: Rs 1500</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                        <p>
-                            <a href="#" class="btn btn-primary">Order Now!</a> <a href="#" class="btn btn-default">More Info</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-        <!-- /.row -->
-
-        <div class="row text-center">
-
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                <div class="ribbon-wrapper-green"><div class="ribbon-green">Featured</div></div>
-                    <img src="images/services/3.png" alt="">
-                    <div class="caption">
-                        <h4>Price: Rs 599</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            <p>
-                                <a href="#" class="btn btn-primary">Order Now!</a> <a href="#" class="btn btn-default">More Info</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6 hero-feature">
-                    <div class="thumbnail">
-                        <img src="images/services/5.png" alt="">
-                        <div class="caption">
-                            <h4>Price: Rs 500</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            <p>
-                                <a href="#" class="btn btn-primary">Order Now!</a> <a href="#" class="btn btn-default">More Info</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6 hero-feature">
-                    <div class="thumbnail">
-                        <img src="images/services/7.png" alt="">
-                        <div class="caption">
-                            <h4>Price: Rs 1250</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            <p>
-                                <a href="#" class="btn btn-primary">Order Now!</a> <a href="#" class="btn btn-default">More Info</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-sm-6 hero-feature">
-                    <div class="thumbnail">
-                        <img src="images/services/8.jpg" alt="">
-                        <div class="caption">
-                            <h4>Price: Rs 6500</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                            <p>
-                                <a href="#" class="btn btn-primary">Order Now!</a> <a href="#" class="btn btn-default">More Info</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+            
                 <div class="pull-right"><a href="#">View All <i class="fa fa-angle-double-right"></i></a></div>
             </div>
             <!-- /.row -->

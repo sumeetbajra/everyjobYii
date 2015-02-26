@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use app\models\PostCategory;
 use app\models\Users;
 use yii\web\UploadedFile;
+use yii\easyimage\EasyImage;
 /**
  * PostController implements the CRUD actions for PostServices model.
  */
@@ -86,18 +87,22 @@ class PostController extends Controller
             $ext = explode('.', $file->name);
             $model->image_url = $user_id . '_' . $randomString . '.' . $ext[count($ext)-1];
             $model->datetimestamp = date('Y-m-d H:i:s', time());
+            $model->featured = 0;
             if($model->save()){
-               $file->saveAs('images/services/' . $model->image_url . '.' . $ext[count($ext)-1]);
+               $file->saveAs('images/services/' . $model->image_url);
+               $file=Yii::getAlias('@app/web/images/services/'.$model->image_url); 
+               $image=Yii::$app->image->load($file);
+               $image->resize(1000,1000)->crop(800, 500)->save();
                \Yii::$app->getSession()->setFlash('message', 'Post created successfully. You are ready to make some money.');
                return $this->redirect(['user/profile']);
            }
-       } else {
+       }
         return $this->render('create', [
             'model' => $model,
             'categories' => $categoryList,
             'user'=>$user,
             ]);
-    }
+    
 }
 
     /**
@@ -108,13 +113,50 @@ class PostController extends Controller
      */
     public function actionUpdate($id)
     {
+        $this->layout = 'columnLeft';
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->post_id]);
+        $user_id = \Yii::$app->user->getID();
+        $image_url = $model->image_url;
+        $categories = new PostCategory;
+        $categories = $categories->find()->all();
+        $categoryList[''] = '--Select category--';
+        foreach ($categories as $key => $category) {
+            $categoryList[$category->category_id] = $category->category_name;
+        }
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $length = 8;
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }   
+            $file = UploadedFile::getInstance($model, 'image_url');
+            if(!empty($file)){
+                $ext = explode('.', $file->name);
+                $model->image_url = $user_id . '_' . $randomString . '.' . $ext[count($ext)-1];
+                $file->saveAs('images/services/' . $model->image_url);
+                $file=Yii::getAlias('@app/web/images/services/'.$model->image_url); 
+                $image=Yii::$app->image->load($file);
+                $dimension = getimagesize('images/services/' . $model->image_url);
+                $width = $dimension[0];
+                $height = $dimension[1];
+                if($height > $width ){
+                     $image->resize($width*2, $width*2)->crop(800, 500)->save();
+                }else{
+                       $image->resize($height*1.5,$height*1.5)->crop(800, 500)->save();
+                }
+            }else{
+                $model->image_url = $image_url;
+            }
+            if($model->save()){
+                \Yii::$app->getSession()->setFlash('message', 'Post updated successfully.');
+                return $this->redirect(['user/profile']);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'categories' => $categoryList,
                 ]);
         }
     }
