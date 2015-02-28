@@ -329,6 +329,8 @@ public function actionOrder($id){
             $notification->source = $order->user_id;
             $notification->notification = Users::find()->where(['user_id'=>Yii::$app->user->getId()])->one()->display_name . ' ordered your service.';
             $notification->datetimestamp = $order->datetimestamp;
+            $notification->type = 'order';
+            $notification->post_id = $order->post_id;
             if($notification->save() && $order->save()){
                 Yii::$app->session->setFlash('message', 'Order placed successfully');
                 return $this->redirect(['user/dashboard']);
