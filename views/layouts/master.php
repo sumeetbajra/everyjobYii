@@ -43,7 +43,7 @@ AppAsset::register($this);
 
     </head>
 
-<?php $this->beginBody() ?>
+
     <body>
 
         <!-- Navigation -->
@@ -82,7 +82,7 @@ AppAsset::register($this);
                             <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Profile <span class="caret"></span></a>
           <ul class="dropdown-menu profile-side-menu" role="menu">
-            <li><a href="<?= Url::to(['user/profile']); ?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+            <li><a href="<?= Url::to(['user/dashboard']); ?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
               <li><a href="<?= Url::to(['post/create']) ?>"><i class="fa fa-plus"></i> Create a post</a></li>
         <li><a><i class="fa fa-tasks"></i> Active tasks</a></li>
         <li><a><i class="fa fa-envelope"></i> Messeges (0)</a></li>
@@ -241,7 +241,7 @@ AppAsset::register($this);
 <script src="<?= Yii::getAlias('@web'); ?>/js/custom.js"></script>
 
 </body>
-<?php $this->endBody() ?>
+
 
 </html>
 <?php $this->endPage() ?>

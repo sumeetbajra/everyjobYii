@@ -227,7 +227,7 @@ footer{
 	color: #9d9d9d;
 }
 
-.navbar .nav > li > a, .navbar .nav > li > a:visited{
+.navbar .nav > li > a, .navbar .nav > li > a:visited, .navbar .nav > li > a i:visited{
 	text-shadow: none;
 	color: #9d9d9d;
 	outline: none;
@@ -443,6 +443,11 @@ a.linkedin:hover {
 	font-size: 15px;
 	margin: 0 2px;
 	vertical-align: top;
+}
+
+.price{
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 .ribbon-wrapper-green {
@@ -754,12 +759,13 @@ filter: blur(5px);
 }
 
 .container.profile{
-  margin-top: -107px;
+  margin-top: -117px;
 }
 
 .cover-image{
   height: 300px;
   overflow: hidden;
+  margin-top: -20px;
 }
 
 a[disabled]{
@@ -783,3 +789,72 @@ a[disabled]{
  .navbar-nav>li>.dropdown-menu li{
  	padding: 5px 0;
  }
+
+/* CSS used here will be applied after bootstrap.css */
+
+.glyphicon-bell {
+   
+    font-size:1.5rem;
+  }
+
+.notifications {
+   min-width:420px; 
+  }
+  
+  .notifications-wrapper {
+     overflow:auto;
+      max-height:250px;
+    }
+    
+ .menu-title {
+     color:#ff7788;
+     font-size:1.5rem;
+      display:inline-block;
+      }
+ 
+.glyphicon-circle-arrow-right {
+      margin-left:10px;     
+   }
+  
+   
+ .notification-heading, .notification-footer  {
+ 	padding:2px 10px;
+       }
+      
+        
+.dropdown-menu.divider {
+  margin:5px 0;          
+  }
+
+.item-title {
+  
+ font-size:1.3rem;
+ color:#000;
+    
+}
+
+.notifications a.content {
+ text-decoration:none;
+ background:#ccc;
+
+ }
+    
+.notification-item {
+ padding:10px;
+ margin:5px;
+ border-bottom: solid thin #ECECEC;
+ }
+
+#notification-dropdown{
+	left: -375px;
+}
+
+a.visited, li:visited{
+	color: #9d9d9d !important;
+}
+
+.notification-item p{
+	margin-bottom: 0;
+}
+
+

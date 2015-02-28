@@ -152,5 +152,55 @@ $('#myCarousel .item').each(function(){
             }
         });
 
+$('body').on('click', 'a.disabled', function(event) {
+    event.preventDefault();
+});
 
+
+  $('.post-rate-button').on('click', function(){
+    var $this = $(this);
+    if($this.hasClass('disabled')){
+        return false;
+    }
+    var data = $(this).attr('id');
+    var rate = data.split('_')[0];
+    var id = data.split('_') [1];
+    if(rate == 'post-like'){
+      rating = 1;
+    }else{
+      rating = 0;
+    }
+    $.ajax({
+        url: '../../rate',
+        data: {rating: rating, id: id},
+        success: function(response){
+            var response = JSON.parse(response);
+            if(response['res'] == "true"){
+                $('.post-rate-button').eq(0).removeClass('disabled');
+                $('.post-rate-button').eq(1).removeClass('disabled');
+                $this.addClass('disabled');
+                if(rate == 'post-like'){
+                    $this.html('<i class="fa fa-thumbs-up"></i> '+response['likes']);
+                    $('#post-dislike_'+id).html('<i class="fa fa-thumbs-down"></i> '+response['dislikes']);
+                }else{
+                    $('#post-like_'+id).html('<i class="fa fa-thumbs-up"></i> '+response['likes']);
+                    $this.html('<i class="fa fa-thumbs-down"></i> '+response['dislikes']);
+                }
+            }
+        }
+    });
+  });
+
+$('.removeNotific').on('click', function(){
+    var id = $(this).attr('href');
+    var id = id.replace(/^#\?/, '');
+    $.ajax({
+        url: 'clearnotific',
+        data: {id: id},
+        success:function(response){
+            //do sth
+        }
+    });
+    $('.notific-count').hide();
+});
 });

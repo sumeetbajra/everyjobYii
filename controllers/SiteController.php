@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\helpers\Url;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
+use app\models\PostRatings;
 use app\models\ContactForm;
 use app\models\User;
 use app\models\PostServices;
@@ -57,7 +58,8 @@ class SiteController extends Controller
         $this->layout = 'master';
         $model = new LoginForm();
         $posts = PostServices::find()->orderBy('datetimestamp DESC')->all();
-        return $this->render('index', ['model'=>$model, 'posts'=>$posts]);
+        $ratings = new PostRatings;
+        return $this->render('index', ['model'=>$model, 'posts'=>$posts, 'ratings'=>$ratings]);
     }
 
     public function actionLogin()
@@ -69,7 +71,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(['user/profile']);
+            return $this->redirect(['user/dashboard']);
         } else {
             return $this->render('login', [
                 'model' => $model,

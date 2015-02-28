@@ -2,10 +2,13 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Nav;
+use app\models\Notification;
+use app\models\Users;
 use yii\bootstrap\Tabs;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+include('agoScript.php');
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -84,7 +87,7 @@ AppAsset::register($this);
                            <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Profile <span class="caret"></span></a>
           <ul class="dropdown-menu profile-side-menu" role="menu">
-            <li><a href="#"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+            <li><a href="<?= Url::to(['user/dashboard']); ?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
               <li><a href="<?= Url::to(['post/create']) ?>"><i class="fa fa-plus"></i> Create a post</a></li>
         <li><a><i class="fa fa-tasks"></i> Active tasks</a></li>
         <li><a><i class="fa fa-envelope"></i> Messeges (0)</a></li>
@@ -92,6 +95,52 @@ AppAsset::register($this);
         <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
           </ul>
         </li>
+
+<li class="dropdown">
+     <?php
+    $notifications = Notification::find()->where(['user_id'=>Yii::$app->user->getId(), 'read'=>'0'])->count();
+    ?>
+  <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#<?= Yii::$app->user->getId()?>" class="removeNotific">
+    <i class="glyphicon glyphicon-bell"></i><span class="notific-count <?= ($notifications == 0) ? 'hidden' : ''?>"><font color="red"><b>!</b></font></span>
+  </a>
+  
+  <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel" id="notification-dropdown">
+    
+    <div class="notification-heading"><h4 class="menu-title">Notifications</h4><h4 class="menu-title pull-right">View all<i class="glyphicon glyphicon-circle-arrow-right"></i></h4>
+    </div>
+    <li class="divider"></li>
+   <div class="notifications-wrapper">
+    
+    <?php
+    $notifications = Notification::find()->where(['user_id'=>Yii::$app->user->getId()])->orderBy('datetimestamp DESC')->limit(6)->all();
+    if(count($notifications) == 0){ ?>
+           <a class="content" href="#">
+        
+       <div class="notification-item">
+        <p class="item-info">No notifications</p>
+      </div>
+       
+    </a>
+   <?php }
+    foreach ($notifications as $key => $notification) { ?>
+        <a class="content" href="#">
+        
+       <div class="notification-item">
+        <div class="notification-image col-xs-2"><img src="<?= Yii::getAlias('@web/images/users/') . Users::find()->where(['user_id'=>$notification->source])->one()->profilePic; ?>" class="img-responsive"></div><p class="item-info"><?= $notification->notification; ?>
+    </p>
+    <p><font size="1" color="#D0D0D0"><?=  time_ago($notification->datetimestamp); ?></font></p>
+      </div>
+       
+    </a>
+    <?php } ?>
+
+   </div>
+    <li class="divider"></li>
+    <div class="notification-footer"><h4 class="menu-title">View all<i class="glyphicon glyphicon-circle-arrow-right"></i></h4></div>
+  </ul>
+  
+</li>
+
                           <li><a href= '<?= Url::to(["site/logout"]) ?>' data-method = 'POST'>Logout (<?= Yii::$app->user->identity->display_name ?>)</a></li>
                           <?php endif; ?>
                         

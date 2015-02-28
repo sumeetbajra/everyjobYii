@@ -83,7 +83,7 @@ AppAsset::register($this);
                            <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Profile <span class="caret"></span></a>
           <ul class="dropdown-menu profile-side-menu" role="menu">
-            <li><a href="#"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+            <li><a href="<?= Url::to(['user/dashboard']); ?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
               <li><a href="<?= Url::to(['post/create']) ?>"><i class="fa fa-plus"></i> Create a post</a></li>
         <li><a><i class="fa fa-tasks"></i> Active tasks</a></li>
         <li><a><i class="fa fa-envelope"></i> Messeges (0)</a></li>
@@ -91,7 +91,7 @@ AppAsset::register($this);
         <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
           </ul>
         </li>
-                          <li><a href= '<?= Url::to(["site/logout"]) ?>' data-method = 'POST'>Logout (<?= Yii::$app->user->identity->display_name ?>)</li>
+                          <li><a href= '<?= Url::to(["site/logout"]) ?>' data-method = 'POST'>Logout (<?= Yii::$app->user->identity->display_name ?>)</a></li>
                           <?php endif; ?>
                         
                     </ul>

@@ -21,6 +21,7 @@ use Yii;
  * @property integer $max_active_orders
  * @property integer $max_delivery_days
  * @property integer $active
+ * @property string $url
  */
 class PostServices extends \yii\db\ActiveRecord
 {
@@ -38,13 +39,13 @@ class PostServices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'category_id', 'owner_id', 'price', 'currency', 'max_active_orders', 'max_delivery_days'], 'required'],
+            [['title', 'description', 'category_id', 'owner_id', 'price', 'currency', 'max_active_orders', 'max_delivery_days', 'slug'], 'required'],
             [['description'], 'string'],
             [['category_id', 'owner_id', 'featured', 'max_active_orders', 'max_delivery_days', 'active'], 'integer'],
             [['expiry_date', 'datetimestamp'], 'safe'],
-            [['title'], 'string', 'max' => 100, 'min'=>'20'],
+            [['title'], 'string', 'max' => 100],
             [['price', 'currency'], 'string', 'max' => 10],
-            [['image_url'], 'file', 'extensions' => 'jpg, png, jpeg, bmp', 'maxSize'=>1],
+            [['image_url', 'slug'], 'string', 'max' => 255]
         ];
     }
 
@@ -61,13 +62,30 @@ class PostServices extends \yii\db\ActiveRecord
             'owner_id' => 'Owner ID',
             'price' => 'Price',
             'currency' => 'Currency',
-            'image_url' => 'Promotional Image',
+            'image_url' => 'Image Url',
             'expiry_date' => 'Expiry Date',
             'featured' => 'Featured',
             'datetimestamp' => 'Datetimestamp',
-            'max_active_orders' => 'Maximum Active Orders',
-            'max_delivery_days' => 'Maximum Delivery Days',
+            'max_active_orders' => 'Max Active Orders',
+            'max_delivery_days' => 'Max Delivery Days',
             'active' => 'Active',
+            'slug' => 'Slug',
         ];
+    }
+
+    public function getOwner()
+    {
+        // Customer has_many Order via Order.customer_id -> id
+        return $this->hasOne(Users::className(), ['user_id' => 'owner_id']);
+    }
+
+    public function getCategory()
+    {
+        // Customer has_many Order via Order.customer_id -> id
+        return $this->hasOne(PostCategory::className(), ['category_id' => 'category_id']);
+    }
+
+    public function getRatings(){
+        return $this->hasMany(PostRatings::className(), ['post_id'=>'post_id']);
     }
 }

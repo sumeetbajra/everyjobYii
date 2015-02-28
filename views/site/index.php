@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\ActiveForm;
 use app\models\User;
+use app\models\PostViews;
 ?>
 
  <div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel">
@@ -127,11 +128,11 @@ use app\models\User;
                         <h4>Price: <?= $post->currency, ' ', $post->price; ?></h4>
                         <p><?= $post->title; ?></p>
                         <p>
-                            <a href="#" class="btn btn-primary">Order Now!</a> <a href="#" class="btn btn-default">More Info</a>
+                            <a href="#" class="btn btn-primary">Order Now!</a> <a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>" class="btn btn-default">More Info</a>
                         </p>
                     </div>
-                    <span class="pull-left" style="position: relative; top: -16px">by <b><a href="#"><?= User::findIdentity($post->owner_id)->display_name; ?></b></a></span>
-                    <span class="pull-right" style="position: relative; top: -16px"><i class="fa fa-thumbs-up"></i> 15 &nbsp;<i class="fa fa-thumbs-down"></i> 1</span>
+                    <span class="pull-left" style="position: relative; top: -16px">by <b><a href="<?= Url::to(['user/profile/'.$post->owner->display_name]); ?>"><?= User::findIdentity($post->owner_id)->display_name; ?></b></a></span>
+                    <span class="pull-right" style="position: relative; top: -16px"><i class="fa fa-eye"></i> <?= (PostViews::find()->where(['post_id'=>$post->post_id])->count() == 0 ? 0 : PostViews::find()->where(['post_id'=>$post->post_id])->one()->view_count);?> &nbsp;<i class="fa fa-thumbs-up"></i> <?= $ratings->postRating($post->post_id)['likes'];?> &nbsp;<i class="fa fa-thumbs-down"></i> <?= $ratings->postRating($post->post_id)['dislikes'];?></span>
                 </div>
             </div>
            
