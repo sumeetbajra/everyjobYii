@@ -12,7 +12,7 @@ use app\models\PostViews;
         <div class="row user-menu-container square">
             <div class="col-md-7 user-details">
                 <div class="row coralbg white">
-                    <div class="col-md-6 no-pad">
+                    <div class="col-md-8 no-pad">
                         <div class="user-pad">
                             <h3><?= $user->fname, ' ', $user->lname; ?></h3>
                             <h4 class="white">(member since <?= date('F d Y', strtotime($user->created_at)); ?>)</h4>
@@ -22,7 +22,7 @@ use app\models\PostViews;
                         <span class="btn-label"><i class="fa fa-pencil"></i></span>Update</button> -->
                     </div>
                 </div>
-                <div class="col-md-6 no-pad">
+                <div class="col-md-4 no-pad">
                     <div class="user-image">
                         <?php 
                         if($user->profilePic == 'default.jpg'){

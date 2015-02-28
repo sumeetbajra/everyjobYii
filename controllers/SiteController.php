@@ -9,15 +9,18 @@ use yii\helpers\Url;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\PostRatings;
+use app\models\Notification;
 use app\models\ContactForm;
 use app\models\User;
 use app\models\PostServices;
 use app\models\Users;
 use yii\web\UploadedFile;
 use yii\easyimage\EasyImage;
+include('agoScript.php');
 
 class SiteController extends Controller
 {
+    public $layout='columnLeft';
     public function behaviors()
     {
         return [
@@ -57,7 +60,7 @@ class SiteController extends Controller
     public function actionIndex(){
         $this->layout = 'master';
         $model = new LoginForm();
-        $posts = PostServices::find()->orderBy('datetimestamp DESC')->all();
+        $posts = PostServices::find()->joinWith('views')->orderBy('view_count DESC')->all();
         $ratings = new PostRatings;
         return $this->render('index', ['model'=>$model, 'posts'=>$posts, 'ratings'=>$ratings]);
     }
@@ -94,47 +97,52 @@ class SiteController extends Controller
         if(!empty(Yii::$app->request->post()) && $model->load(Yii::$app->request->post())){
             if($model->password == $_POST['re_password']){
                 $model->created_at = date('Y-m-d H:i:s', time());
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $charactersLength = strlen($characters);
-            $length = 8;
-            $randomString = '';
-            for ($i = 0; $i < $length; $i++) {
-                $randomString .= $characters[rand(0, $charactersLength - 1)];
-            }   
-            $model->address = $_POST['city'] . ', ' . $countries[$_POST['country']];
-            $file = UploadedFile::getInstance($model, 'profilePic');
-            $ext = explode('.', $file->name);
-            $model->profilePic = $randomString . '.' . $ext[count($ext)-1];
+                $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $charactersLength = strlen($characters);
+                $length = 8;
+                $randomString = '';
+                for ($i = 0; $i < $length; $i++) {
+                    $randomString .= $characters[rand(0, $charactersLength - 1)];
+                }   
+                $model->address = $_POST['city'] . ', ' . $countries[$_POST['country']];
+                $file = UploadedFile::getInstance($model, 'profilePic');
+                $ext = explode('.', $file->name);
+                $model->profilePic = $randomString . '.' . $ext[count($ext)-1];
                 if($model->save()){
                     $file->saveAs('images/users/' . $model->profilePic);
-               $file=Yii::getAlias('@app/web/images/users/'.$model->profilePic); 
-               $image=Yii::$app->image->load($file);
-               $image->resize(800,800)->crop(500, 500)->save();
+                    $file=Yii::getAlias('@app/web/images/users/'.$model->profilePic); 
+                    $image=Yii::$app->image->load($file);
+                    $image->resize(800,800)->crop(500, 500)->save();
                     return $this->redirect(Url::to(['site/index']));
                 }
             }else{
-            $model->addError('password', 'The passwords do not match');
-        }     
+                $model->addError('password', 'The passwords do not match');
+            }     
         }
-    return $this->render('register1', ['model'=>$model, 'countries'=>$countries]);               
-}
-
-public function actionContact()
-{
-    $model = new ContactForm();
-    if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-        Yii::$app->session->setFlash('contactFormSubmitted');
-
-        return $this->refresh();
-    } else {
-        return $this->render('contact', [
-            'model' => $model,
-            ]);
+        return $this->render('register1', ['model'=>$model, 'countries'=>$countries]);               
     }
-}
 
-public function actionAbout()
-{
-    return $this->render('about');
-}
+    public function actionContact()
+    {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
+            Yii::$app->session->setFlash('contactFormSubmitted');
+
+            return $this->refresh();
+        } else {
+            return $this->render('contact', [
+                'model' => $model,
+                ]);
+        }
+    }
+
+    public function actionAbout()
+    {
+        return $this->render('about');
+    }
+
+    public function actionNotification(){
+        $notification = Notification::find()->where(['user_id'=>\Yii::$app->user->getId()])->orderBy('datetimestamp DESC')->all();
+         return $this->render('notification', ['notifications'=>$notification]);   
+    }
 }

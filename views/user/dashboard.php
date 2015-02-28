@@ -2,6 +2,7 @@
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\grid\GridView;
+use app\models\Notification;
 ?>
 
 
@@ -19,7 +20,7 @@ use yii\grid\GridView;
                     <li><a href="<?= Url::to(['post/create']) ?>"><i class="fa fa-plus"></i> Create a post</a></li>
                     <li><a><i class="fa fa-tasks"></i> Active tasks</a></li>
                     <li><a><i class="fa fa-envelope"></i> Messeges (0)</a></li>
-                    <li><a><i class="fa fa-globe"></i> Notifications (0)</a></li>
+                    <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications (<?= Notification::find()->where(['user_id'=>Yii::$app->user->getId(), 'read'=>'0'])->count();?>)</a></li>
                     <li><a><i class="fa fa-check-square-o"></i> Ordered services</a></li>
                     <li><a href="<?= Url::to(['user/profile/'.$user->display_name]); ?>"><i class="fa fa-user"></i> View profile</a></li>
                     <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>

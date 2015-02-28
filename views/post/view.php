@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\models\PostViews;
+use app\models\PostOrder;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -109,8 +110,15 @@ use yii\widgets\DetailView;
                    <div class="col-sm-3 pull-right"><h4 style="margin-top:0; margin-bottom:0"><i class="fa fa-eye"></i> <?= (PostViews::find()->where(['post_id'=>$model->post_id])->count() == 0 ? 0 : PostViews::find()->where(['post_id'=>$model->post_id])->one()->view_count);?></h4></div>
                    <div class="clear-fix"></div>
                    <div class="list-group">
+                    <?php if($model->owner_id == \Yii::$app->user->getId()): ?>
+                    <a href="#" class="list-group-item disabled"><i class="fa fa-money"></i> Order</a>
+                    <a href="#" class="list-group-item disabled"><i class="fa fa-cart-arrow-down"></i> Add to Cart</a>
+                  <?php elseif(PostOrder::find()->where(['user_id'=>\Yii::$app->user->getId(), 'post_id'=>$model->post_id])->count() != 0): ?>
+                  <a href="#" class="list-group-item disabled">Order waiting approval</a>
+                  <?php else: ?>
                     <a href="<?= Url::to(['post/order/'.$model->post_id]); ?>" class="list-group-item"><i class="fa fa-money"></i> Order</a>
                     <a href="#" class="list-group-item"><i class="fa fa-cart-arrow-down"></i> Add to Cart</a>
+                  <?php endif; ?>
                     <a href="#" id ="post-like_<?= $model->post_id; ?>" class="list-group-item post-rate-button <?= (($like_e) ? 'disabled' : '')?>"><i class="fa fa-thumbs-up"></i> <?= $likes; ?></a>
                     <a href="#" id ="post-dislike_<?= $model->post_id; ?>" class="list-group-item post-rate-button <?= (($dislike_e) ? 'disabled' : '')?>"><i class="fa fa-thumbs-down"></i> <?= $dislikes; ?></a>
                 </div>

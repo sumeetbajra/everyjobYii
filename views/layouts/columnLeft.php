@@ -37,7 +37,7 @@ AppAsset::register($this);
     <!-- Custom CSS -->
     <link href="<?= Yii::getAlias('@web'); ?>/css/heroic-features.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web'); ?>/css/fileinput.css" rel="stylesheet">
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="<?= Yii::getAlias('@web/css/font-awesome.min.css')?>" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -106,7 +106,7 @@ AppAsset::register($this);
   
   <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel" id="notification-dropdown">
     
-    <div class="notification-heading"><h4 class="menu-title">Notifications</h4><h4 class="menu-title pull-right">View all<i class="glyphicon glyphicon-circle-arrow-right"></i></h4>
+    <div class="notification-heading"><h4 class="menu-title">Notifications</h4><h4 class="menu-title pull-right"><a href="<?= Url::to(['site/notification'])?>" >View all</a><i class="glyphicon glyphicon-circle-arrow-right"></i></h4>
     </div>
     <li class="divider"></li>
    <div class="notifications-wrapper">
@@ -123,7 +123,11 @@ AppAsset::register($this);
     </a>
    <?php }
     foreach ($notifications as $key => $notification) { ?>
-        <a class="content" href="#">
+    <?php if($notification->type == 'order') : ?>
+        <a class="content" href="<?= Url::to(['post/vieworder/'.$notification->post_id]); ?>">
+        <?php elseif($notification->type == 'comment') : ?>
+        <a class="content" href="<?= Url::to(['post/vieworder/'.$notification->post_id]); ?>">
+        <?php endif; ?>
         
        <div class="notification-item">
         <div class="notification-image col-xs-2"><img src="<?= Yii::getAlias('@web/images/users/') . Users::find()->where(['user_id'=>$notification->source])->one()->profilePic; ?>" class="img-responsive"></div><p class="item-info"><?= $notification->notification; ?>
@@ -136,7 +140,7 @@ AppAsset::register($this);
 
    </div>
     <li class="divider"></li>
-    <div class="notification-footer"><h4 class="menu-title">View all<i class="glyphicon glyphicon-circle-arrow-right"></i></h4></div>
+    <div class="notification-footer"><h4 class="menu-title"><a href="<?= Url::to(['site/notification'])?>">View all<i class="glyphicon glyphicon-circle-arrow-right"></a></i></h4></div>
   </ul>
   
 </li>

@@ -88,4 +88,8 @@ class PostServices extends \yii\db\ActiveRecord
     public function getRatings(){
         return $this->hasMany(PostRatings::className(), ['post_id'=>'post_id']);
     }
+
+       public function getViews(){
+        return $this->hasMany(PostViews::className(), ['post_id'=>'post_id']);
+    }
 }

@@ -811,6 +811,10 @@ a[disabled]{
      font-size:1.5rem;
       display:inline-block;
       }
+
+      .menu-title a{
+      	 color:#ff7788;
+      }
  
 .glyphicon-circle-arrow-right {
       margin-left:10px;     

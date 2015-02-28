@@ -123,7 +123,7 @@ use app\models\PostViews;
                 <?php if($post->featured == 1) : ?>
                 <div class="ribbon-wrapper-green"><div class="ribbon-green">Featured</div></div>
             <?php endif; ?>
-                    <img src="<?= Yii::getAlias('@web'); ?>/images/services/<?= $post->image_url; ?>" alt="Promotional image">
+                    <img src="<?= Yii::getAlias('@web'); ?>/images/services/<?= $post->image_url; ?>" alt="Promotional image" class="img-responsive">
                     <div class="caption">
                         <h4>Price: <?= $post->currency, ' ', $post->price; ?></h4>
                         <p><?= $post->title; ?></p>

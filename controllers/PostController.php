@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use yii\filters\AccessControl;
 use app\models\PostServices;
 use app\models\PostRatings;
 use app\models\PostSearch;
@@ -26,6 +27,17 @@ class PostController extends Controller
     public function behaviors()
     {
         return [
+        'access' => [
+        'class' => AccessControl::className(),
+        //'only' => ['logout'],
+        'rules' => [
+        [
+        'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view'],
+        'allow' => true,
+        'roles' => ['@'],
+        ],
+        ],
+        ],
         'verbs' => [
         'class' => VerbFilter::className(),
         'actions' => [
@@ -91,8 +103,8 @@ class PostController extends Controller
         $viewCount = PostViews::find()->where(['post_id'=>$post_id])->one();
         if(empty($viewCount)){
             $viewCount = new PostViews;
-         $viewCount->post_id = $post_id;
-         $viewCount->view_count = 1;
+            $viewCount->post_id = $post_id;
+            $viewCount->view_count = 1;
         }else{
             $viewCount->view_count += 1;
         }    
@@ -125,7 +137,7 @@ class PostController extends Controller
             $slug = preg_replace( "/^\.+|\.+$/", "", $model->title);
             $slug = explode(' ', strtolower($slug));
             foreach($slug as $key => $char){
-                if ($key != sizeof($url)-1){
+                if ($key != sizeof($slug)-1){
                     $model->slug .= $char . '-';
                 }else{
                     $model->slug .= $char;
@@ -144,21 +156,28 @@ class PostController extends Controller
             $model->datetimestamp = date('Y-m-d H:i:s', time());
             $model->featured = 0;
             if($model->save()){
-               $file->saveAs('images/services/' . $model->image_url);
-               $file=Yii::getAlias('@app/web/images/services/'.$model->image_url); 
-               $image=Yii::$app->image->load($file);
-               $image->resize(1000,1000)->crop(800, 500)->save();
-               \Yii::$app->getSession()->setFlash('message', 'Post created successfully. You are ready to make some money.');
-               return $this->redirect(['user/dashboard']);
-           }
-       }
-       return $this->render('create', [
-        'model' => $model,
-        'categories' => $categoryList,
-        'user'=>$user,
-        ]);
+             $file->saveAs('images/services/' . $model->image_url);
+             $file=Yii::getAlias('@app/web/images/services/'.$model->image_url); 
+             $image=Yii::$app->image->load($file);
+             $dimension = getimagesize('images/services/' . $model->image_url);
+             $width = $dimension[0];
+             $height = $dimension[1];
+             if($height > $width ){
+               $image->resize($width*2, $width*2)->crop(800, 500)->save();
+           }else{
+             $image->resize($height*2,$height*2)->crop(800, 500)->save();
+         }
+         \Yii::$app->getSession()->setFlash('message', 'Post created successfully. You are ready to make some money.');
+         return $this->redirect(['user/dashboard']);
+     }
+ }
+ return $this->render('create', [
+    'model' => $model,
+    'categories' => $categoryList,
+    'user'=>$user,
+    ]);
 
-   }
+}
 
     /**
      * Updates an existing PostServices model.
@@ -169,7 +188,12 @@ class PostController extends Controller
     public function actionUpdate()
     {
         $this->layout = 'columnLeft';
-        $id = $_POST['post_id'];
+        if(isset($_POST['post_id'])){
+            $id = (int) $_POST['post_id'];
+            Yii::$app->session['post_id'] = $id;
+        }else{
+            $id =  Yii::$app->session['post_id'];
+        }
         $model = $this->findModel($id);
         $user_id = \Yii::$app->user->getID();
         $image_url = $model->image_url;
@@ -208,23 +232,23 @@ class PostController extends Controller
                 $width = $dimension[0];
                 $height = $dimension[1];
                 if($height > $width ){
-                 $image->resize($width*2, $width*2)->crop(800, 500)->save();
-             }else{
-               $image->resize($height*1.5,$height*1.5)->crop(800, 500)->save();
-           }
-       }else{
-        $model->image_url = $image_url;
+                   $image->resize($width*2, $width*2)->crop(800, 500)->save();
+               }else{
+                 $image->resize($height*2,$height*2)->crop(800, 500)->save();
+             }
+         }else{
+            $model->image_url = $image_url;
+        }
+        if($model->save()){
+            \Yii::$app->getSession()->setFlash('message', 'Post updated successfully.');
+            return $this->redirect(['user/dashboard']);
+        }
+    } else {
+        return $this->render('update', [
+            'model' => $model,
+            'categories' => $categoryList,
+            ]);
     }
-    if($model->save()){
-        \Yii::$app->getSession()->setFlash('message', 'Post updated successfully.');
-        return $this->redirect(['user/dashboard']);
-    }
-} else {
-    return $this->render('update', [
-        'model' => $model,
-        'categories' => $categoryList,
-        ]);
-}
 }
 
     /**
@@ -279,21 +303,21 @@ class PostController extends Controller
                     echo json_encode($response);
                 }
             }elseif($lcount == 1 && $dlcount == 0 && $rating == 0){
-               $postDelete = PostRatings::find()->where(['user_id'=>$user_id, 'post_id'=>$post_id, 'rating'=>'1'])->one();
-               $post = new PostRatings;
-               $post->post_id = $post_id;
-               $post->rating = $rating;
-               $post->user_id = $user_id;
-               $post->datetimestamp = date('Y-m-d H:i:s', time());
-               if($post->save() && $postDelete->delete()){
-                                    $lcount = PostRatings::find()->where(['post_id'=>$post_id, 'rating'=>'1'])->count();
-                    $dlcount = PostRatings::find()->where(['post_id'=>$post_id, 'rating'=>'0'])->count();
-                    $response = ['likes'=>$lcount, 'dislikes'=>$dlcount, 'res'=>'true'];
-                    echo json_encode($response);
+             $postDelete = PostRatings::find()->where(['user_id'=>$user_id, 'post_id'=>$post_id, 'rating'=>'1'])->one();
+             $post = new PostRatings;
+             $post->post_id = $post_id;
+             $post->rating = $rating;
+             $post->user_id = $user_id;
+             $post->datetimestamp = date('Y-m-d H:i:s', time());
+             if($post->save() && $postDelete->delete()){
+                $lcount = PostRatings::find()->where(['post_id'=>$post_id, 'rating'=>'1'])->count();
+                $dlcount = PostRatings::find()->where(['post_id'=>$post_id, 'rating'=>'0'])->count();
+                $response = ['likes'=>$lcount, 'dislikes'=>$dlcount, 'res'=>'true'];
+                echo json_encode($response);
 
             }else{
                 $response = ['res'=>'false'];
-                    echo json_encode($response);
+                echo json_encode($response);
             }
         }elseif($lcount == 0 && $dlcount == 1 && $rating == 1){
             $postDelete = PostRatings::find()->where(['user_id'=>$user_id, 'post_id'=>$post_id, 'rating'=>'0'])->one();
@@ -304,12 +328,12 @@ class PostController extends Controller
             $post->datetimestamp = date('Y-m-d H:i:s', time());
             if($post->save() && $postDelete->delete()){
                 $lcount = PostRatings::find()->where(['post_id'=>$post_id, 'rating'=>'1'])->count();
-                    $dlcount = PostRatings::find()->where(['post_id'=>$post_id, 'rating'=>'0'])->count();
-                    $response = ['likes'=>$lcount, 'dislikes'=>$dlcount, 'res'=>'true'];
-                    echo json_encode($response);
+                $dlcount = PostRatings::find()->where(['post_id'=>$post_id, 'rating'=>'0'])->count();
+                $response = ['likes'=>$lcount, 'dislikes'=>$dlcount, 'res'=>'true'];
+                echo json_encode($response);
             }else{
                 $response = ['res'=>'false'];
-                    echo json_encode($response);
+                echo json_encode($response);
             }
         }
     }
@@ -338,5 +362,17 @@ public function actionOrder($id){
         }
     }
     return $this->render('order', ['post'=>$post, 'model'=>$order]);
+}
+
+public function actionVieworder($id){
+    $post_id = (int) $id;
+    $model = $this->findModel($post_id);
+    $orders = PostOrder::find()->where(['post_id'=>$post_id, 'status'=>'1'])->all();
+    if($model->owner_id == \Yii::$app->user->getId()){
+        return $this->render('viewOrder', ['model'=>$model, 'orders'=>$orders]);
+    }else{
+        return $this->redirect('site/error');
+    }
+
 }
 }
