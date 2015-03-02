@@ -1,20 +1,20 @@
 $(document).ready(function(){
-  
+
     $('.button-checkbox').each(function () {
 
         // Settings
         var $widget = $(this),
-            $button = $widget.find('button'),
-            $checkbox = $widget.find('input:checkbox'),
-            color = $button.data('color'),
-            settings = {
-                on: {
-                    icon: 'glyphicon glyphicon-check'
-                },
-                off: {
-                    icon: 'glyphicon glyphicon-unchecked'
-                }
-            };
+        $button = $widget.find('button'),
+        $checkbox = $widget.find('input:checkbox'),
+        color = $button.data('color'),
+        settings = {
+            on: {
+                icon: 'glyphicon glyphicon-check'
+            },
+            off: {
+                icon: 'glyphicon glyphicon-unchecked'
+            }
+        };
 
         // Event Handlers
         $button.on('click', function () {
@@ -35,19 +35,19 @@ $(document).ready(function(){
 
             // Set the button's icon
             $button.find('.state-icon')
-                .removeClass()
-                .addClass('state-icon ' + settings[$button.data('state')].icon);
+            .removeClass()
+            .addClass('state-icon ' + settings[$button.data('state')].icon);
 
             // Update the button's color
             if (isChecked) {
                 $button
-                    .removeClass('btn-default')
-                    .addClass('btn-' + color + ' active');
+                .removeClass('btn-default')
+                .addClass('btn-' + color + ' active');
             }
             else {
                 $button
-                    .removeClass('btn-' + color + ' active')
-                    .addClass('btn-default');
+                .removeClass('btn-' + color + ' active')
+                .addClass('btn-default');
             }
         }
 
@@ -65,7 +65,7 @@ $(document).ready(function(){
     });
 
 
-  $('#myCarousel').carousel({
+$('#myCarousel').carousel({
   interval: 40000
 });
 
@@ -73,64 +73,64 @@ $('#myCarousel .item').each(function(){
   var next = $(this).next();
   if (!next.length) {
     next = $(this).siblings(':first');
-  }
-  next.children(':first-child').clone().appendTo($(this));
+}
+next.children(':first-child').clone().appendTo($(this));
 
-  if (next.next().length>0) {
- 
-      next.next().children(':first-child').clone().appendTo($(this)).addClass('rightest');
-      
-  }
-  else {
-      $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
-     
-  }
+if (next.next().length>0) {
+
+  next.next().children(':first-child').clone().appendTo($(this)).addClass('rightest');
+
+}
+else {
+  $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+
+}
 });
 
-    var $btnSets = $('#responsive'),
-    $btnLinks = $btnSets.find('a');
- 
-    $btnLinks.click(function(e) {
-        e.preventDefault();
-        $(this).siblings('a.active').removeClass("active");
-        $(this).addClass("active");
-        var index = $(this).index();
-        $("div.user-menu>div.user-menu-content").removeClass("active");
-        $("div.user-menu>div.user-menu-content").eq(index).addClass("active");
-    });
+var $btnSets = $('#responsive'),
+$btnLinks = $btnSets.find('a');
 
-    $("[rel='tooltip']").tooltip();    
- 
-    $('.view').hover(
-        function(){
+$btnLinks.click(function(e) {
+    e.preventDefault();
+    $(this).siblings('a.active').removeClass("active");
+    $(this).addClass("active");
+    var index = $(this).index();
+    $("div.user-menu>div.user-menu-content").removeClass("active");
+    $("div.user-menu>div.user-menu-content").eq(index).addClass("active");
+});
+
+$("[rel='tooltip']").tooltip();    
+
+$('.view').hover(
+    function(){
             $(this).find('.caption').slideDown(250); //.fadeIn(250)
         },
         function(){
             $(this).find('.caption').slideUp(250); //.fadeOut(205)
         }
-    ); 
+        ); 
 
-  var navListItems = $('ul.setup-panel li a'),
-        allWells = $('.setup-content');
+var navListItems = $('ul.setup-panel li a'),
+allWells = $('.setup-content');
 
-    allWells.hide();
+allWells.hide();
 
-    navListItems.click(function(e)
-    {
-        e.preventDefault();
-        var $target = $($(this).attr('href')),
-            $item = $(this).closest('li');
-        
-        if (!$item.hasClass('disabled')) {
-            navListItems.closest('li').removeClass('active');
-            $item.addClass('active');
-            allWells.hide();
-            $target.show();
-        }
-    });
-    
-    $('ul.setup-panel li.active a').trigger('click');
-    
+navListItems.click(function(e)
+{
+    e.preventDefault();
+    var $target = $($(this).attr('href')),
+    $item = $(this).closest('li');
+
+    if (!$item.hasClass('disabled')) {
+        navListItems.closest('li').removeClass('active');
+        $item.addClass('active');
+        allWells.hide();
+        $target.show();
+    }
+});
+
+$('ul.setup-panel li.active a').trigger('click');
+
     // DEMO ONLY //
     $('#activate-step-2').on('click', function(e) {
         $('ul.setup-panel li:eq(1)').removeClass('disabled');
@@ -138,39 +138,39 @@ $('#myCarousel .item').each(function(){
         $(this).remove();
     });
 
-       $('#activate-step-3').on('click', function(e) {
+    $('#activate-step-3').on('click', function(e) {
         $('ul.setup-panel li:eq(2)').removeClass('disabled');
         $('ul.setup-panel li a[href="#step-3"]').trigger('click');
         $(this).remove();
     });
 
-        $('.tnc_register').on('change', function(){
-            if($(this).is(':checked')){
-                $('#activate-step-3').prop('disabled', false);    
-            }else{
-                $('#activate-step-3').prop('disabled', true);
-            }
-        });
+    $('.tnc_register').on('change', function(){
+        if($(this).is(':checked')){
+            $('#activate-step-3').prop('disabled', false);    
+        }else{
+            $('#activate-step-3').prop('disabled', true);
+        }
+    });
 
-$('body').on('click', 'a.disabled', function(event) {
-    event.preventDefault();
-});
+    $('body').on('click', 'a.disabled', function(event) {
+        event.preventDefault();
+    });
 
 
-  $('.post-rate-button').on('click', function(){
-    var $this = $(this);
-    if($this.hasClass('disabled')){
-        return false;
-    }
-    var data = $(this).attr('id');
-    var rate = data.split('_')[0];
-    var id = data.split('_') [1];
-    if(rate == 'post-like'){
-      rating = 1;
-    }else{
-      rating = 0;
-    }
-    $.ajax({
+    $('.post-rate-button').on('click', function(){
+        var $this = $(this);
+        if($this.hasClass('disabled')){
+            return false;
+        }
+        var data = $(this).attr('id');
+        var rate = data.split('_')[0];
+        var id = data.split('_') [1];
+        if(rate == 'post-like'){
+          rating = 1;
+      }else{
+          rating = 0;
+      }
+      $.ajax({
         url: '../../rate',
         data: {rating: rating, id: id},
         success: function(response){
@@ -202,5 +202,17 @@ $('.removeNotific').on('click', function(){
         }
     });
     $('.notific-count').hide();
+});
+
+$('.reject-order-btn').on('click', function(){
+    $(this).parent().next().next().toggleClass('hidden-form');
+    return false;
+});
+
+$('#confirmOrder').on('click', function(){
+    var a = confirm('Are you sure? You wont be able to revert it back');
+    if(a == false){
+        return false;
+    }
 });
 });

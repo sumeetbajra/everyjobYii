@@ -9,8 +9,8 @@ use app\models\Notification;
 <?php if(!empty(Yii::$app->session->getFlash('message'))){ ?>
     <div class="col-md-12 alert alert-info"><?= Yii::$app->session->getFlash('message'); ?></div>
     <?php } ?>
-    <div class="row" style="margin-top:35px">
-        <div class="col-md-3">
+    <div class="row" style="padding-top:35px; background: #FBFBFB">
+        <div class="col-md-3 col-sm-3 col-xs-5">
             <div class="profile-side-menu">
                 <div class="profile-pic">
                     <img src="<?= Yii::getAlias('@web');?>/images/users/<?= $user->profilePic; ?>" class="img-circle img-responsive" width="100">
@@ -27,7 +27,7 @@ use app\models\Notification;
                 </ul>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 col-sm-9 col-xs-7" style="border-left: solid thin #ECECEC">
             <h3 class="montserrat"><?= $user->display_name;?></h3> (member since <?= date('F Y', strtotime($user->created_at));?>)<hr>
             <h4><b>ABOUT</b> &nbsp;<a href="<?= Url::to(['user/update/'])?>" style="font-size:13px"><u>Edit</u></a></h4>
             <p><?= $user->about; ?></p>
@@ -39,7 +39,7 @@ use app\models\Notification;
             <div class="row text-center">
 
              <?php foreach ($posts as $post) { ?>
-             <div class="col-md-4 col-sm-6 hero-feature">
+             <div class="col-md-4  hero-feature">
                 <div class="thumbnail">
                     <?php if($post->featured == 1) : ?>
                     <div class="ribbon-wrapper-green"><div class="ribbon-green">Featured</div></div>

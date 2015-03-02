@@ -112,7 +112,7 @@ AppAsset::register($this);
    <div class="notifications-wrapper">
     
     <?php
-    $notifications = Notification::find()->where(['user_id'=>Yii::$app->user->getId()])->orderBy('datetimestamp DESC')->limit(6)->all();
+    $notifications = Notification::find()->where(['user_id'=>Yii::$app->user->getId(), 'status'=>'1'])->orderBy('datetimestamp DESC')->limit(6)->all();
     if(count($notifications) == 0){ ?>
            <a class="content" href="#">
         
@@ -127,6 +127,10 @@ AppAsset::register($this);
         <a class="content" href="<?= Url::to(['post/vieworder/'.$notification->post_id]); ?>">
         <?php elseif($notification->type == 'comment') : ?>
         <a class="content" href="<?= Url::to(['post/vieworder/'.$notification->post_id]); ?>">
+        <?php elseif($notification->type == 'order_reject') : ?>
+        <a class="content" href="<?= Url::to(['post/rejectedorder/'.Yii::$app->user->getId()]); ?>">
+        <?php elseif($notification->type == 'order_accept') : ?>
+        <a class="content" href="<?= Url::to(['post/acceptedorder/'.Yii::$app->user->getId()]); ?>">
         <?php endif; ?>
         
        <div class="notification-item">

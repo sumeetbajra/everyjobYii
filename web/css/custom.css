@@ -4,6 +4,7 @@
 }
 
 .caption p{
+	text-align: left;
 	word-wrap: break-word;
 	height: 40px;
 	overflow: hidden;
@@ -861,4 +862,17 @@ a.visited, li:visited{
 	margin-bottom: 0;
 }
 
+.reject-form.hidden-form{
+	height: 0px;
+	overflow: hidden;
+
+}
+
+.reject-form{
+	height: 252px;
+	overflow: hidden;
+	-webkit-transition: height .3s ease-in;
+	transition: height .3s ease-in;
+
+}
 

@@ -13,6 +13,9 @@ use Yii;
  * @property string $datetimestamp
  * @property integer $read
  * @property integer $source
+ * @property string $type
+ * @property integer $post_id
+ * @property integer $status
  */
 class Notification extends \yii\db\ActiveRecord
 {
@@ -30,10 +33,11 @@ class Notification extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'notification', 'datetimestamp', 'source'], 'required'],
-            [['user_id', 'read', 'source'], 'integer'],
+            [['user_id', 'notification', 'datetimestamp', 'source', 'type', 'post_id'], 'required'],
+            [['user_id', 'read', 'source', 'post_id', 'status'], 'integer'],
             [['datetimestamp'], 'safe'],
-            [['notification'], 'string', 'max' => 255]
+            [['notification'], 'string', 'max' => 255],
+            [['type'], 'string', 'max' => 20]
         ];
     }
 
@@ -49,6 +53,9 @@ class Notification extends \yii\db\ActiveRecord
             'datetimestamp' => 'Datetimestamp',
             'read' => 'Read',
             'source' => 'Source',
+            'type' => 'Type',
+            'post_id' => 'Post ID',
+            'status' => 'Status',
         ];
     }
 }

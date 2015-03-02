@@ -51,4 +51,16 @@ class PostOrder extends \yii\db\ActiveRecord
             'datetimestamp' => 'Datetimestamp',
         ];
     }
+
+    public function getRejected(){
+        return $this->hasOne(RejectedOrder::className(), ['order_id'=>'order_id']);
+    }
+
+      public function getPost(){
+        return $this->hasOne(PostServices::className(), ['post_id'=>'post_id']);
+    }
+
+    public function getAccepted(){
+        return $this->hasOne(AcceptedOrders::className(), ['post_id'=>'post_id']);
+    }
 }

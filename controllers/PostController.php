@@ -7,6 +7,7 @@ use yii\filters\AccessControl;
 use app\models\PostServices;
 use app\models\PostRatings;
 use app\models\PostSearch;
+use app\models\AcceptedOrders;
 use app\models\Notification;
 use app\models\PostViews;
 use app\models\PostOrder;
@@ -17,6 +18,7 @@ use app\models\PostCategory;
 use app\models\Users;
 use yii\web\UploadedFile;
 use yii\easyimage\EasyImage;
+use app\models\RejectedOrder;
 /**
  * PostController implements the CRUD actions for PostServices model.
  */
@@ -32,7 +34,7 @@ class PostController extends Controller
         //'only' => ['logout'],
         'rules' => [
         [
-        'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view'],
+        'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view', 'processorder', 'rejectedorder', 'acceptorder', 'acceptedorder'],
         'allow' => true,
         'roles' => ['@'],
         ],
@@ -156,22 +158,22 @@ class PostController extends Controller
             $model->datetimestamp = date('Y-m-d H:i:s', time());
             $model->featured = 0;
             if($model->save()){
-             $file->saveAs('images/services/' . $model->image_url);
-             $file=Yii::getAlias('@app/web/images/services/'.$model->image_url); 
-             $image=Yii::$app->image->load($file);
-             $dimension = getimagesize('images/services/' . $model->image_url);
-             $width = $dimension[0];
-             $height = $dimension[1];
-             if($height > $width ){
-               $image->resize($width*2, $width*2)->crop(800, 500)->save();
-           }else{
-             $image->resize($height*2,$height*2)->crop(800, 500)->save();
-         }
-         \Yii::$app->getSession()->setFlash('message', 'Post created successfully. You are ready to make some money.');
-         return $this->redirect(['user/dashboard']);
-     }
- }
- return $this->render('create', [
+               $file->saveAs('images/services/' . $model->image_url);
+               $file=Yii::getAlias('@app/web/images/services/'.$model->image_url); 
+               $image=Yii::$app->image->load($file);
+               $dimension = getimagesize('images/services/' . $model->image_url);
+               $width = $dimension[0];
+               $height = $dimension[1];
+               if($height > $width ){
+                 $image->resize($width*2, $width*2)->crop(800, 500)->save();
+             }else{
+               $image->resize($height*2,$height*2)->crop(800, 500)->save();
+           }
+           \Yii::$app->getSession()->setFlash('message', 'Post created successfully. You are ready to make some money.');
+           return $this->redirect(['user/dashboard']);
+       }
+   }
+   return $this->render('create', [
     'model' => $model,
     'categories' => $categoryList,
     'user'=>$user,
@@ -232,23 +234,23 @@ class PostController extends Controller
                 $width = $dimension[0];
                 $height = $dimension[1];
                 if($height > $width ){
-                   $image->resize($width*2, $width*2)->crop(800, 500)->save();
-               }else{
-                 $image->resize($height*2,$height*2)->crop(800, 500)->save();
-             }
-         }else{
-            $model->image_url = $image_url;
-        }
-        if($model->save()){
-            \Yii::$app->getSession()->setFlash('message', 'Post updated successfully.');
-            return $this->redirect(['user/dashboard']);
-        }
-    } else {
-        return $this->render('update', [
-            'model' => $model,
-            'categories' => $categoryList,
-            ]);
+                 $image->resize($width*2, $width*2)->crop(800, 500)->save();
+             }else{
+               $image->resize($height*2,$height*2)->crop(800, 500)->save();
+           }
+       }else{
+        $model->image_url = $image_url;
     }
+    if($model->save()){
+        \Yii::$app->getSession()->setFlash('message', 'Post updated successfully.');
+        return $this->redirect(['user/dashboard']);
+    }
+} else {
+    return $this->render('update', [
+        'model' => $model,
+        'categories' => $categoryList,
+        ]);
+}
 }
 
     /**
@@ -303,13 +305,13 @@ class PostController extends Controller
                     echo json_encode($response);
                 }
             }elseif($lcount == 1 && $dlcount == 0 && $rating == 0){
-             $postDelete = PostRatings::find()->where(['user_id'=>$user_id, 'post_id'=>$post_id, 'rating'=>'1'])->one();
-             $post = new PostRatings;
-             $post->post_id = $post_id;
-             $post->rating = $rating;
-             $post->user_id = $user_id;
-             $post->datetimestamp = date('Y-m-d H:i:s', time());
-             if($post->save() && $postDelete->delete()){
+               $postDelete = PostRatings::find()->where(['user_id'=>$user_id, 'post_id'=>$post_id, 'rating'=>'1'])->one();
+               $post = new PostRatings;
+               $post->post_id = $post_id;
+               $post->rating = $rating;
+               $post->user_id = $user_id;
+               $post->datetimestamp = date('Y-m-d H:i:s', time());
+               if($post->save() && $postDelete->delete()){
                 $lcount = PostRatings::find()->where(['post_id'=>$post_id, 'rating'=>'1'])->count();
                 $dlcount = PostRatings::find()->where(['post_id'=>$post_id, 'rating'=>'0'])->count();
                 $response = ['likes'=>$lcount, 'dislikes'=>$dlcount, 'res'=>'true'];
@@ -367,12 +369,77 @@ public function actionOrder($id){
 public function actionVieworder($id){
     $post_id = (int) $id;
     $model = $this->findModel($post_id);
-    $orders = PostOrder::find()->where(['post_id'=>$post_id, 'status'=>'1'])->all();
+    $orders = PostOrder::find()->joinWith('rejected')->where(['post_id'=>$post_id, 'status'=>'1', 'rejected_order.reason'=>NULL])->all();
+    $number = count($orders);
     if($model->owner_id == \Yii::$app->user->getId()){
-        return $this->render('viewOrder', ['model'=>$model, 'orders'=>$orders]);
+        return $this->render('viewOrder', ['model'=>$model, 'orders'=>$orders, 'number'=>$number]);
     }else{
         return $this->redirect('site/error');
     }
+}
 
+public function actionRejectedorder($id){
+    $user_id = (int) $id;
+    $orders = PostOrder::find()->joinWith('rejected')->where('rejected_order.reason != ""', ['user_id'=>$id, 'status'=>'1'])->all();
+    $number = count($orders);
+    return $this->render('rejectedOrder', ['rejected'=>$orders, 'number'=>$number]);
+}
+
+public function actionAcceptedorder($id){
+    $user_id = (int) $id;
+    $orders = PostOrder::find()->joinWith('accepted')->where('accepted_orders.post_id != ""', ['user_id'=>$id, 'status'=>'1'])->all();
+    $number = count($orders);
+    return $this->render('acceptedOrder', ['accepted'=>$orders, 'number'=>$number]);
+}
+
+public function actionAcceptorder(){
+    $model = new AcceptedOrders;
+    if (isset($_POST['order_id'])) {
+        $model->order_id = (int) $_POST['order_id'];
+        $model->user_id = PostOrder::find()->joinWith('post')->where(['order_id'=>$model->order_id])->one()->user_id;
+        $model->post_id = PostOrder::findOne($model->order_id)->post_id;
+        $model->datetimestamp = date('Y-m-d H:i:s', time());
+        if($model->validate()){
+            $notification = new Notification;
+            $notification->user_id = $model->user_id;
+            $notification->source = \Yii::$app->user->getId();
+            $notification->notification = Users::find()->where(['user_id'=>Yii::$app->user->getId()])->one()->display_name . ' accepted your service order.';
+            $notification->datetimestamp = date('Y-m-d H:i:s', time());
+            $notification->type = 'order_accept';
+            $notification->post_id = $model->post_id;
+            $old = Notification::find()->where(['type'=>'order', 'post_id'=>$notification->post_id, 'user_id'=>\Yii::$app->user->getId()])->one();
+            $old->status = 0;
+            if($notification->save() && $model->save() && $old->save()){
+            return $this->goBack();
+            }
+        }else{
+            print_r($model->getErrors());
+        }
+    }
+}
+
+public function actionProcessorder(){
+    $model = new RejectedOrder;
+    if ($model->load(Yii::$app->request->post())) {
+        $post_id = (int) $_POST['post_id'];
+        $model->datetimestamp = date('Y-m-d H:i:s', time());
+        if($model->validate()){
+            $notification = new Notification;
+            $notification->user_id = (int) $_POST['user_id'];
+            $notification->source = \Yii::$app->user->getId();
+            $notification->notification = Users::find()->where(['user_id'=>Yii::$app->user->getId()])->one()->display_name . ' rejected your service order.';
+            $notification->datetimestamp = $model->datetimestamp;
+            $notification->type = 'order_reject';
+            $notification->post_id = $_POST['post_id'];
+            $old = Notification::find()->where(['type'=>'order', 'post_id'=>$notification->post_id, 'user_id'=>\Yii::$app->user->getId()])->one();
+            $old->status = 0;
+            if($notification->save() && $model->save() && $old->save()){
+                \Yii::$app->session->setFlash('message', 'Order rejected successfully');
+                return $this->redirect(['post/vieworder/'. $post_id]);
+            }
+        }else{
+            print_r($model->getErrors());
+        }
+    }
 }
 }
