@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 use app\models\User;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use app\models\Notification;
 use yii\helpers\Url;
 use app\models\PostRatings;
@@ -14,6 +16,29 @@ use yii\easyimage\EasyImage;
 
 class UserController extends \yii\web\Controller
 {
+
+      public function behaviors()
+    {
+        return [
+        'access' => [
+        'class' => AccessControl::className(),
+        'rules' => [
+        [
+        'actions' => ['dashboard', 'profile', 'update', 'clearnotific'],
+        'allow' => true,
+        'roles' => ['@'],
+        ],
+        ],
+        ],
+        'verbs' => [
+        'class' => VerbFilter::className(),
+        'actions' => [
+        //'logout' => ['post'],
+        ],
+        ],
+        ];
+    }
+
     public function actionIndex()
     {
         return $this->render('index');

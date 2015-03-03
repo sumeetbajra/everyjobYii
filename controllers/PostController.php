@@ -396,7 +396,7 @@ public function actionAcceptorder(){
     $model = new AcceptedOrders;
     if (isset($_POST['order_id'])) {
         $model->order_id = (int) $_POST['order_id'];
-        $model->user_id = PostOrder::find()->joinWith('post')->where(['order_id'=>$model->order_id])->one()->user_id;
+        $model->user_id = PostOrder::find()->joinWith('post')->where(['order_id'=>$model->order_id])->one()->post->user_id;
         $model->post_id = PostOrder::findOne($model->order_id)->post_id;
         $model->datetimestamp = date('Y-m-d H:i:s', time());
         if($model->validate()){
