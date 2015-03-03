@@ -32,7 +32,7 @@ class PostOrder extends \yii\db\ActiveRecord
         return [
             [['post_id', 'user_id', 'details', 'status', 'datetimestamp'], 'required'],
             [['post_id', 'user_id', 'status'], 'integer'],
-            [['details'], 'string'],
+            [['details', 'type'], 'string'],
             [['datetimestamp'], 'safe']
         ];
     }
@@ -49,6 +49,7 @@ class PostOrder extends \yii\db\ActiveRecord
             'details' => 'Details',
             'status' => 'Status',
             'datetimestamp' => 'Datetimestamp',
+            'type' => 'Type'
         ];
     }
 
