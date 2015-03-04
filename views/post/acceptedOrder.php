@@ -61,7 +61,7 @@ use app\models\PostServices;
                     <b>Owner: </b>
                 </td>
                 <td>
-                    <a href ="<?= Url::to(['user/profile/'.Users::findOne($post->user_id)->display_name]); ?>"><?= Users::findOne($post->owner_id)->display_name; ?></a>
+                    <a href ="<?= Url::to(['user/profile/'.Users::findOne($post->owner_id)->display_name]); ?>"><?= Users::findOne($post->owner_id)->display_name; ?></a>
                 </td>
             </tr>
 
@@ -109,13 +109,13 @@ use app\models\PostServices;
      <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" style="float:left; margin-right: 30px" target="_new">
         <img src="<?= Yii::getAlias('@web/images/paypal.png');?>" style="display:block">
         <input type="hidden" name="cmd" value="_xclick">
-        <input type="hidden" name="return" value="https://21143750.ngrok.com/everyjobSite/web/user/dashboard">
+        <input type="hidden" name="return" value="https://3b21de01.ngrok.com/everyjobSite/web/user/dashboard">
         <input type="hidden" name="business" value="sumeetbazra@gmail.com">
         <input type="hidden" name="item_name" value="<?= $title;?>">
         <input type="hidden" name="item_number" value="<?= $accept->post_id; ?>">
         <input type="hidden" name="amount" value="<?= $price; ?>">
-        <input type="hidden" name="notify_url" value="https://21143750.ngrok.com/everyjobSite/web/payment/paypalipn">
-        <input type="hidden" name="cancel_return" value="https://21143750.ngrok.com/everyjobSite/web/user/dashboard">
+        <input type="hidden" name="notify_url" value="https://3b21de01.ngrok.com/everyjobSite/web/payment/paypalipn">
+        <input type="hidden" name="cancel_return" value="https://3b21de01.ngrok.com/everyjobSite/web/user/dashboard">
         <input type="hidden" name="tax" value="0">
         <input type="hidden" name="quantity" value="1">
         <input type="hidden" name="no_note" value="1">

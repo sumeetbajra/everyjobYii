@@ -1,6 +1,19 @@
 @font-face {
-    font-family: oleo;
-    src: url('../fonts/OleoScript-Regular.ttf');
+	font-family: oleo;
+	src: url('../fonts/OleoScript-Regular.ttf');
+}
+
+@font-face {
+	font-family: proxima;
+	src: url('../fonts/proxima-nova-soft.otf');
+}
+
+body{
+	font-family: proxima;
+}
+
+.hero hgroup h1, .hero hgroup h3{
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .caption p{
@@ -47,9 +60,9 @@
 	/*color: white;
 	background-color: #DF444A;
 	border: solid thin #F57075;*/
-  color: rgb(133, 133, 133);
-  background-color: #E1E1E1;
-  border: solid thin #DEDEDE;
+	color: rgb(133, 133, 133);
+	background-color: #E1E1E1;
+	border: solid thin #DEDEDE;
 }
 
 
@@ -371,11 +384,11 @@ Creating a block for social media buttons
 
 .social {
 	position: relative;
-list-style: none;
-padding: 0px;
-margin-top: 12px;
-text-align: center;
-left: -7px;
+	list-style: none;
+	padding: 0px;
+	margin-top: 12px;
+	text-align: center;
+	left: -7px;
 }
 
 .social a {
@@ -452,38 +465,38 @@ a.linkedin:hover {
 }
 
 .ribbon-wrapper-green {
-  width: 85px;
-  height: 88px;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  right: 15px;
+	width: 85px;
+	height: 88px;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	right: 15px;
 }
 
 .ribbon-green {
-  font: bold 15px Sans-Serif;
-  color: #333;
-  text-align: center;
-  text-shadow: rgba(255,255,255,0.5) 0px 1px 0px;
-  -webkit-transform: rotate(45deg);
-  -moz-transform:    rotate(45deg);
-  -ms-transform:     rotate(45deg);
-  -o-transform:      rotate(45deg);
-  position: relative;
-  padding: 7px 0;
-  left: -5px;
-  top: 15px;
-  width: 120px;
-  background-color: #BFDC7A;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#BFDC7A), to(#8EBF45)); 
-  background-image: -webkit-linear-gradient(top, #BFDC7A, #8EBF45); 
-  background-image:    -moz-linear-gradient(top, #BFDC7A, #8EBF45); 
-  background-image:     -ms-linear-gradient(top, #BFDC7A, #8EBF45); 
-  background-image:      -o-linear-gradient(top, #BFDC7A, #8EBF45); 
-  color: #6a6340;
-  -webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
-  -moz-box-shadow:    0px 0px 3px rgba(0,0,0,0.3);
-  box-shadow:         0px 0px 3px rgba(0,0,0,0.3);
+	font: bold 15px Sans-Serif;
+	color: #333;
+	text-align: center;
+	text-shadow: rgba(255,255,255,0.5) 0px 1px 0px;
+	-webkit-transform: rotate(45deg);
+	-moz-transform:    rotate(45deg);
+	-ms-transform:     rotate(45deg);
+	-o-transform:      rotate(45deg);
+	position: relative;
+	padding: 7px 0;
+	left: -5px;
+	top: 15px;
+	width: 120px;
+	background-color: #BFDC7A;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#BFDC7A), to(#8EBF45)); 
+	background-image: -webkit-linear-gradient(top, #BFDC7A, #8EBF45); 
+	background-image:    -moz-linear-gradient(top, #BFDC7A, #8EBF45); 
+	background-image:     -ms-linear-gradient(top, #BFDC7A, #8EBF45); 
+	background-image:      -o-linear-gradient(top, #BFDC7A, #8EBF45); 
+	color: #6a6340;
+	-webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+	-moz-box-shadow:    0px 0px 3px rgba(0,0,0,0.3);
+	box-shadow:         0px 0px 3px rgba(0,0,0,0.3);
 }
 
 /*.ribbon-green:before, .ribbon-green:after {
@@ -500,191 +513,191 @@ a.linkedin:hover {
 }
 .ribbon-green:after {
   right: 0;
-}*/
+  }*/
 
-/* Credit to bootsnipp.com for the css for the color graph */
-.colorgraph {
-  height: 5px;
-  border-top: 0;
-  background: #c4e17f;
-  border-radius: 5px;
-  background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
-  background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
-  background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
-  background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
-}
+  /* Credit to bootsnipp.com for the css for the color graph */
+  .colorgraph {
+  	height: 5px;
+  	border-top: 0;
+  	background: #c4e17f;
+  	border-radius: 5px;
+  	background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  	background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  	background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  	background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  }
 
-.square, .btn {
-    border-radius: 0px!important;
-}
+  .square, .btn {
+  	border-radius: 0px!important;
+  }
 
-/* -- color classes -- */
-.coralbg {
-    background-color: #FA396F;
-} 
+  /* -- color classes -- */
+  .coralbg {
+  	background-color: #FA396F;
+  } 
 
-.coral {
-    color: #FA396f;
-}
+  .coral {
+  	color: #FA396f;
+  }
 
-.turqbg {
-    background-color: #46D8D2;
-}
+  .turqbg {
+  	background-color: #46D8D2;
+  }
 
-.turq {
-    color: #46D8D2;
-}
+  .turq {
+  	color: #46D8D2;
+  }
 
-.white {
-    color: #fff!important;
-}
+  .white {
+  	color: #fff!important;
+  }
 
-/* -- The "User's Menu Container" specific elements. Custom container for the snippet -- */
-div.user-menu-container {
-  z-index: 10;
-  background-color: #fff;
-  margin-top: 20px;
-  background-clip: padding-box;  
-  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
-}
+  /* -- The "User's Menu Container" specific elements. Custom container for the snippet -- */
+  div.user-menu-container {
+  	z-index: 10;
+  	background-color: #fff;
+  	margin-top: 20px;
+  	background-clip: padding-box;  
+  	-webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+  	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+  }
 
-div.user-menu-container .btn-lg {
-    padding: 0px 12px;
-}
+  div.user-menu-container .btn-lg {
+  	padding: 0px 12px;
+  }
 
-.user-menu.user-pad{
-  background: white;
-}
+  .user-menu.user-pad{
+  	background: white;
+  }
 
-div.user-menu-container h4 {
-    font-weight: 300;
-    color: #8b8b8b;
-}
+  div.user-menu-container h4 {
+  	font-weight: 300;
+  	color: #8b8b8b;
+  }
 
-div.user-menu-container a, div.user-menu-container .btn  {
-    transition: 1s ease;
-}
+  div.user-menu-container a, div.user-menu-container .btn  {
+  	transition: 1s ease;
+  }
 
-div.user-menu-container .thumbnail {
-   width:100%;
-   min-height:200px;
-   border: 0px!important;
-   padding: 0px;
-   border-radius: 0;
-   border: 0px!important;
-}
+  div.user-menu-container .thumbnail {
+  	width:100%;
+  	min-height:200px;
+  	border: 0px!important;
+  	padding: 0px;
+  	border-radius: 0;
+  	border: 0px!important;
+  }
 
-/* -- Vertical Button Group -- */
-div.user-menu-container .btn-group-vertical {
-    display: block;
-}
+  /* -- Vertical Button Group -- */
+  div.user-menu-container .btn-group-vertical {
+  	display: block;
+  }
 
-div.user-menu-container .btn-group-vertical>a {
-    padding: 20px 25px;
-    background-color: #46D8D2;
-    color: white;
-    border-color: #fff;
-}
+  div.user-menu-container .btn-group-vertical>a {
+  	padding: 20px 25px;
+  	background-color: #46D8D2;
+  	color: white;
+  	border-color: #fff;
+  }
 
-div.btn-group-vertical>a:hover {
-    color: white;
-    border-color: white;
-}
+  div.btn-group-vertical>a:hover {
+  	color: white;
+  	border-color: white;
+  }
 
-div.btn-group-vertical>a.active {
-    background: #FA396F;
-    box-shadow: none;
-    color: white;
-}
-/* -- Individual button styles of vertical btn group -- */
-div.user-menu-btns {
-    padding-right: 0;
-    padding-left: 0;
-    padding-bottom: 0;
-}
+  div.btn-group-vertical>a.active {
+  	background: #FA396F;
+  	box-shadow: none;
+  	color: white;
+  }
+  /* -- Individual button styles of vertical btn group -- */
+  div.user-menu-btns {
+  	padding-right: 0;
+  	padding-left: 0;
+  	padding-bottom: 0;
+  }
 
-div.user-menu-btns div.btn-group-vertical>a.active:after{
-  content: '';
-  position: absolute;
-  left: 100%;
-  top: 50%;
-  margin-top: -13px;
-  border-left: 0;
-  border-bottom: 13px solid transparent;
-  border-top: 13px solid transparent;
-  border-left: 10px solid #46D8D2;
-}
-/* -- The main tab & content styling of the vertical buttons info-- */
-div.user-menu-content {
-    color: #323232;
-}
+  div.user-menu-btns div.btn-group-vertical>a.active:after{
+  	content: '';
+  	position: absolute;
+  	left: 100%;
+  	top: 50%;
+  	margin-top: -13px;
+  	border-left: 0;
+  	border-bottom: 13px solid transparent;
+  	border-top: 13px solid transparent;
+  	border-left: 10px solid #46D8D2;
+  }
+  /* -- The main tab & content styling of the vertical buttons info-- */
+  div.user-menu-content {
+  	color: #323232;
+  }
 
-ul.user-menu-list {
-    list-style: none;
-    margin-top: 20px;
-    margin-bottom: 0;
-    padding: 10px;
-    border: 1px solid #eee;
-}
-ul.user-menu-list>li {
-    padding-bottom: 8px;
-    text-align: center;
-}
+  ul.user-menu-list {
+  	list-style: none;
+  	margin-top: 20px;
+  	margin-bottom: 0;
+  	padding: 10px;
+  	border: 1px solid #eee;
+  }
+  ul.user-menu-list>li {
+  	padding-bottom: 8px;
+  	text-align: center;
+  }
 
-div.user-menu div.user-menu-content:not(.active){
-  display: none;
-}
+  div.user-menu div.user-menu-content:not(.active){
+  	display: none;
+  }
 
-/* -- The btn stylings for the btn icons -- */
-.btn-label {position: relative;left: -12px;display: inline-block;padding: 6px 12px;background: rgba(0,0,0,0.15);border-radius: 3px 0 0 3px;}
-.btn-labeled {padding-top: 0;padding-bottom: 0;}
+  /* -- The btn stylings for the btn icons -- */
+  .btn-label {position: relative;left: -12px;display: inline-block;padding: 6px 12px;background: rgba(0,0,0,0.15);border-radius: 3px 0 0 3px;}
+  .btn-labeled {padding-top: 0;padding-bottom: 0;}
 
-/* -- Custom classes for the snippet, won't effect any existing bootstrap classes of your site, but can be reused. -- */
+  /* -- Custom classes for the snippet, won't effect any existing bootstrap classes of your site, but can be reused. -- */
 
-.user-pad {
-    padding: 20px 25px;
-}
+  .user-pad {
+  	padding: 20px 25px;
+  }
 
-.no-pad {
-    padding-right: 0;
-    padding-left: 0;
-    padding-bottom: 0;
-}
+  .no-pad {
+  	padding-right: 0;
+  	padding-left: 0;
+  	padding-bottom: 0;
+  }
 
-.user-details {
-    background: #eee;
-    min-height: 333px;
-}
+  .user-details {
+  	background: #eee;
+  	min-height: 333px;
+  }
 
-.user-image {
-  max-height:200px;
-  overflow:hidden;
-}
+  .user-image {
+  	max-height:200px;
+  	overflow:hidden;
+  }
 
-.overview h3 {
-    font-weight: 300;
-    margin-top: 15px;
-    margin: 10px 0 0 0;
-}
+  .overview h3 {
+  	font-weight: 300;
+  	margin-top: 15px;
+  	margin: 10px 0 0 0;
+  }
 
-.overview h4 {
-    font-weight: bold!important;
-    font-size: 40px;
-    margin-top: 0;
-}
+  .overview h4 {
+  	font-weight: bold!important;
+  	font-size: 40px;
+  	margin-top: 0;
+  }
 
-.view {
-    position:relative;
-    overflow:hidden;
-    margin-top: 10px;
-}
+  .view {
+  	position:relative;
+  	overflow:hidden;
+  	margin-top: 10px;
+  }
 
-.view p {
-    margin-top: 20px;
-    margin-bottom: 0;
-}
- 
+  .view p {
+  	margin-top: 20px;
+  	margin-bottom: 0;
+  }
+
 /*.caption {
     position:absolute;
     top:0;
@@ -697,182 +710,282 @@ div.user-menu div.user-menu-content:not(.active){
     text-align:center;
     color:#fff !important;
     z-index:2;
-}*/
+    }*/
 
 /*.caption a {
     padding-right: 10px;
     color: #fff;
-}*/
+    }*/
 
-.info {
-    display: block;
-    padding: 10px;
-    background: #eee;
-    text-transform: uppercase;
-    font-weight: 300;
-    text-align: right;
-}
-
-.info p, .stats p {
-    margin-bottom: 0;
-}
-
-.stats {
-    display: block;
-    padding: 10px;
-    color: white;
-}
-
-.share-links {
-    border: 1px solid #eee;
-    padding: 15px;
-    margin-top: 15px;
-}
-
-.square, .btn {
-    border-radius: 0px!important;
-}
-
-/* -- media query for user profile image -- */
-@media (max-width: 767px) {
-    .user-image {
-        max-height: 400px;
+    .info {
+    	display: block;
+    	padding: 10px;
+    	background: #eee;
+    	text-transform: uppercase;
+    	font-weight: 300;
+    	text-align: right;
     }
-}
 
-.widget .panel-body { padding:0px; }
-.widget .list-group { margin-bottom: 0; }
-.widget .panel-title { display:inline }
-.widget .label-info { float: right; }
-.widget li.list-group-item {border-radius: 0;border: 0;border-top: 1px solid #ddd;}
-.widget li.list-group-item:hover { background-color: rgba(86,61,124,.1); }
-.widget .mic-info { color: #666666;font-size: 11px; }
-.widget .action { margin-top:5px; }
-.widget .comment-text { font-size: 12px; }
-.widget .btn-block { border-top-left-radius:0px;border-top-right-radius:0px; }
+    .info p, .stats p {
+    	margin-bottom: 0;
+    }
 
-.cover-image img{
-  -webkit-filter: blur(5px);
--moz-filter: filter(value);
--o-filter: filter(value);
--ms-filter: filter(value);
-filter: blur(5px);
-}
+    .stats {
+    	display: block;
+    	padding: 10px;
+    	color: white;
+    }
 
-.container.profile{
-  margin-top: -117px;
-}
+    .share-links {
+    	border: 1px solid #eee;
+    	padding: 15px;
+    	margin-top: 15px;
+    }
 
-.cover-image{
-  height: 300px;
-  overflow: hidden;
-  margin-top: -20px;
-}
+    .square, .btn {
+    	border-radius: 0px!important;
+    }
 
-a[disabled]{
-	pointer-events: none;
-}
+    /* -- media query for user profile image -- */
+    @media (max-width: 767px) {
+    	.user-image {
+    		max-height: 400px;
+    	}
+    }
 
-.profile-side-menu ul{
-	list-style: none;
-	line-height: 26px;
-}
+    .widget .panel-body { padding:0px; }
+    .widget .list-group { margin-bottom: 0; }
+    .widget .panel-title { display:inline }
+    .widget .label-info { float: right; }
+    .widget li.list-group-item {border-radius: 0;border: 0;border-top: 1px solid #ddd;}
+    .widget li.list-group-item:hover { background-color: rgba(86,61,124,.1); }
+    .widget .mic-info { color: #666666;font-size: 11px; }
+    .widget .action { margin-top:5px; }
+    .widget .comment-text { font-size: 12px; }
+    .widget .btn-block { border-top-left-radius:0px;border-top-right-radius:0px; }
 
-.profile-side-menu .profile-pic{
-	position: relative;
-	left: 39px;
-}
+    .cover-image img{
+    	-webkit-filter: blur(5px);
+    	-moz-filter: filter(value);
+    	-o-filter: filter(value);
+    	-ms-filter: filter(value);
+    	filter: blur(5px);
+    }
 
-.montserrat{
-	font-family: 'Montserrat';
-}
+    .container.profile{
+    	margin-top: -117px;
+    }
 
- .navbar-nav>li>.dropdown-menu li{
- 	padding: 5px 0;
- }
+    .cover-image{
+    	height: 300px;
+    	overflow: hidden;
+    	margin-top: -20px;
+    }
 
-/* CSS used here will be applied after bootstrap.css */
+    a[disabled]{
+    	pointer-events: none;
+    }
 
-.glyphicon-bell {
-   
-    font-size:1.5rem;
-  }
+    .profile-side-menu ul{
+    	list-style: none;
+    	line-height: 26px;
+    }
 
-.notifications {
-   min-width:420px; 
-  }
-  
-  .notifications-wrapper {
-     overflow:auto;
-      max-height:250px;
+    .profile-side-menu ul li {
+    	padding: 5px;
+    }
+
+    .profile-side-menu ul li:hover{
+    	background:  #ECECEC;
+    }
+
+    .profile-side-menu ul li a:hover{
+    	text-decoration: none;
+    	
+    	padding: 10px;
+    	padding-left: 0;
+    }
+
+    .profile-side-menu .profile-pic{
+    	position: relative;
+    	left: 39px;
+    }
+
+    .profile-side-menu ul li.active{
+    	background: #ECECEC;
+    }
+    .montserrat{
+    	font-family: 'Montserrat';
+    }
+
+    .navbar-nav>li>.dropdown-menu li{
+    	padding: 5px 0;
+    }
+
+    /* CSS used here will be applied after bootstrap.css */
+
+    .glyphicon-bell {
+
+    	font-size:1.5rem;
+    }
+
+    .notifications {
+    	min-width:420px; 
+    }
+
+    .notifications-wrapper {
+    	overflow:auto;
+    	max-height:250px;
     }
     
- .menu-title {
-     color:#ff7788;
-     font-size:1.5rem;
-      display:inline-block;
-      }
+    .menu-title {
+    	color:#ff7788;
+    	font-size:1.5rem;
+    	display:inline-block;
+    }
 
-      .menu-title a{
-      	 color:#ff7788;
-      }
- 
-.glyphicon-circle-arrow-right {
-      margin-left:10px;     
-   }
-  
-   
- .notification-heading, .notification-footer  {
- 	padding:2px 10px;
-       }
-      
-        
-.dropdown-menu.divider {
-  margin:5px 0;          
-  }
+    .menu-title a{
+    	color:#ff7788;
+    }
 
-.item-title {
-  
- font-size:1.3rem;
- color:#000;
+    .glyphicon-circle-arrow-right {
+    	margin-left:10px;     
+    }
+
+
+    .notification-heading, .notification-footer  {
+    	padding:2px 10px;
+    }
+
+
+    .dropdown-menu.divider {
+    	margin:5px 0;          
+    }
+
+    .item-title {
+
+    	font-size:1.3rem;
+    	color:#000;
+
+    }
+
+    .notifications a.content {
+    	text-decoration:none;
+    	background:#ccc;
+
+    }
     
+    .notification-item {
+    	padding:10px;
+    	margin:5px;
+    	border-bottom: solid thin #ECECEC;
+    }
+
+    #notification-dropdown{
+    	left: -375px;
+    }
+
+    a.visited, li:visited{
+    	color: #9d9d9d !important;
+    }
+
+    .notification-item p{
+    	margin-bottom: 0;
+    }
+
+    .reject-form.hidden-form{
+    	height: 0px;
+    	overflow: hidden;
+
+    }
+
+    .reject-form{
+    	height: 252px;
+    	overflow: hidden;
+    	-webkit-transition: height .3s ease-in;
+    	transition: height .3s ease-in;
+
+    }
+
+    .table thead{
+    	background: rgb(51, 122, 183);
+    	color: white;
+    }
+
+/***css3 accordian ****/
+#accordion section, #accordion .pointer, #accordion h1, #accordion p {
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+#accordion {
+  margin-bottom:30px;
+}
+#accordion h1 {
+  line-height:1.2;
+  font-size:20px;
+  background-color:rgb(243,243,243);
+  margin:0;
+  padding: 10px 10px 10px 30px;
 }
 
-.notifications a.content {
- text-decoration:none;
- background:#ccc;
-
- }
-    
-.notification-item {
- padding:10px;
- margin:5px;
- border-bottom: solid thin #ECECEC;
- }
-
-#notification-dropdown{
-	left: -375px;
+#accordion h1 a {
+    color: rgb(124, 124, 124);
+  font-size: 16px;
 }
 
-a.visited, li:visited{
-	color: #9d9d9d !important;
+#accordion h1 a:hover{
+	text-decoration: none;
+}
+#accordion section {
+  overflow:hidden;
+  height:220px;
+  border:1px #ECECEC solid;
+}
+#accordion p {
+  padding:0 10px;
+  color:black;
+}
+#accordion section.ac_hidden p:not(.pointer) {
+  color:#fff;
 }
 
-.notification-item p{
-	margin-bottom: 0;
+#accordion section.ac_hidden {
+  height:44px;
+}
+#accordion .pointer {
+  padding:0;
+  margin:10px 0 0 6px;
+  line-height:20px;
+  width:13px;
+  position:absolute;
+}
+#accordion section:not(.ac_hidden) h1 {
+  background-color:white;
 }
 
-.reject-form.hidden-form{
-	height: 0px;
-	overflow: hidden;
-
+#accordion section:not(.ac_hidden) h1 a:hover{
+  text-decoration: none
 }
 
-.reject-form{
-	height: 252px;
-	overflow: hidden;
-	-webkit-transition: height .3s ease-in;
-	transition: height .3s ease-in;
-
+#accordion section:not(.ac_hidden) h1 a{
+  text-decoration: none
 }
 
+#accordion section:not(.ac_hidden) .pointer {
+  display:block;
+  -webkit-transform:rotate(90deg);
+  -moz-transform:rotate(90deg);
+  -o-transform:rotate(90deg);
+  transform:rotate(90deg);
+  padding:0;
+}
+
+/*******************/
+
+h4.leftborder{
+	padding-left: 10px;
+	border-left: solid 3px rgb(51, 122, 183);
+	margin-bottom: 20px;
+}
