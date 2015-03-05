@@ -786,17 +786,58 @@ a.linkedin:hover {
     	pointer-events: none;
     }
 
-    .profile-side-menu ul{
+    .profile-side-menu ul, .dropdown .profile-side-menu{
     	list-style: none;
-    	line-height: 26px;
+    	background: #FBFBFB;
+    	line-height: 35px;
+    	padding-left: 0;
     }
 
     .profile-side-menu ul li {
     	padding: 5px;
+    	border-bottom: solid thin #E9E9E9;
+    	padding-left: 30px;
     }
 
+    .dropdown .profile-side-menu{
+    	padding-top: 5px;
+    }
+
+        .dropdown .profile-side-menu li{
+    	border-bottom: solid thin #E9E9E9;
+    	padding-left: 30px;
+    }
+
+            .dropdown .profile-side-menu li a{
+            	padding: 6px;
+            	padding-left: 10px;
+            }
+
+    .profile-side-menu ul li a{
+    	color: #4D4D4D;
+    }
+
+    .profile-side-menu ul li a i{
+    	margin-right: 15px;
+    }
+
+     .profile-side-menu li a i{
+     	margin-right: 7px;
+     }
+
     .profile-side-menu ul li:hover{
-    	background:  #ECECEC;
+    	background: #FC756F;
+    }
+
+        .profile-side-menu ul li:hover a{
+    	color: white;
+    }
+
+    .profile-side-menu{
+    	border: solid thin #ECECEC;
+    	padding-top: 21px;
+    	border-bottom: none;
+    	
     }
 
     .profile-side-menu ul li a:hover{
@@ -808,12 +849,24 @@ a.linkedin:hover {
 
     .profile-side-menu .profile-pic{
     	position: relative;
-    	left: 39px;
+    	text-align: center
+    }
+
+    .profile-side-menu .profile-pic img{
+    	  position: relative;
+  /* left: 77px; */
+  display: block;
+  width: 100px;
+  margin: 0 auto;
     }
 
     .profile-side-menu ul li.active{
-    	background: #ECECEC;
+    	background: #FC756F;
     }
+    
+    .profile-side-menu ul li.active a{
+    	color: white;
+}
     .montserrat{
     	font-family: 'Montserrat';
     }
@@ -925,7 +978,7 @@ a.linkedin:hover {
 #accordion h1 {
   line-height:1.2;
   font-size:20px;
-  background-color:rgb(243,243,243);
+  background-color:rgb(251, 251, 251);
   margin:0;
   padding: 10px 10px 10px 30px;
 }
@@ -960,18 +1013,21 @@ a.linkedin:hover {
   line-height:20px;
   width:13px;
   position:absolute;
+  color: black;
 }
 #accordion section:not(.ac_hidden) h1 {
-  background-color:white;
+  background-color:rgba(244, 244, 244, 1);
 }
 
 #accordion section:not(.ac_hidden) h1 a:hover{
   text-decoration: none
 }
 
-#accordion section:not(.ac_hidden) h1 a{
-  text-decoration: none
+#accordion section:not(.ac_hidden) h1 a, #accordion section h1 a{
+  text-decoration: none;
+
 }
+
 
 #accordion section:not(.ac_hidden) .pointer {
   display:block;
@@ -985,7 +1041,54 @@ a.linkedin:hover {
 /*******************/
 
 h4.leftborder{
-	padding-left: 10px;
-	border-left: solid 3px rgb(51, 122, 183);
-	margin-bottom: 20px;
+	  border-top: solid thin #ECECEC;
+	  border-bottom: solid thin #ECECEC;
+	  border-right: solid thin #ECECEC;
+  color: rgb(51, 122, 183);
+  padding-left: 10px;
+  border-left: solid 3px rgb(51, 122, 183);
+  margin-bottom: 20px;
+  padding: 15px;
+  font-size: 16px;
+}
+
+/**inbox***/
+.nav-tabs .glyphicon:not(.no-margin) { margin-right:10px; }
+.tab-pane .list-group-item:first-child {border-top-right-radius: 0px;border-top-left-radius: 0px;}
+.tab-pane .list-group-item:last-child {border-bottom-right-radius: 0px;border-bottom-left-radius: 0px;}
+.tab-pane .list-group .checkbox { display: inline-block;margin: 0px; }
+.tab-pane .list-group input[type="checkbox"]{ margin-top: 2px; }
+.tab-pane .list-group .glyphicon { margin-right:5px; }
+.tab-pane .list-group .glyphicon:hover { color:#FFBC00; }
+a.list-group-item.read { color: #222;background-color: #F3F3F3; }
+hr { margin-top: 5px;margin-bottom: 10px; }
+.nav-pills>li>a {padding: 5px 10px;}
+
+/**********/
+
+.msg-thread-one{
+	padding: 10px;
+  line-height: 23px;
+  background: rgb(244, 244, 244);
+  border: solid thin #ECECEC;
+  box-shadow: 0px 1px 9px 0px #ECECEC;
+}
+
+.msg-thread-msg{
+  background: white;
+  padding: 10px;
+  border: solid thin #ECECEC;
+  border-radius: 8px;
+  position: relative;
+}
+
+.arrow-up{
+	  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid rgb(255, 255, 255);
+  top: -9px
+
 }

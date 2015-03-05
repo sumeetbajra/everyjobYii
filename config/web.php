@@ -50,6 +50,7 @@ $config = [
         'rules' => array(
                 'post/view/<id:\d+>/<slug:[a-zA-Z0-9-]+>/'=>'post/view/',
                 'user/profile/<user:[a-zA-Z0-9-_]+>/'=>'user/profile/',
+                'user/sendmessage/<user:[a-zA-Z0-9-_]+>/'=>'user/sendmessage/',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

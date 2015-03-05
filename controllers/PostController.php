@@ -124,8 +124,8 @@ class PostController extends Controller
      */
     public function actionCreate()
     {
-        $user_id = \Yii::$app->user->getID();
-        $user = Users::find($user_id)->one();
+        $user_id = \Yii::$app->user->getId();
+        $user = Users::findOne($user_id);
         $categories = new PostCategory;
         $model = new PostServices();
         $categories = $categories->find()->all();
@@ -153,27 +153,29 @@ class PostController extends Controller
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }   
             $file = UploadedFile::getInstance($model, 'image_url');
-            $ext = explode('.', $file->name);
-            $model->image_url = $user_id . '_' . $randomString . '.' . $ext[count($ext)-1];
-            $model->datetimestamp = date('Y-m-d H:i:s', time());
-            $model->featured = 0;
+            if(!empty($file)){
+                $ext = explode('.', $file->name);
+                $model->image_url = $user_id . '_' . $randomString . '.' . $ext[count($ext)-1];
+                $model->datetimestamp = date('Y-m-d H:i:s', time());
+                $model->featured = 0;
+            }
             if($model->save()){
-             $file->saveAs('images/services/' . $model->image_url);
-             $file=Yii::getAlias('@app/web/images/services/'.$model->image_url); 
-             $image=Yii::$app->image->load($file);
-             $dimension = getimagesize('images/services/' . $model->image_url);
-             $width = $dimension[0];
-             $height = $dimension[1];
-             if($height > $width ){
-               $image->resize($width*2, $width*2)->crop(800, 500)->save();
-           }else{
-             $image->resize($height*2,$height*2)->crop(800, 500)->save();
-         }
-         \Yii::$app->getSession()->setFlash('message', 'Post created successfully. You are ready to make some money.');
-         return $this->redirect(['user/dashboard']);
-     }
- }
- return $this->render('create', [
+               $file->saveAs('images/services/' . $model->image_url);
+               $file=Yii::getAlias('@app/web/images/services/'.$model->image_url); 
+               $image=Yii::$app->image->load($file);
+               $dimension = getimagesize('images/services/' . $model->image_url);
+               $width = $dimension[0];
+               $height = $dimension[1];
+               if($height > $width ){
+                 $image->resize($width*2, $width*2)->crop(800, 500)->save();
+             }else{
+               $image->resize($height*2,$height*2)->crop(800, 500)->save();
+           }
+           \Yii::$app->getSession()->setFlash('message', 'Post created successfully. You are ready to make some money.');
+           return $this->redirect(['user/dashboard']);
+       }
+   }
+   return $this->render('create', [
     'model' => $model,
     'categories' => $categoryList,
     'user'=>$user,
@@ -234,23 +236,23 @@ class PostController extends Controller
                 $width = $dimension[0];
                 $height = $dimension[1];
                 if($height > $width ){
-                   $image->resize($width*2, $width*2)->crop(800, 500)->save();
-               }else{
-                 $image->resize($height*2,$height*2)->crop(800, 500)->save();
-             }
-         }else{
-            $model->image_url = $image_url;
-        }
-        if($model->save()){
-            \Yii::$app->getSession()->setFlash('message', 'Post updated successfully.');
-            return $this->redirect(['user/dashboard']);
-        }
-    } else {
-        return $this->render('update', [
-            'model' => $model,
-            'categories' => $categoryList,
-            ]);
+                 $image->resize($width*2, $width*2)->crop(800, 500)->save();
+             }else{
+               $image->resize($height*2,$height*2)->crop(800, 500)->save();
+           }
+       }else{
+        $model->image_url = $image_url;
     }
+    if($model->save()){
+        \Yii::$app->getSession()->setFlash('message', 'Post updated successfully.');
+        return $this->redirect(['user/dashboard']);
+    }
+} else {
+    return $this->render('update', [
+        'model' => $model,
+        'categories' => $categoryList,
+        ]);
+}
 }
 
     /**
@@ -305,13 +307,13 @@ class PostController extends Controller
                     echo json_encode($response);
                 }
             }elseif($lcount == 1 && $dlcount == 0 && $rating == 0){
-             $postDelete = PostRatings::find()->where(['user_id'=>$user_id, 'post_id'=>$post_id, 'rating'=>'1'])->one();
-             $post = new PostRatings;
-             $post->post_id = $post_id;
-             $post->rating = $rating;
-             $post->user_id = $user_id;
-             $post->datetimestamp = date('Y-m-d H:i:s', time());
-             if($post->save() && $postDelete->delete()){
+               $postDelete = PostRatings::find()->where(['user_id'=>$user_id, 'post_id'=>$post_id, 'rating'=>'1'])->one();
+               $post = new PostRatings;
+               $post->post_id = $post_id;
+               $post->rating = $rating;
+               $post->user_id = $user_id;
+               $post->datetimestamp = date('Y-m-d H:i:s', time());
+               if($post->save() && $postDelete->delete()){
                 $lcount = PostRatings::find()->where(['post_id'=>$post_id, 'rating'=>'1'])->count();
                 $dlcount = PostRatings::find()->where(['post_id'=>$post_id, 'rating'=>'0'])->count();
                 $response = ['likes'=>$lcount, 'dislikes'=>$dlcount, 'res'=>'true'];

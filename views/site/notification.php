@@ -23,7 +23,6 @@ use app\models\Users;
 <img src="<?= Yii::getAlias('@web/images/users/') . Users::find()->where(['user_id'=>$notification->source])->one()->profilePic; ?>" class="pull-left" width="35">
 <p>&nbsp;&nbsp;<?= $notification->notification; ?>&nbsp;<font size="1" color="#D0D0D0"><?php  print_r(time_agoo($notification->datetimestamp)); ?></font></p>
 </div>
-</a>
 <hr>
 
     

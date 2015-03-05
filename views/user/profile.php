@@ -107,9 +107,10 @@ use yii\captcha\Captcha;
                     Contact
                 </h3>
                 <div class="row">
-                    <?php $form = ActiveForm::begin(['action'=>['user/sendMessage']]);?>
+                    <?php $form = ActiveForm::begin(['action'=>['user/sendmessage/'.$user->display_name]]);?>
                     <?= $form->field($model, 'subject')->textInput(['placeholder'=>'Subject']);?>
                     <?= $form->field($model, 'message')->textarea(['placeholder'=>'Type your message', 'rows'=>'5']);?>
+                    <?= Html::activeHiddenInput($model, 'to_user', ['value'=>$user->user_id]); ?>
                     <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#captcha">Submit</a>
                       <div class="modal fade" id="captcha" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog modal-lg">
