@@ -70,7 +70,7 @@ class Message extends \yii\db\ActiveRecord
  * @param Integer $maxLength Maximum length the excerpt may be
  * @return String excerpt
  */
-function getExcerpt($str, $startPos=0, $maxLength=15) {
+function getExcerpt($str, $startPos=0, $maxLength=30) {
     if(strlen($str) > $maxLength) {
         $excerpt   = substr($str, $startPos, $maxLength-3);
         $lastSpace = strrpos($excerpt, ' ');

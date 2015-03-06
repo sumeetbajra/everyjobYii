@@ -22,7 +22,7 @@ use app\models\PostOrder;
                     <li><a href="<?= Url::to(['user/dashboard'])?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
                     <li class="active"><a href="#"><i class="fa fa-plus"></i> Create a post</a></li>
                     <li><a href="<?= Url::to(['user/activetasks']) ?>"><i class="fa fa-tasks"></i> Active tasks</a></li>
-                    <li><a><i class="fa fa-envelope"></i> Messeges <span class="badge">0</span></a></li>
+                    <li><a href="<?= Url::To(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges <span class="badge">0</span></a></li>
                     <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= Notification::find()->where(['user_id'=>Yii::$app->user->getId(), 'read'=>'0'])->count();?></span></a></li>
                     <li><a><i class="fa fa-check-square-o"></i> Ordered services</a></li>
                     <li><a href="<?= Url::to(['user/profile/'.$user->display_name]); ?>"><i class="fa fa-user"></i> View profile</a></li>

@@ -25,8 +25,8 @@ use yii\data\ActiveDataProvider;
                     <li><a href="<?= Url::to(['user/dashboard'])?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
                     <li><a href="#"><i class="fa fa-plus"></i> Create a post</a></li>
                     <li><a href="<?= Url::to(['user/activetasks']) ?>"><i class="fa fa-tasks"></i> Active tasks</a></li>
-                    <li class="active"><a href="#"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= $msgCount; ?></span></a></li>
-                    <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= Notification::find()->where(['user_id'=>Yii::$app->user->getId(), 'read'=>'0'])->count();?></span></a></li>
+                    <li><a href="<?= Url::to(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
+                    <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= \Yii::$app->function->getNotificationCount(); ?></span></a></li>
                     <li><a><i class="fa fa-check-square-o"></i> Ordered services</a></li>
                     <li><a href="<?= Url::to(['user/profile/'.$user->display_name]); ?>"><i class="fa fa-user"></i> View profile</a></li>
                     <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
@@ -34,23 +34,23 @@ use yii\data\ActiveDataProvider;
             </div>
         </div>
 	<div class="col-md-9">
-        <h3 class="montserrat">Mail</h3><hr><br>
+        <h3 class="montserrat">Mail</h3>Your conversations with other users<hr><br>
 
  <ul class="nav nav-tabs">
-                <li class="active"><a href="#home" data-toggle="tab"><span class="glyphicon glyphicon-inbox">
-                </span>Inbox [<?= $msgCount; ?>]</a></li>
-                <li><a href="#profile" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span>
-                    Conversations</a></li>
+                <li class="active"><a href="#inbox" data-toggle="tab"><span class="glyphicon glyphicon-inbox">
+                </span>Inbox [<?= \Yii::$app->function->getMsgCount(); ?>]</a></li>
+                <li><a href="#sent" data-toggle="tab"><i class="fa fa-reply"></i>
+                    Sent</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
-                <div class="tab-pane fade in active" id="home">
+                <div class="tab-pane fade in active" id="inbox">
                     <div class="list-group">
                         <?php foreach ($messages as $key => $message) { 
                         if($message->read_m == '0') : ?>
-                        <a href="<?= Url::to(['user/conversation/'.$message->thread_id]); ?>" class="list-group-item read">
+                        <a href="<?= Url::to(['user/conversation/'.$message->thread_id]); ?>" class="list-group-item">
                                 <?php else: ?>
-                                <a href="<?= Url::to(['user/conversation/'.$message->thread_id]); ?>" class="list-group-item">
+                                <a href="<?= Url::to(['user/conversation/'.$message->thread_id]); ?>" class="list-group-item read">
                                  <?php endif; ?>
                             <div class="checkbox">
                                 <label>
@@ -61,10 +61,10 @@ use yii\data\ActiveDataProvider;
                             if($message->read_m == '0') : ?>
                              <span class="glyphicon glyphicon-star"></span>
                          <?php else: ?>
-                         <span class="glyphicon glyphicon-star"></span>
+                         <span class="glyphicon glyphicon-star-empty"></span>
                      <?php endif; ?>
                              <span class="name" style="min-width: 120px;
-                                display: inline-block;"><?= $from = Users::findOne($message->from_user)->display_name; ?></span> <span class=""><?= $message->subject; ?></span>
+                                display: inline-block;"><?php if($message->read_m == '0') : ?><b><?php endif; ?><?= $from = Users::findOne($message->from_user)->display_name; ?><?php if($message->read_m == '0') : ?></b><?php endif; ?></span> <span class=""><?php if($message->read_m == '0') : ?><b><?php endif; ?><?= $message->subject; ?><?php if($message->read_m == '0') : ?></b><?php endif; ?></span>
                                   <span class="text-muted" style="font-size: 11px;">- <?= $message->getExcerpt($message->message); ?></span> 
                              <span
                                 class="badge"><?= date('F d, Y h:i a', strtotime($message->datetimestamp)); ?></span> <span class="pull-right"><span class="glyphicon">
@@ -72,15 +72,27 @@ use yii\data\ActiveDataProvider;
                                 <?php }?>
                     </div>
                 </div>
-                <div class="tab-pane fade in" id="profile">
-                    <div class="list-group">
-                        <div class="list-group-item">
-                            <span>
-
-                            </span>                           
-                        </div>
+                <div class="tab-pane fade in" id="sent">
+                          <div class="list-group">
+                        <?php foreach ($sent as $key => $message) {  ?>
+                        <a href="<?= Url::to(['user/conversation/'.$message->thread_id]); ?>" class="list-group-item read">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">
+                                </label>
+                            </div>
+                             <span class="glyphicon glyphicon-star-empty"></span>
+                             <span class="name" style="min-width: 120px;
+                                display: inline-block;"><?= $from = Users::findOne($message->to_user)->display_name; ?></span> <span class=""><?= $message->subject; ?></span>
+                                  <span class="text-muted" style="font-size: 11px;">- <?= $message->getExcerpt($message->message); ?></span> 
+                             <span
+                                class="badge"><?= date('F d, Y h:i a', strtotime($message->datetimestamp)); ?></span> <span class="pull-right"><span class="glyphicon">
+                                </span></span></a>
+                                <?php }?>
                     </div>
                 </div>  
+
+                <a href="#" class="btn btn-primary"><i class="fa fa-trash-o"></i> Delete selected</a>
 </div>
 
 </div>

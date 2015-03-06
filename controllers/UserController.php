@@ -60,11 +60,9 @@ class UserController extends \yii\web\Controller
         $user_id = \Yii::$app->user->getID();
         $posts = PostServices::find()->where(['owner_id'=>$user_id, 'active'=>'1'])->all();
         $user = User::findIdentity($user_id);
-        $msgCount = Message::find()->where(['to_user'=>$user_id, 'read_m'=>'0'])->count();
         return $this->render('dashboard', [
             'user'=>$user,
             'posts'=>$posts,
-            'msgCount' => $msgCount,
             ]);
     }
 
@@ -158,7 +156,7 @@ public function actionSendmessage($user){
         $message->datetimestamp = date('Y-m-d H:i:s', time());
         $message->from_user = \Yii::$app->user->getId();
         if($message->save()){
-            if(empty($message->thread_id)){
+            if(!isset($message->thread_id)){
                 $message->thread_id == $message->message_id;
                 $message->save();
             }
@@ -172,9 +170,12 @@ public function actionSendmessage($user){
 public function actionInbox(){
     $user_id = \Yii::$app->user->getId();
     $user = Users::find()->where(['user_id'=>$user_id])->one();
-    $messages = Message::find()->where(['to_user'=>$user_id])->orderBy('datetimestamp DESC')->all();
-    $msgCount = Message::find()->where(['to_user'=>$user_id, 'read_m'=>'0'])->count();
-    return $this->render('messages', ['user'=>$user, 'messages'=>$messages, 'msgCount'=>$msgCount]);
+    //$messages = Message::find()->where(['to_user'=>$user_id])->orderBy('datetimestamp DESC')->all();
+    $sql = "SELECT * FROM (SELECT * FROM message WHERE to_user = $user_id ORDER BY datetimestamp DESC) msg GROUP BY msg.thread_id ORDER BY msg.datetimestamp DESC";
+    $messages = Message::findbySql($sql)->all();
+    $sql = "SELECT * FROM (SELECT * FROM message WHERE from_user = $user_id ORDER BY datetimestamp DESC) msg GROUP BY msg.thread_id ORDER BY msg.datetimestamp DESC";
+    $sent = Message::findbySql($sql)->all();
+    return $this->render('messages', ['user'=>$user, 'messages'=>$messages, 'sent'=>$sent]);
 }
 
 public function actionConversation($id){
@@ -183,12 +184,12 @@ public function actionConversation($id){
     if(!empty($message)){
         $user_id = \Yii::$app->user->getId();
         $user = Users::find()->where(['user_id'=>$user_id])->one();
-        $msgCount = Message::find()->where(['to_user'=>$user_id, 'read_m'=>'0'])->count();
-        $message = \Yii::$app->db->createCommand('UPDATE message SET read_m = 1 WHERE thread_id = :id');
+        $message = \Yii::$app->db->createCommand('UPDATE message SET read_m = 1 WHERE thread_id = :id AND from_user != :from_user');
         $message->bindValue(':id', $id);
+        $message->bindValue(':from_user', \Yii::$app->user->getId());
         $message->execute();
         $messages = Message::find()->where(['thread_id'=>$id])->orderBy('datetimestamp DESC')->all();
-        return $this->render('conversation', ['user'=>$user, 'messages'=>$messages, 'msgCount'=>$msgCount]);
+        return $this->render('conversation', ['user'=>$user, 'messages'=>$messages]);
     }else{
         return $this->redirect(['site/error']);
     }
