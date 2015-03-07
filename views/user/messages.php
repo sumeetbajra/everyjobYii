@@ -25,9 +25,9 @@ use yii\data\ActiveDataProvider;
                     <li><a href="<?= Url::to(['user/dashboard'])?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
                     <li><a href="#"><i class="fa fa-plus"></i> Create a post</a></li>
                     <li><a href="<?= Url::to(['user/activetasks']) ?>"><i class="fa fa-tasks"></i> Active tasks</a></li>
-                    <li><a href="<?= Url::to(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
+                    <li class="active"><a href="#"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= \Yii::$app->function->getNotificationCount(); ?></span></a></li>
-                    <li><a><i class="fa fa-check-square-o"></i> Ordered services</a></li>
+                    <li><a href="<?= Url::to(['user/orderedservices']); ?>"><i class="fa fa-check-square-o"></i> Ordered services</a></li>
                     <li><a href="<?= Url::to(['user/profile/'.$user->display_name]); ?>"><i class="fa fa-user"></i> View profile</a></li>
                     <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
                 </ul>
@@ -46,6 +46,7 @@ use yii\data\ActiveDataProvider;
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="inbox">
                     <div class="list-group">
+                        <?php if(count($messages) == 0) : echo "<br><i>Your inbox is empty.</i><br>"; endif; ?>
                         <?php foreach ($messages as $key => $message) { 
                         if($message->read_m == '0') : ?>
                         <a href="<?= Url::to(['user/conversation/'.$message->thread_id]); ?>" class="list-group-item">
@@ -54,7 +55,7 @@ use yii\data\ActiveDataProvider;
                                  <?php endif; ?>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox">
+                                    <input type="checkbox" name="delete[]">
                                 </label>
                             </div>
                             <?php
@@ -74,6 +75,7 @@ use yii\data\ActiveDataProvider;
                 </div>
                 <div class="tab-pane fade in" id="sent">
                           <div class="list-group">
+                            <?php if(count($sent) == 0) : echo "<br><i>Your outbox is empty.</i><br>"; endif; ?>
                         <?php foreach ($sent as $key => $message) {  ?>
                         <a href="<?= Url::to(['user/conversation/'.$message->thread_id]); ?>" class="list-group-item read">
                             <div class="checkbox">
@@ -92,7 +94,7 @@ use yii\data\ActiveDataProvider;
                     </div>
                 </div>  
 
-                <a href="#" class="btn btn-primary"><i class="fa fa-trash-o"></i> Delete selected</a>
+                <a href="#" class="btn btn-primary disabled" id="msg-delete"><i class="fa fa-trash-o"></i> Delete selected</a>
 </div>
 
 </div>

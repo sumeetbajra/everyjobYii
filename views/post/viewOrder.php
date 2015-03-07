@@ -24,7 +24,7 @@ use app\models\RejectedOrder;
         <h3 class="montserrat">You have received new order(s)</h3>
         <?php endif; ?>
 <?= $model->title; ?>
-<hr>
+<hr><br>
 
 <?php foreach($orders as $order){
     $reject = new RejectedOrder;

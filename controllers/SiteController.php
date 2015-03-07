@@ -144,7 +144,7 @@ class SiteController extends Controller
     public function actionNotification(){
         $user_id = \Yii::$app->user->getId();
     $user = Users::find()->where(['user_id'=>$user_id])->one();
-        $notification = Notification::find()->where(['user_id'=>\Yii::$app->user->getId()])->orderBy('datetimestamp DESC')->all();
+        $notification = Notification::find()->where(['user_id'=>\Yii::$app->user->getId(), 'status'=>1])->orderBy('datetimestamp DESC')->all();
          return $this->render('notification', ['notifications'=>$notification, 'user'=>$user]);   
     }
 }

@@ -221,5 +221,40 @@ $("#accordion section h1").click(function(e) {
     $(this).parents("section").removeClass("ac_hidden");
 
     e.preventDefault();
-  });
+});
+
+$('input[name="delete[]"]').on('click', function(){
+    var count = 0;
+    $('input[name="delete[]"]').each(function(){
+        if($(this).is(':checked')){
+            count += 1;
+        }
+    });
+    if(count >= 1){
+        $('#msg-delete').removeClass('disabled');
+    }else{
+        $('#msg-delete').addClass('disabled');
+    }
+});
+
+$('#msg-delete').on('click', function(){
+
+
+    $('input[name="delete[]"]').each(function(){
+        if($(this).is(':checked')){
+            var hreff = $(this).parents('a').attr('href');
+            var sizee = hreff.length - 1;
+            var id = hreff[sizee];
+        $.ajax({
+            url: 'deletemsg',
+            data: {id: id},
+            type: 'GET',
+            success: function(response){
+                //do sth
+            }
+           });
+    }
+    });
+    location.reload();
+});
 });
