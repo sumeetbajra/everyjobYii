@@ -11,6 +11,7 @@ use Yii;
  * @property string $datetimestamp
  * @property integer $post_id
  * @property integer $user_id
+ * @property string $status
  */
 class AcceptedOrders extends \yii\db\ActiveRecord
 {
@@ -30,7 +31,8 @@ class AcceptedOrders extends \yii\db\ActiveRecord
         return [
             [['order_id', 'datetimestamp', 'post_id', 'user_id'], 'required'],
             [['order_id', 'post_id', 'user_id'], 'integer'],
-            [['datetimestamp'], 'safe']
+            [['datetimestamp'], 'safe'],
+            [['status'], 'string', 'max' => 20]
         ];
     }
 
@@ -44,6 +46,11 @@ class AcceptedOrders extends \yii\db\ActiveRecord
             'datetimestamp' => 'Datetimestamp',
             'post_id' => 'Post ID',
             'user_id' => 'User ID',
+            'status' => 'Status',
         ];
+    }
+
+      public function getPosts(){
+        return $this->hasOne(PostServices::className(), ['post_id'=>'post_id']);
     }
 }

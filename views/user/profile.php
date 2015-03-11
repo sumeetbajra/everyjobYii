@@ -2,6 +2,8 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\models\PostViews;
+use yii\widgets\ActiveForm;
+use yii\captcha\Captcha;
 ?>
 
 <div class="cover-image">
@@ -105,8 +107,29 @@ use app\models\PostViews;
                     Contact
                 </h3>
                 <div class="row">
-                    <textarea class="form-control" rows="5" placeholder="Type your message"></textarea><br>
-                    <button class="btn pull-right">Send</button>
+                    <?php $form = ActiveForm::begin(['action'=>['user/sendmessage/'.$user->display_name]]);?>
+                    <?= $form->field($model, 'subject')->textInput(['placeholder'=>'Subject']);?>
+                    <?= $form->field($model, 'message')->textarea(['placeholder'=>'Type your message', 'rows'=>'5']);?>
+                    <?= Html::activeHiddenInput($model, 'to_user', ['value'=>$user->user_id]); ?>
+                    <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#captcha">Submit</a>
+                      <div class="modal fade" id="captcha" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Prove that you are a human</h4>
+            </div>
+            <div class="modal-body">
+                Please type in the following captcha:
+               <?= $form->field($model, 'captcha')->widget(Captcha::className()) ?>
+            </div>
+            <div class="modal-footer">
+           <?= Html::submitButton('Send', ['class' => 'btn pull-right', 'name' => 'message-button']) ?>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+ </div><!-- /.modal -->
+                    
                 </div>
             </div>
             <div class="user-menu-content">
