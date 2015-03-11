@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use app\models\Users;
 use app\models\PostServices;
+use app\models\AcceptedOrders;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 
@@ -57,6 +58,7 @@ use yii\data\ActiveDataProvider;
         ?>
         <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'tableOptions'=>['class'=>'table table-striped table-bordered action-column'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
               [
@@ -77,11 +79,15 @@ use yii\data\ActiveDataProvider;
              [
             'header'=>'Action',
             'format' =>'raw',
-            'value'=>function($data){ return '<a href="' . Url::to(['/user/profile/' . Users::findOne($data->post->owner_id)->display_name]) . '"><i class="fa fa-info-circle"></i></a>'; },
+            'value'=>function($data){ return '<a class="btn btn-default btn-xs" href="' . Url::to(['/user/profile/' . Users::findOne($data->post->owner_id)->display_name]) . '" title="More information"><i class="fa fa-info-circle"></i></a>'. ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->status == 'unpaid') ?  '<a class="btn btn-default btn-xs" href="' . Url::to(['/post/acceptedorder/' . $data->post_id]) . '" title="Make payment"><i class="fa fa-money"></i></a>' : '') . ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->status == 'paid') ?  '<a href="#" class="btn btn-default btn-xs"><i class="fa fa-th" title="Service Dashboard"></i></a>' : ''); },
             ],
            
         ],
-    ]); ?>
+    ]); 
+
+ 
+
+    ?>
                     </div>
                 </div>
                 <div class="tab-pane fade in" id="received">
@@ -96,6 +102,7 @@ use yii\data\ActiveDataProvider;
         ?>
         <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'tableOptions'=>['class'=>'table table-striped table-bordered action-column'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
               [
@@ -116,7 +123,7 @@ use yii\data\ActiveDataProvider;
              [
             'header'=>'Action',
             'format' =>'raw',
-            'value'=>function($data){ return '<a href="' . Url::to(['/user/profile/' . Users::findOne($data->post->owner_id)->display_name]) . '"><i class="fa fa-info-circle"></i></a>'; },
+            'value'=>function($data){ return '<a href="' . Url::to(['/user/profile/' . Users::findOne($data->post->owner_id)->display_name]) . '" title="More information"><i class="fa fa-info-circle"></i></a>&nbsp;&nbsp;' .  ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->status == 'paid') ? '<font color="green"><i class="fa fa-money" title="Payment received"></i></font>' : '<font color="red"><i class="fa fa-money" title="Payment not received"></i></font>'); },
             ],
            
         ],
@@ -124,10 +131,6 @@ use yii\data\ActiveDataProvider;
                     </div>
                 </div>  
 
+</div>       
 </div>
-        
-       
-</div>
-
-
 

@@ -1121,3 +1121,13 @@ a.linkedin:hover {
     .summary, .pagination{
     	margin: 10px 0;
     }
+
+    .action-column thead th:last-child{
+    	width: 64px;
+    }
+
+    #task-dashboard-btn{
+    	margin-top: -34px;
+    	position: relative;
+    	top: -5px;
+    }

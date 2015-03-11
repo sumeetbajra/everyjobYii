@@ -4,6 +4,8 @@ use yii\widgets\ActiveForm;
 use app\models\Notification;
 use app\models\Users;
 use app\models\PostOrder;
+use yii\captcha\Captcha;
+use yii\helpers\Html;
 ?>
 
 
@@ -38,7 +40,8 @@ use app\models\PostOrder;
         }?>
     <?php foreach ($tasks as $key => $task) { ?>
   <section id="item<?= $key+1; ?>" class="<?php if($key == '1'): echo 'ac_hidden'; endif;  ?>">
-    <p class="pointer">&#9654;</p><h1><a href="#"><?= $task->posts->title; ?></a><button class="btn btn-default pull-right">Task Dashboard</button></h1>
+    <p class="pointer">&#9654;</p><h1><a href="#"><?= $task->posts->title; ?></a></h1>
+    <a class = 'btn btn-default pull-right' href = '<?= Url::to(['post/taskdashboard/'.$task->order_id]); ?>' id="task-dashboard-btn"><i class="fa fa-th" title="Task Dashboard"></i> Task Dashboard</a>
     <table class="table">
         <tr>
             <td>

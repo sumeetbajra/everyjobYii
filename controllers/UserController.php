@@ -220,8 +220,9 @@ public function actionConversation($id){
 public function actionActivetasks(){
     $user_id = \Yii::$app->user->getID();
     $user = User::findIdentity($user_id);
+    $message = new Message;
     $tasks = AcceptedOrders::find()->joinWith('posts')->where('post_services.owner_id = '.$user_id . ' AND status = "paid"')->all();
-    return $this->render('activeTasks', ['tasks'=>$tasks, 'user'=>$user]);
+    return $this->render('activeTasks', ['tasks'=>$tasks, 'user'=>$user, 'message'=>$message]);
 }
 
 /**
