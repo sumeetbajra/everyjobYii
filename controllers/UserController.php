@@ -49,7 +49,7 @@ class UserController extends \yii\web\Controller
         $user_id = \Yii::$app->user->getId();
         $user = Users::find()->where(['user_id'=>$user_id])->one();
         $profilePic = $user->profilePic;
-        if(!empty(\Yii::$app->request->post()) && $user->load(\Yii::$app->request->post())){
+        if($user->load(\Yii::$app->request->post())){
             $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $charactersLength = strlen($characters);
             $length = 8;
