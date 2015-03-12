@@ -8,7 +8,6 @@ use yii\bootstrap\Tabs;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-include('agoScript.php');
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -32,6 +31,7 @@ AppAsset::register($this);
 
     <!-- Bootstrap Core CSS -->
     <link href="<?= Yii::getAlias('@web'); ?>/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= Yii::getAlias('@web'); ?>/css/dropzone.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web'); ?>/css/custom.css" rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -136,7 +136,7 @@ AppAsset::register($this);
        <div class="notification-item">
         <div class="notification-image col-xs-2"><img src="<?= Yii::getAlias('@web/images/users/') . Users::find()->where(['user_id'=>$notification->source])->one()->profilePic; ?>" class="img-responsive"></div><p class="item-info"><?= $notification->notification; ?>
     </p>
-    <p><font size="1" color="#D0D0D0"><?=  time_ago($notification->datetimestamp); ?></font></p>
+    <p><font size="1" color="#D0D0D0"><?=  \Yii::$app->function->getAgoTime($notification->datetimestamp); ?></font></p>
       </div>
        
     </a>
@@ -298,12 +298,12 @@ AppAsset::register($this);
 
 <!-- jQuery -->
 <script src="<?= Yii::getAlias('@web'); ?>/js/jquery.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/dropzone.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootstrap.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/fileinput.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/custom.js"></script>
-
 </body>
 
 

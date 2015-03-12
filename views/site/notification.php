@@ -43,7 +43,7 @@ use app\models\Notification;
 <div class="notification">
 
 <img src="<?= Yii::getAlias('@web/images/users/') . Users::find()->where(['user_id'=>$notification->source])->one()->profilePic; ?>" class="pull-left" width="35" style="margin-right:7px">
-<p>&nbsp;&nbsp;<?= $notification->notification; ?>&nbsp;<font size="1" color="#D0D0D0"><?php  print_r(time_agoo($notification->datetimestamp)); ?></font></p><br>
+<p>&nbsp;&nbsp;<?= $notification->notification; ?>&nbsp;<font size="1" color="#D0D0D0"><?= \Yii::$app->function->getAgoTime($notification->datetimestamp); ?></font></p><br>
 <hr>
 
     

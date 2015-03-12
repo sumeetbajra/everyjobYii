@@ -245,16 +245,27 @@ $('#msg-delete').on('click', function(){
             var hreff = $(this).parents('a').attr('href');
             var sizee = hreff.length - 1;
             var id = hreff[sizee];
-        $.ajax({
-            url: 'deletemsg',
-            data: {id: id},
-            type: 'GET',
-            success: function(response){
+            $.ajax({
+                url: 'deletemsg',
+                data: {id: id},
+                type: 'GET',
+                success: function(response){
                 //do sth
             }
-           });
-    }
+        });
+        }
     });
     location.reload();
 });
+
+$('#dropzone-btn').on('click', function(){
+    $('.dropzone-forms').submit();
+});
+
+Dropzone.options.myAwesomeDropzone = {
+  paramName: "file", // The name that will be used to transfer the file
+  maxFilesize: 2, // MB
+  uploadMultiple: false,
+
+};
 });

@@ -16,7 +16,6 @@ use app\models\PostServices;
 use app\models\Users;
 use yii\web\UploadedFile;
 use yii\easyimage\EasyImage;
-include('agoScript.php');
 
 class SiteController extends Controller
 {

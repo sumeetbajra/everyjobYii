@@ -1118,16 +1118,24 @@ a.linkedin:hover {
     	text-decoration: none;
     }
 
-    .summary, .pagination{
-    	margin: 10px 0;
-    }
-
     .action-column thead th:last-child{
     	width: 64px;
+    }
+
+    .action-column thead th:nth-last-child(2){
+    	width: 120px;
     }
 
     #task-dashboard-btn{
     	margin-top: -34px;
     	position: relative;
     	top: -5px;
+    }
+
+    input.dropzone:focus{
+    	outline: none;
+    }
+
+    .summary, .pagination{
+    	margin-bottom: 10px;
     }

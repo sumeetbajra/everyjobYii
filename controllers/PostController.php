@@ -454,16 +454,30 @@ class PostController extends Controller
      * Taskboard for each accepted order
      */
     public function actionTaskdashboard($id){
+        /*echo "<pre>";
+        print_r($_FILES);
+        exit();*/
         $order_id = (int) $id;
         $user_id = \Yii::$app->user->getId();
         $user = Users::findOne($user_id);
         $order = PostOrder::find()->with('post')->where(['order_id'=>$id])->one();
+        $status = new TaskStatus;
         if(!empty($order->datetimestamp) && ($order->post->owner_id == $user_id || $order->user_id == $user_id)){
-            $status = TaskStatus::find()->with('user')->with('taskFiles')->where(['order_id'=>$id]);
-            $dataProvider = new ActiveDataProvider(['query'=>$status, 'pagination' => [
+            if(\Yii::$app->request->post()){
+                $status->load(\Yii::$app->request->post());
+                $status->order_id = $order_id;
+                $status->user_id = $user_id;
+                $status->datetimestamp = date('Y-m-d H:i:s', time());
+                if($status->save()){
+                    \Yii::$app->session->setFlash('message', 'Task status added successfully');
+                    return $this->redirect(['post/taskdashboard/'.$order_id]);
+                }
+            }
+            $query = TaskStatus::find()->with('user')->with('taskFiles')->where(['order_id'=>$id])->orderBy('datetimestamp DESC');
+            $dataProvider = new ActiveDataProvider(['query'=>$query, 'pagination' => [
                 'pageSize' => 10,
                 ]]);
-            return $this->render('dashboard', ['order'=>$order, 'user'=>$user, 'dataProvider'=>$dataProvider]);
+            return $this->render('dashboard', ['order'=>$order, 'user'=>$user, 'dataProvider'=>$dataProvider, 'status'=>$status]);
         }else{
             return $this->render('../site/error', ['name'=>'Page Not Found', 'message'=>'Sorry, the page you were looking for was not found. Sorry for your inconvenience.']);
         }
