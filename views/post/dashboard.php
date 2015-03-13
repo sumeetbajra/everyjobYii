@@ -23,7 +23,7 @@ use yii\grid\GridView;
                 <ul >
                     <li><a href="<?= Url::to(['user/dashboard'])?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
                     <li><a href="<?= Url::to(['post/create']) ?>"><i class="fa fa-plus"></i> Create a post</a></li>
-                    <li class="active"><a href="<?= Url::to(['user/activetasks']); ?>"><i class="fa fa-tasks"></i> Active tasks</a></li>
+                    <li><a href="<?= Url::to(['user/activetasks']); ?>"><i class="fa fa-tasks"></i> Active tasks</a></li>
                     <li><a href="<?= Url::to(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= \Yii::$app->function->getNotificationCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['user/orderedservices']); ?>"><i class="fa fa-check-square-o"></i> Ordered services</a></li>
@@ -80,7 +80,7 @@ use yii\grid\GridView;
                                     [
                                     'header'=>'Files',
                                     'format' =>'raw',
-                                    'value'=>function($data){ if(!empty($data->taskFiles->file_url) ) : return $data->taskFiles->file_url; else: return 'None'; endif;},
+                                    'value'=>function($data){ if(!empty($data->taskFiles->file_url) ) : return '<a href= "' . \Yii::getAlias('@web/images/task/' .$data->taskFiles->file_url) . '" target="_new">' . $data->taskFiles->file_url . '</a>'; else: return 'None'; endif;},
                                     ],
 
                                     ],
@@ -92,8 +92,8 @@ use yii\grid\GridView;
                             <div class="tab-pane fade in" id="update">
                               <div class="list-group">
                                <br>
-                               <?php $form = ActiveForm::begin(['options'=>['class'=>'dropzone-forms']]); ?>
-                               <?= $form->field($status, 'status')->textArea(['cols'=>'3', 'required'=>'true']); ?>
+                               <?php $form = ActiveForm::begin(['options'=>['id'=>'dropzone-form_1']]); ?>
+                               <?= Html::textArea('status', '', ['required'=>'true', 'class'=>'form-control', 'placeholder'=>'What is going on with the task?']); ?><br>
                                <?php ActiveForm::end(); ?>
 
                                <?php $form = ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data', 'class'=>'dropzone dropzone-forms']]); ?>

@@ -259,7 +259,7 @@ $('#msg-delete').on('click', function(){
 });
 
 $('#dropzone-btn').on('click', function(){
-    $('.dropzone-forms').submit();
+    $('#dropzone-form_1').submit();
 });
 
 Dropzone.options.myAwesomeDropzone = {

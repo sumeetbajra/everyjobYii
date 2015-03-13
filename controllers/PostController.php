@@ -8,6 +8,7 @@ use app\models\PostServices;
 use app\models\PostRatings;
 use app\models\PostSearch;
 use app\models\TaskStatus;
+use app\models\TaskFiles;
 use app\models\AcceptedOrders;
 use app\models\Notification;
 use app\models\PostViews;
@@ -454,28 +455,50 @@ class PostController extends Controller
      * Taskboard for each accepted order
      */
     public function actionTaskdashboard($id){
-        /*echo "<pre>";
-        print_r($_FILES);
-        exit();*/
         $order_id = (int) $id;
         $user_id = \Yii::$app->user->getId();
         $user = Users::findOne($user_id);
         $order = PostOrder::find()->with('post')->where(['order_id'=>$id])->one();
+        $ds = DIRECTORY_SEPARATOR;  
+        $storeFolder = '..' . $ds . 'web' . $ds . 'images' . $ds . 'task';   
+        if (!empty($_FILES)) {
+            $tempFile = $_FILES['file']['tmp_name'];                     
+            $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  
+            $temp = explode(".",$_FILES['file']['name']);
+            $fileName = time() . '.' .end($temp);
+            $targetFile =  $targetPath. $fileName; 
+            if(move_uploaded_file($tempFile,$targetFile)){
+                 $status = new TaskStatus;
+                 $status ->order_id = $order_id;
+                 $status->user_id = $user_id;
+                 $status->status = $user->display_name . ' uploaded a new file';
+                 $status->datetimestamp = date('Y-m-d H:i:s', time());
+                 if($status->save()){
+                    $files = new TaskFiles;
+                    $files->status_id = $status->status_id;
+                    $files->file_url = $fileName;
+                    $files->save();
+                 }
+            }
+        }
         $status = new TaskStatus;
         if(!empty($order->datetimestamp) && ($order->post->owner_id == $user_id || $order->user_id == $user_id)){
             if(\Yii::$app->request->post()){
-                $status->load(\Yii::$app->request->post());
                 $status->order_id = $order_id;
                 $status->user_id = $user_id;
+                $status->status = \Yii::$app->request->post()['status'];
                 $status->datetimestamp = date('Y-m-d H:i:s', time());
                 if($status->save()){
                     \Yii::$app->session->setFlash('message', 'Task status added successfully');
                     return $this->redirect(['post/taskdashboard/'.$order_id]);
+                }else{
+                    print_r($status->getErrors());
+                    exit;
                 }
             }
             $query = TaskStatus::find()->with('user')->with('taskFiles')->where(['order_id'=>$id])->orderBy('datetimestamp DESC');
             $dataProvider = new ActiveDataProvider(['query'=>$query, 'pagination' => [
-                'pageSize' => 10,
+                'pageSize' => 5,
                 ]]);
             return $this->render('dashboard', ['order'=>$order, 'user'=>$user, 'dataProvider'=>$dataProvider, 'status'=>$status]);
         }else{
