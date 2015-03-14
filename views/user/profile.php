@@ -40,193 +40,213 @@ use yii\captcha\Captcha;
             <div class="row overview">
                 <div class="col-md-3 user-pad text-center">
                     <h3>SERVICES</h3>
-                    <h4><?= \Yii::$app->function->getPostedServices(); ?></h4>
+                    <h4><?= \Yii::$app->function->getPostedServices($user->user_id); ?></h4>
                 </div>
                 <div class="col-md-3 user-pad text-center">
                     <h3>SOLD</h3>
-                    <h4><?= \Yii::$app->function->getSoldServices(); ?></h4>
+                    <h4><?= \Yii::$app->function->getSoldServices($user->user_id); ?></h4>
                 </div>
                 <div class="col-md-3 user-pad text-center">
                     <h3>BOUGHT</h3>
-                    <h4><?= \Yii::$app->function->getBoughtServices(); ?></h4>
+                    <h4><?= \Yii::$app->function->getBoughtServices($user->user_id); ?></h4>
                 </div>
                 <div class="col-md-3 user-pad text-center">
                     <h3>RATING</h3>
-                    <?php $rating = \Yii::$app->function->getUserRating(); ?>
+                    <?php $rating = \Yii::$app->function->getUserRating($user->user_id); ?>
+                    <?php if ($rating != 0) : ?>
                     <?php for ($i=1; $i <= $rating['full'] ; $i++) { ?>
-                             <span class="glyphicon glyphicon-star"></span>                        
+                    <span class="glyphicon glyphicon-star"></span>                        
                     <?php } ?>
                     <?php for ($i=1; $i <= $rating['half'] ; $i++) { ?>
                     <span class="fa fa-star-half"></span>
                     <?php } ?>
-                </div>
-            </div>
+                    <br><i><?= $rating['count']?> reviews</i>
+                <?php else: ?>
+                <?php for ($i=1; $i <= 5 ; $i++) { ?>
+                <span class="glyphicon glyphicon-star-empty"></span>
+                <?php } ?>
+                <br><i>0 reviews</i>
+            <?php endif; ?>
         </div>
-        <div class="col-md-1 user-menu-btns">
-            <div class="btn-group-vertical square" id="responsive">
-                <a href="#" class="btn btn-block btn-default active">
-                  <i class="fa fa-user fa-3x"></i>
-              </a>
-              <a href="#" class="btn btn-default">
-                  <i class="fa fa-clock-o fa-3x"></i>
-              </a>
-              <a href="#" class="btn btn-default">
-                  <i class="fa fa-envelope-o fa-3x"></i>
-              </a>
-              <a href="#" class="btn btn-default">
-                  <i class="fa fa-globe fa-3x"></i>
-              </a>
-          </div>
-      </div>
-      <div class="col-md-4 user-menu user-pad">
-        <div class="user-menu-content active">
-            <h3>
-                About Me
-            </h3>
-            <?= $user->about; ?>           
-        </div>
-        <div class="user-menu-content">
-            <h3>
-                Recent Posts
-            </h3>
-            <ul class="user-menu-list">
-                <?php foreach($posts as $key=>$post){ 
-                    if($key <= 2):
+    </div>
+</div>
+<div class="col-md-1 user-menu-btns">
+    <div class="btn-group-vertical square" id="responsive">
+        <a href="#" class="btn btn-block btn-default active">
+          <i class="fa fa-user fa-3x"></i>
+      </a>
+      <a href="#" class="btn btn-default">
+          <i class="fa fa-clock-o fa-3x"></i>
+      </a>
+      <a href="#" class="btn btn-default">
+          <i class="fa fa-envelope-o fa-3x"></i>
+      </a>
+      <a href="#" class="btn btn-default">
+          <i class="fa fa-globe fa-3x"></i>
+      </a>
+  </div>
+</div>
+<div class="col-md-4 user-menu user-pad">
+    <div class="user-menu-content active">
+        <h3>
+            About Me
+        </h3>
+        <?= $user->about; ?>           
+    </div>
+    <div class="user-menu-content">
+        <h3>
+            Recent Posts
+        </h3>
+        <ul class="user-menu-list">
+            <?php foreach($posts as $key=>$post){ 
+                if($key <= 2):
                     ?>
                 <li>
                     <h4><?= $post->title; ?></h4>
                 </li>
             <?php endif; ?>
-                <?php } ?>
-                <li>
-                    <button type="button" class="btn btn-labeled btn-danger" href="#">
-                        <span class="btn-label"><i class="fa fa-eye"></i></span>View All Posts</button>
-                    </li>
-                </ul>
-            </div>
-            <div class="user-menu-content">
-                <h3>
-                    Contact
-                </h3>
-                <div class="row">
-                    <?php $form = ActiveForm::begin(['action'=>['user/sendmessage/'.$user->display_name]]);?>
-                    <?= $form->field($model, 'subject')->textInput(['placeholder'=>'Subject']);?>
-                    <?= $form->field($model, 'message')->textarea(['placeholder'=>'Type your message', 'rows'=>'5']);?>
-                    <?= Html::activeHiddenInput($model, 'to_user', ['value'=>$user->user_id]); ?>
-                    <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#captcha">Submit</a>
-                      <div class="modal fade" id="captcha" tabindex="-1" role="dialog"  aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">Prove that you are a human</h4>
-            </div>
-            <div class="modal-body">
-                Please type in the following captcha:
-               <?= $form->field($model, 'captcha')->widget(Captcha::className()) ?>
-            </div>
-            <div class="modal-footer">
-           <?= Html::submitButton('Send', ['class' => 'btn pull-right', 'name' => 'message-button']) ?>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
- </div><!-- /.modal -->
-                    
-                </div>
-            </div>
-            <div class="user-menu-content">
-                <h2 class="text-center">
-                    Yep, thats all about me!!
-                </h2>
-                If there's more you want to know, you can contact me via following:<br><br>
-                <div class="social">
-                    <a href="https://www.facebook.com/rem.mcintosh" class="[ social-icon facebook ] animate"><span class="fa fa-facebook"></span></a>
+            <?php } ?>
+            <li>
+                <button type="button" class="btn btn-labeled btn-danger" href="#">
+                    <span class="btn-label"><i class="fa fa-eye"></i></span>View All Posts</button>
+                </li>
+            </ul>
+        </div>
+        <div class="user-menu-content">
+            <h3>
+                Contact
+            </h3>
+            <div class="row">
+                <?php if($user->user_id != \Yii::$app->user->getId()): ?>
+                <?php $form = ActiveForm::begin(['action'=>['user/sendmessage/'.$user->display_name]]);?>
+                <?= $form->field($model, 'subject')->textInput(['placeholder'=>'Subject']);?>
+                <?= $form->field($model, 'message')->textarea(['placeholder'=>'Type your message', 'rows'=>'5']);?>
+                <?= Html::activeHiddenInput($model, 'to_user', ['value'=>$user->user_id]); ?>
+                <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#captcha">Submit</a>
+                <div class="modal fade" id="captcha" tabindex="-1" role="dialog"  aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title" id="myModalLabel">Prove that you are a human</h4>
+                            </div>
+                            <div class="modal-body">
+                                Please type in the following captcha:
+                                <?= $form->field($model, 'captcha')->widget(Captcha::className()) ?>
+                            </div>
+                            <div class="modal-footer">
+                             <?= Html::submitButton('Send', ['class' => 'btn pull-right', 'name' => 'message-button']) ?>
+                         </div>
+                     </div><!-- /.modal-content -->
+                 </div><!-- /.modal-dialog -->
+             </div><!-- /.modal -->
+            <?php else: ?>
+            Here other users can send you private messages.
+            <?php endif; ?>
+         </div>
+     </div>
+     <div class="user-menu-content">
+        <h2 class="text-center">
+            Yep, thats all about me!!
+        </h2>
+        If there's more you want to know, you can contact me via following:<br><br>
+        <div class="social">
+            <a href="https://www.facebook.com/rem.mcintosh" class="[ social-icon facebook ] animate"><span class="fa fa-facebook"></span></a>
 
-                    <a href="https://twitter.com/Mouse0270" class="[ social-icon twitter ] animate"><span class="fa fa-twitter"></span></a>
+            <a href="https://twitter.com/Mouse0270" class="[ social-icon twitter ] animate"><span class="fa fa-twitter"></span></a>
 
-                    <a href="https://plus.google.com/u/0/115077481218689845626/posts" class="[ social-icon google-plus ] animate"><span class="fa fa-google-plus"></span></a>
+            <a href="https://plus.google.com/u/0/115077481218689845626/posts" class="[ social-icon google-plus ] animate"><span class="fa fa-google-plus"></span></a>
 
-                    <a href="www.linkedin.com/in/remcintosh/" class="[ social-icon linkedin ] animate"><span class="fa fa-linkedin"></span></a>
-                </div>
-            </div>
+            <a href="www.linkedin.com/in/remcintosh/" class="[ social-icon linkedin ] animate"><span class="fa fa-linkedin"></span></a>
         </div>
     </div>
 </div>
-
-<hr>
+</div>
+</div>
+<br>
 <div class="row">
     <div class="col-lg-12">
         <h3>Posted by the user</h3>
-        <br>
+        <hr>
     </div>
 </div>
 <!-- /.row -->
 
 <!-- Page Features -->
- <div class="row text-center">
-  <?php foreach ($posts as $post) { ?>
-            <div class="col-md-3 col-sm-6 hero-feature">
-                <div class="thumbnail">
-                <?php if($post->featured == 1) : ?>
-                <div class="ribbon-wrapper-green"><div class="ribbon-green">Featured</div></div>
-            <?php endif; ?>
-                    <img src="<?= Yii::getAlias('@web'); ?>/images/services/<?= $post->image_url; ?>" alt="Promotional image">
-                    <div class="caption">
-                        <h4>Price: <?= $post->currency, ' ', $post->price; ?></h4>
-                        <p><?= $post->title; ?></p>
-                        <p>
-                            <a href="#" class="btn btn-primary">Order Now!</a> <a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>" class="btn btn-default">More Info</a>
-                        </p>
-                    </div>
-                    <span class="pull-right" style="position: relative; top: -16px"><i class="fa fa-eye"></i> <?= (PostViews::find()->where(['post_id'=>$post->post_id])->count() == 0 ? 0 : PostViews::find()->where(['post_id'=>$post->post_id])->one()->view_count);?> &nbsp;<i class="fa fa-thumbs-up"></i> <?= $ratings->postRating($post->post_id)['likes'];?> &nbsp;<i class="fa fa-thumbs-down"></i> <?= $ratings->postRating($post->post_id)['dislikes'];?></span>
-                </div>
-            </div>
-           
-     <?php  } ?>
-            </div>
-            <div class="pull-left" style="margin-top:-30px"><a href="#">View All <i class="fa fa-angle-double-right"></i></a></div><br>
-    <hr>
+<div class="row text-center">
+    <?php if(count($posts) > 0): ?>
+    <?php foreach ($posts as $post) { ?>
+    <div class="col-md-3 col-sm-6 hero-feature">
+        <div class="thumbnail">
+            <?php if($post->featured == 1) : ?>
+            <div class="ribbon-wrapper-green"><div class="ribbon-green">Featured</div></div>
+        <?php endif; ?>
+        <img src="<?= Yii::getAlias('@web'); ?>/images/services/<?= $post->image_url; ?>" alt="Promotional image">
+        <div class="caption">
+            <h4>Price: <?= $post->currency, ' ', $post->price; ?></h4>
+            <p><?= $post->title; ?></p>
+            <p>
+                <a href="#" class="btn btn-primary">Order Now!</a> <a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>" class="btn btn-default">More Info</a>
+            </p>
+        </div>
+        <span class="pull-right" style="position: relative; top: -16px"><i class="fa fa-eye"></i> <?= (PostViews::find()->where(['post_id'=>$post->post_id])->count() == 0 ? 0 : PostViews::find()->where(['post_id'=>$post->post_id])->one()->view_count);?> &nbsp;<i class="fa fa-thumbs-up"></i> <?= $ratings->postRating($post->post_id)['likes'];?> &nbsp;<i class="fa fa-thumbs-down"></i> <?= $ratings->postRating($post->post_id)['dislikes'];?></span>
+    </div>
+</div>
+
+<?php  } ?>
+</div>
+<div class="pull-left" style="margin-top:-30px"><a href="#">View All <i class="fa fa-angle-double-right"></i></a></div><br>
+<?php else: ?>
+    </div>
+    <i>You have not posted any services yet. Go ahead and <a href='" . Url::to(['post/create']) . "'>create</a> one now</i><br><br>
+<?php endif; ?>
 <div class="container">
     <div class="row">
         <h3>User Reviews</h3>
+        <hr>
     </div>
 </div>
 <div class="carousel-reviews broun-block">
     <div class="container">
         <div class="row">
             <div id="carousel-reviews" class="carousel slide" data-ride="carousel">
-            
+
                 <div class="carousel-inner">
                     <div class="item active">
-                        
+                        <?php if(count($comments) > 0): ?>
                         <?php foreach($comments as $comment){ ?>
                         <div class="col-md-4 col-sm-6">
                             <div class="block-text rel zmin">
-                            
+
                                 <div class="mark">My rating: 
                                     <span class="rating-input">
-                                         <?php for($i = 1; $i <= $comment->stars; $i++){ ?>
-                                    <span class="glyphicon glyphicon-star"></span>
-                                    <?php } ?> 
-                                    <?php for($i = 1; $i <= 5 - $comment->stars; $i++){ ?>
-                                    <span class="glyphicon glyphicon-star-empty"></span>
-                                    <?php } ?> 
-                                </span></div>
-                                <p><?= $comment->comment; ?></p>
-                                <ins class="ab zmin sprite sprite-i-triangle block"></ins>
-                            </div>
-                            <div class="person-text rel" style="width:65px; margin: 0 auto">
+                                       <?php for($i = 1; $i <= $comment->stars; $i++){ ?>
+                                       <span class="glyphicon glyphicon-star"></span>
+                                       <?php } ?> 
+                                       <?php for($i = 1; $i <= 5 - $comment->stars; $i++){ ?>
+                                       <span class="glyphicon glyphicon-star-empty"></span>
+                                       <?php } ?> 
+                                   </span></div>
+                                   <div class="profile-comment">
+                                   <p><?= $comment->comment; ?></p>
+                               </div>
+                                   <ins class="ab zmin sprite sprite-i-triangle block"></ins>
+                               </div>
+                               <div class="person-text rel" style="width:65px; margin: 0 auto">
                                 <div class="comment-img">
-                                <img src="<?= \Yii::getAlias('@web/images/users/'.$comment->commentBy->profilePic); ?>" class="img-responsive img-circle"/>
-                                <img src = "<?= \Yii::getAlias('@web/images/users/shadow.png'); ?>" class="shadow-img">
-                            </div>
-                                <a title="" href="#" style="margin-top: -8px"><?= $comment->commentBy->display_name?></a>
-                            <!--     <i>from <?= $comment->commentBy->address; ?></i> -->
+                                    <img src="<?= \Yii::getAlias('@web/images/users/'.$comment->commentBy->profilePic); ?>" class="img-responsive img-circle"/>
+                                    <img src = "<?= \Yii::getAlias('@web/images/users/shadow.png'); ?>" class="shadow-img">
+                                </div>
+                                <a title="User profile" style="margin-top: -8px" href="<?= Url::to(['user/profile/'.$comment->commentBy->display_name]);?>"><?= $comment->commentBy->display_name?></a>
+                                <!--     <i>from <?= $comment->commentBy->address; ?></i> -->
                             </div>
                         </div>
 
                         <?php }?>
-                       
+                    <?php else: ?>
+                    <i>The user does not have any reviews yet</i><br>
+                <?php endif; ?>
+
 
         <!--                 <div class="col-md-4 col-sm-6 hidden-xs">
                             <div class="block-text rel zmin">

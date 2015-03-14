@@ -97,12 +97,14 @@ class PostController extends Controller
         if(!$pageWasRefreshed && $model->owner_id != Yii::$app->user->getId()){
             $this->increaseView($id);            
         }       
+        $comments = Comments::find()->joinWith('commentBy')->where(['comments.user_id'=>$model->owner_id])->all();
         return $this->render('view', [
             'model' =>  $model,
             'likes' => $likes,
             'dislikes' => $dislikes,
             'like_e' => $like_e,
             'dislike_e' => $dislike_e,
+            'comments'=>$comments,
             ]);
     }
 
@@ -139,6 +141,7 @@ class PostController extends Controller
             $categoryList[$category->category_id] = $category->category_name;
         }
         if ($model->load(Yii::$app->request->post())) {
+            $model->description = nl2br($model->description);
             $model->owner_id = $user_id;
             $model->currency = 'Rs.';
             $slug = preg_replace( "/^\.+|\.+$/", "", $model->title);
