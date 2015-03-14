@@ -268,4 +268,16 @@ Dropzone.options.myAwesomeDropzone = {
   uploadMultiple: false,
 
 };
+
+$('.glyphicon.star').click(function(){
+    var id = $(this).attr('id');
+    $('.star').removeClass('glyphicon-star');
+    $('.star').addClass('glyphicon-star-empty');
+    for (var i = 0; i < id; i++) {
+        $('.star').eq(i).addClass('glyphicon-star');
+        $('.star').eq(i).removeClass('glyphicon-star-empty');
+    };
+    $('.star-input').val(id);
+    
+});
 });

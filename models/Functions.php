@@ -121,4 +121,46 @@ class Functions{
 		}
 		return "$difference $periods[$j] {$tense}";
 	}
+
+	/**
+	 * method to get number of sold services by the user
+	 * @param  [int] $id [id of the user]
+	 * @return [int]     [number of services]
+	 */
+	public function getSoldServices(){
+		$services = PostOrder::find()->joinWith('post')->where(['post_services.owner_id'=>$this->user_id, 'type'=>'Completed'])->count();
+		return $services;
+	}
+
+	/**
+	 * method to get the average rating received by the user
+	 * @return [decimal] [average raing of the user]
+	 */
+	public function getUserRating(){
+		$ratings = Comments::find()->where(['user_id'=>$this->user_id])->all();
+		$count = count($ratings);
+		$stars = 0;
+		foreach ($ratings as $rating) {
+			$stars += $stars + $rating->stars;
+		}
+		$rating = $stars / $count;
+		$rating = number_format($rating, 2); 
+		$rating = round($rating, 1);
+		$stars = explode('.', $rating);
+		$full = $stars[0];
+		if(isset($stars[1])){
+			$half = $stars[1];
+		}else{
+			$half = 0;
+		}
+		if($half >= 0 && $half <=3){
+			$half = 0;
+		}elseif($half >= 4 && $half <= 7){
+			$half = 1;
+		}else{
+			$half = 0;
+			$full += 1;
+		}
+		return array('full'=>$full, 'half'=>$half);
+	}
 }

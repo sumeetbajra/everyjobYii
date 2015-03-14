@@ -53,4 +53,8 @@ class AcceptedOrders extends \yii\db\ActiveRecord
       public function getPosts(){
         return $this->hasOne(PostServices::className(), ['post_id'=>'post_id']);
     }
+
+      public function getOrder(){
+        return $this->hasOne(PostOrder::className(), ['order_id'=>'order_id']);
+    }
 }

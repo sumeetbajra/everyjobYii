@@ -3,12 +3,14 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\filters\AccessControl;
 use app\models\PostServices;
 use app\models\PostRatings;
 use app\models\PostSearch;
 use app\models\TaskStatus;
 use app\models\TaskFiles;
+use app\models\Comments;
 use app\models\AcceptedOrders;
 use app\models\Notification;
 use app\models\PostViews;
@@ -37,7 +39,7 @@ class PostController extends Controller
         //'only' => ['logout'],
         'rules' => [
         [
-        'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view', 'processorder', 'rejectedorder', 'acceptorder', 'acceptedorder', 'taskdashboard'],
+        'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view', 'processorder', 'rejectedorder', 'acceptorder', 'acceptedorder', 'taskdashboard', 'completetask'],
         'allow' => true,
         'roles' => ['@'],
         ],
@@ -503,6 +505,41 @@ class PostController extends Controller
             return $this->render('dashboard', ['order'=>$order, 'user'=>$user, 'dataProvider'=>$dataProvider, 'status'=>$status]);
         }else{
             return $this->render('../site/error', ['name'=>'Page Not Found', 'message'=>'Sorry, the page you were looking for was not found. Sorry for your inconvenience.']);
+        }
+    }
+
+    /**
+     * action to handle form post
+     * change status of order to complete
+     * redirect it to user dashboard
+     */
+    public function actionCompletetask(){
+        $comment = new Comments;
+        if(isset($_POST['stars'])){
+            $order_id = (int) $_POST['order_id'];
+            $user_id = (int) $_POST['user_id'];
+            $order = PostOrder::findOne($order_id);
+            $comment->comment = $_POST['comment'];
+            $comment->stars = (int) $_POST['stars'];
+            $comment->datetimestamp = date('Y-m-d H:i:s', time());
+            $comment->comment_by = \Yii::$app->user->getId();
+            $comment->user_id = $user_id;
+            $order->type = 'Completed';
+            if($comment->stars != 0 && $order->save() && $comment->save()){
+                $notification = new Notification;
+                $notification->user_id = $user_id;
+                $notification->source = $comment->comment_by;
+                $notification->notification = Users::findOne($comment->comment_by)->display_name . ' changed the status of task to completed';
+                $notification->datetimestamp = $comment->datetimestamp;
+                $notification->type = 'task-completed';
+                $notification->post_id = $order->post_id;
+                $notification->save();
+                \Yii::$app->session->setFlash('message', 'Task closed successfully');
+                return $this->redirect(Url::to(['user/dashboard']));
+            }else{
+                \Yii::$app->session->setFlash('message', 'You must leave a rating');
+                return $this->redirect(Url::to(['post/taskdashboard/'.$order_id]));
+            }
         }
     }
 }

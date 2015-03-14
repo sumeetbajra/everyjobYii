@@ -45,7 +45,7 @@ use yii\grid\GridView;
                     </tr>
                     <tr>
                         <td>Delivery: <?= date('Y/m/d', strtotime($order->datetimestamp) + $order->post->max_delivery_days*86400); ?></td>
-                        <td><a href="#" class="btn btn-success"><i class="fa fa-check"></i> Set as completed</a></td>
+                        <td><?php if($order->user_id == \Yii::$app->user->getId()): ?><a href="#" data-toggle = "modal" data-target="#completeModal" class="btn btn-success"><i class="fa fa-check"></i> Set as completed</a><?php endif; ?></td>
                     </tr>
                 </table>
             <ul class="nav nav-tabs">
@@ -113,6 +113,37 @@ use yii\grid\GridView;
                    </div>
                </div>  
 
+<div class="modal fade" id="completeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">Close the task</h4>
+            </div>
+            <div class="modal-body">
+                Before closing the task, leave some feedback about the user.<br><br>
+                <?php $form = ActiveForm::begin(['action'=>['post/completetask']]); ?>
+                <b>Make a Comment: (Optional)</b>
+                               <?= Html::textArea('comment', '', ['class'=>'form-control', 'placeholder'=>'How was the experience?', 'style'=>'margin-top:10px']); ?><br>
+                               <b>Leave a Rating: </b> 
+                               <span class="glyphicon star glyphicon-star-empty" id="1"></span>
+                               <span class="glyphicon star glyphicon-star-empty" id="2"></span>
+                               <span class="glyphicon star glyphicon-star-empty" id="3"></span>
+                               <span class="glyphicon star glyphicon-star-empty" id="4"></span>
+                               <span class="glyphicon star glyphicon-star-empty" id="5"></span>
+                               <?= Html::hiddenInput('stars', '', ['class'=>'star-input']); ?>
+                               <?= Html::hiddenInput('order_id', $order->order_id); ?>
+                               <?= Html::hiddenInput('user_id', $order->post->owner_id); ?>
+                              
+               
+            </div>
+            <div class="modal-footer">
+                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'submit-button']) ?>
+                 <?php ActiveForm::end(); ?>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 
