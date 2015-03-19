@@ -10,7 +10,7 @@ use yii\grid\GridView;
 ?>
 
 
-<?php if(!empty(Yii::$app->session->getFlash('message'))){ ?>
+<?php if(Yii::$app->session->getFlash('message')){ ?>
     <div class="col-md-12 alert alert-info"><?= Yii::$app->session->getFlash('message'); ?></div>
     <?php } ?>
     <div class="row">
