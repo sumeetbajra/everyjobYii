@@ -28,83 +28,41 @@ use yii\widgets\DetailView;
                         <p><?= $model->description; ?></p>
                     </div>
                     <div class="clear-fix"></div>
-                    <div class="ratings">
-                        <p class="pull-right">3 reviews</p>
-                        <p>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            4.0 stars
-                        </p>
-                    </div>
+                    
                 </div>
 
                 <div class="well">
-
-                    <div class="text-right">
-                        <a class="btn btn-success">Leave a Review</a>
-                    </div>
-
+                  <h4>User Reviews</h4>
                     <hr>
-
+                    <?php if(count($comments) > 0): ?>
+                    <?php foreach($comments as $comment){ ?>
                     <div class="row">
                         <div class="col-md-12">
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            Anonymous
-                            <span class="pull-right">10 days ago</span>
-                            <p>This product was great in terms of quality. I would definitely buy another!</p>
+                               <img src="<?= \Yii::getAlias('@web/images/users/'.$comment->commentBy->profilePic); ?>" class="img-circle pull-left" style="margin-right:15px"width="80"><a href="<?= Url::to(['user/profile/'.$comment->commentBy->display_name]);?>" style="display:block; margin-bottom: -15px"><?= $comment->commentBy->display_name; ?></a><br>
+                           <?php for($i = 1; $i <= $comment->stars; $i++){ ?>
+                                       <span class="glyphicon glyphicon-star"></span>
+                                       <?php } ?> 
+                                       <?php for($i = 1; $i <= 5 - $comment->stars; $i++){ ?>
+                                       <span class="glyphicon glyphicon-star-empty"></span>
+                                       <?php } ?> 
+                            <span class="pull-right"><?= \Yii::$app->function->getAgoTime($comment->datetimestamp); ?></span>
+                            <p><?= $comment->comment;?></p>
                         </div>
                     </div>
 
                     <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            Anonymous
-                            <span class="pull-right">12 days ago</span>
-                            <p>I've alredy ordered another one!</p>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star-empty"></span>
-                            Anonymous
-                            <span class="pull-right">15 days ago</span>
-                            <p>I've seen some better than this, but not at this price. I definitely recommend this item.</p>
-                        </div>
-                    </div>
-
+                    <?php } ?>
+                  <?php else: ?>
+                    <i>No user reviews yet</i>
+                <?php endif; ?>
                 </div>
-
             </div>
-
             <div class="col-md-4">
-
-
 <div class="panel panel-default media block-update-card" style="width:100%">
-  
    <div class="panel-body">
         <div  style="padding: 5px 0 28px 5px">
                 <div class="service-stat">
-                <h4><font color="green">Sold:</font> 4532 <span class="pull-right"><font color="gray">Queue:</font> 34</span></h4><hr>
+                <h4><font color="green">Sold:</font> <?= \Yii::$app->function->getSoldCount($model->post_id); ?> <span class="pull-right"><font color="gray">Queue:</font> <?= \Yii::$app->function->getQueueCount($model->post_id); ?></span></h4><hr>
                 </div>
                    <div class="col-sm-9"><h2 class="price"><span><?= $model->currency; ?></span><?= $model->price; ?><span>.00</span></h2></div>
                    <div class="col-sm-3 pull-right"><h4 style="margin-top:0; margin-bottom:0"><i class="fa fa-eye"></i> <?= (PostViews::find()->where(['post_id'=>$model->post_id])->count() == 0 ? 0 : PostViews::find()->where(['post_id'=>$model->post_id])->one()->view_count);?></h4></div>

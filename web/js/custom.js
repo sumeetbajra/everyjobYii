@@ -245,16 +245,39 @@ $('#msg-delete').on('click', function(){
             var hreff = $(this).parents('a').attr('href');
             var sizee = hreff.length - 1;
             var id = hreff[sizee];
-        $.ajax({
-            url: 'deletemsg',
-            data: {id: id},
-            type: 'GET',
-            success: function(response){
+            $.ajax({
+                url: 'deletemsg',
+                data: {id: id},
+                type: 'GET',
+                success: function(response){
                 //do sth
             }
-           });
-    }
+        });
+        }
     });
     location.reload();
+});
+
+$('#dropzone-btn').on('click', function(){
+    $('#dropzone-form_1').submit();
+});
+
+Dropzone.options.myAwesomeDropzone = {
+  paramName: "file", // The name that will be used to transfer the file
+  maxFilesize: 2, // MB
+  uploadMultiple: false,
+
+};
+
+$('.glyphicon.star').click(function(){
+    var id = $(this).attr('id');
+    $('.star').removeClass('glyphicon-star');
+    $('.star').addClass('glyphicon-star-empty');
+    for (var i = 0; i < id; i++) {
+        $('.star').eq(i).addClass('glyphicon-star');
+        $('.star').eq(i).removeClass('glyphicon-star-empty');
+    };
+    $('.star-input').val(id);
+    
 });
 });

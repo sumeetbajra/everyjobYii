@@ -16,7 +16,6 @@ use app\models\PostServices;
 use app\models\Users;
 use yii\web\UploadedFile;
 use yii\easyimage\EasyImage;
-include('agoScript.php');
 
 class SiteController extends Controller
 {
@@ -60,7 +59,7 @@ class SiteController extends Controller
     public function actionIndex(){
         $this->layout = 'master';
         $model = new LoginForm();
-        $posts = PostServices::find()->joinWith('views')->orderBy('view_count DESC')->all();
+        $posts = PostServices::find()->joinWith('views')->orderBy('view_count DESC')->limit(8)->all();
         $ratings = new PostRatings;
         return $this->render('index', ['model'=>$model, 'posts'=>$posts, 'ratings'=>$ratings]);
     }

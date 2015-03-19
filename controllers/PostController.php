@@ -3,11 +3,14 @@
 namespace app\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\filters\AccessControl;
 use app\models\PostServices;
 use app\models\PostRatings;
 use app\models\PostSearch;
 use app\models\TaskStatus;
+use app\models\TaskFiles;
+use app\models\Comments;
 use app\models\AcceptedOrders;
 use app\models\Notification;
 use app\models\PostViews;
@@ -36,7 +39,7 @@ class PostController extends Controller
         //'only' => ['logout'],
         'rules' => [
         [
-        'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view', 'processorder', 'rejectedorder', 'acceptorder', 'acceptedorder', 'taskdashboard'],
+        'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view', 'processorder', 'rejectedorder', 'acceptorder', 'acceptedorder', 'taskdashboard', 'completetask'],
         'allow' => true,
         'roles' => ['@'],
         ],
@@ -94,12 +97,14 @@ class PostController extends Controller
         if(!$pageWasRefreshed && $model->owner_id != Yii::$app->user->getId()){
             $this->increaseView($id);            
         }       
+        $comments = Comments::find()->joinWith('commentBy')->where(['comments.user_id'=>$model->owner_id])->all();
         return $this->render('view', [
             'model' =>  $model,
             'likes' => $likes,
             'dislikes' => $dislikes,
             'like_e' => $like_e,
             'dislike_e' => $dislike_e,
+            'comments'=>$comments,
             ]);
     }
 
@@ -136,6 +141,7 @@ class PostController extends Controller
             $categoryList[$category->category_id] = $category->category_name;
         }
         if ($model->load(Yii::$app->request->post())) {
+            $model->description = nl2br($model->description);
             $model->owner_id = $user_id;
             $model->currency = 'Rs.';
             $slug = preg_replace( "/^\.+|\.+$/", "", $model->title);
@@ -458,14 +464,85 @@ class PostController extends Controller
         $user_id = \Yii::$app->user->getId();
         $user = Users::findOne($user_id);
         $order = PostOrder::find()->with('post')->where(['order_id'=>$id])->one();
+        $ds = DIRECTORY_SEPARATOR;  
+        $storeFolder = '..' . $ds . 'web' . $ds . 'images' . $ds . 'task';   
+        if (!empty($_FILES)) {
+            $tempFile = $_FILES['file']['tmp_name'];                     
+            $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;  
+            $temp = explode(".",$_FILES['file']['name']);
+            $fileName = time() . '.' .end($temp);
+            $targetFile =  $targetPath. $fileName; 
+            if(move_uploaded_file($tempFile,$targetFile)){
+                 $status = new TaskStatus;
+                 $status ->order_id = $order_id;
+                 $status->user_id = $user_id;
+                 $status->status = $user->display_name . ' uploaded a new file';
+                 $status->datetimestamp = date('Y-m-d H:i:s', time());
+                 if($status->save()){
+                    $files = new TaskFiles;
+                    $files->status_id = $status->status_id;
+                    $files->file_url = $fileName;
+                    $files->save();
+                 }
+            }
+        }
+        $status = new TaskStatus;
         if(!empty($order->datetimestamp) && ($order->post->owner_id == $user_id || $order->user_id == $user_id)){
-            $status = TaskStatus::find()->with('user')->with('taskFiles')->where(['order_id'=>$id]);
-            $dataProvider = new ActiveDataProvider(['query'=>$status, 'pagination' => [
-                'pageSize' => 10,
+            if(\Yii::$app->request->post()){
+                $status->order_id = $order_id;
+                $status->user_id = $user_id;
+                $status->status = \Yii::$app->request->post()['status'];
+                $status->datetimestamp = date('Y-m-d H:i:s', time());
+                if($status->save()){
+                    \Yii::$app->session->setFlash('message', 'Task status added successfully');
+                    return $this->redirect(['post/taskdashboard/'.$order_id]);
+                }else{
+                    print_r($status->getErrors());
+                    exit;
+                }
+            }
+            $query = TaskStatus::find()->with('user')->with('taskFiles')->where(['order_id'=>$id])->orderBy('datetimestamp DESC');
+            $dataProvider = new ActiveDataProvider(['query'=>$query, 'pagination' => [
+                'pageSize' => 5,
                 ]]);
-            return $this->render('dashboard', ['order'=>$order, 'user'=>$user, 'dataProvider'=>$dataProvider]);
+            return $this->render('dashboard', ['order'=>$order, 'user'=>$user, 'dataProvider'=>$dataProvider, 'status'=>$status]);
         }else{
             return $this->render('../site/error', ['name'=>'Page Not Found', 'message'=>'Sorry, the page you were looking for was not found. Sorry for your inconvenience.']);
+        }
+    }
+
+    /**
+     * action to handle form post
+     * change status of order to complete
+     * redirect it to user dashboard
+     */
+    public function actionCompletetask(){
+        $comment = new Comments;
+        if(isset($_POST['stars'])){
+            $order_id = (int) $_POST['order_id'];
+            $user_id = (int) $_POST['user_id'];
+            $order = PostOrder::findOne($order_id);
+            $comment->comment = $_POST['comment'];
+            $comment->stars = (int) $_POST['stars'];
+            $comment->datetimestamp = date('Y-m-d H:i:s', time());
+            $comment->comment_by = \Yii::$app->user->getId();
+            $comment->user_id = $user_id;
+            $order->type = 'Completed';
+            if($comment->stars != 0 && $order->save() && $comment->save()){
+                $notification = new Notification;
+                $notification->user_id = $user_id;
+                $notification->source = $comment->comment_by;
+                $notification->notification = Users::findOne($comment->comment_by)->display_name . ' changed the status of task to completed';
+                $notification->datetimestamp = $comment->datetimestamp;
+                $notification->type = 'task-completed';
+                $notification->post_id = $order->post_id;
+                $notification->save();
+                \Yii::$app->session->setFlash('message', 'Task closed successfully');
+                return $this->redirect(Url::to(['user/dashboard']));
+            }else{
+                \Yii::$app->session->setFlash('message', 'You must leave a rating');
+                return $this->redirect(Url::to(['post/taskdashboard/'.$order_id]));
+            }
         }
     }
 }

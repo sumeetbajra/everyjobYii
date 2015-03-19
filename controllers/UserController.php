@@ -9,6 +9,7 @@ use yii\helpers\Url;
 use app\models\PostRatings;
 use app\models\Users;
 use app\models\AcceptedOrders;
+use app\models\Comments;
 use app\models\PostOrder;
 use yii\data\ActiveDataProvider;
 use app\models\PostServices;
@@ -80,11 +81,13 @@ class UserController extends \yii\web\Controller
         $ratings = new PostRatings;
         $posts = PostServices::find()->where(['owner_id'=>$user->user_id, 'active'=>'1'])->all();
         $model = new Message;
+        $comments = Comments::find()->joinWith('commentBy')->where(['comments.user_id'=>$user->user_id])->all();
         return $this->render('profile', [
             'user' => $user,
             'posts' => $posts,
             'ratings'=>$ratings,
             'model'=>$model,
+            'comments' => $comments,
             ]);
     }
 
@@ -221,7 +224,7 @@ public function actionActivetasks(){
     $user_id = \Yii::$app->user->getID();
     $user = User::findIdentity($user_id);
     $message = new Message;
-    $tasks = AcceptedOrders::find()->joinWith('posts')->where('post_services.owner_id = '.$user_id . ' AND status = "paid"')->all();
+    $tasks = AcceptedOrders::find()->joinWith('posts')->joinWith('order')->where('post_services.owner_id = '.$user_id . ' AND accepted_orders.status = "paid" AND post_order.type != "Completed"')->all();
     return $this->render('activeTasks', ['tasks'=>$tasks, 'user'=>$user, 'message'=>$message]);
 }
 
@@ -256,7 +259,7 @@ public function actionDeletemsg(){
 public function actionOrderedservices(){
     $user_id = \Yii::$app->user->getID();
     $user = User::findIdentity($user_id);
-    $orders = PostOrder::find()->joinWith('post')->where('user_id = ' . $user_id . ' AND type != "cancelled"');
+    $orders = PostOrder::find()->joinWith('post')->where('user_id = ' . $user_id . ' AND type != "Cancelled" AND type != "Completed"');
     $received = PostOrder::find()->joinWith('post')->where('post_services.owner_id = ' . $user_id . ' AND type != "cancelled"');
     return $this->render('orderedServices', ['user'=>$user, 'orders'=>$orders, 'received'=>$received]);
 }
