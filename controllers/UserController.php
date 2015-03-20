@@ -259,8 +259,8 @@ public function actionDeletemsg(){
 public function actionOrderedservices(){
     $user_id = \Yii::$app->user->getID();
     $user = User::findIdentity($user_id);
-    $orders = PostOrder::find()->joinWith('post')->where('user_id = ' . $user_id . ' AND type != "Cancelled" AND type != "Completed"');
-    $received = PostOrder::find()->joinWith('post')->where('post_services.owner_id = ' . $user_id . ' AND type != "cancelled"');
+    $orders = PostOrder::find()->joinWith('post')->where('user_id = ' . $user_id . ' AND type != "Cancelled" AND type != "Completed" AND type != "Rejected"');
+    $received = PostOrder::find()->joinWith('post')->where('post_services.owner_id = ' . $user_id . ' AND type != "Cancelled" AND type != "Completed" AND type != "Rejected"');
     return $this->render('orderedServices', ['user'=>$user, 'orders'=>$orders, 'received'=>$received]);
 }
 

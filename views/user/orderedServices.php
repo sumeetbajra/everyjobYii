@@ -18,7 +18,7 @@ use yii\data\ActiveDataProvider;
         <div class="profile-side-menu">
             <div class="profile-pic">
                 <img src="<?= Yii::getAlias('@web');?>/images/users/<?= $user->profilePic; ?>" class="img-circle img-responsive" width="100">
-                <h4 class="montserrat"><?= $user->display_name; ?></h4>
+                <h4 class="montserrat"><?= Html::encode($user->display_name); ?></h4>
             </div>
             <ul >
                 <li><a href="<?= Url::to(['user/dashboard'])?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
@@ -27,13 +27,13 @@ use yii\data\ActiveDataProvider;
                 <li><a href="<?= Url::to(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= \Yii::$app->function->getNotificationCount(); ?></span></a></li>
                 <li class="active"><a href="#"><i class="fa fa-check-square-o"></i> Ordered services</a></li>
-                <li><a href="<?= Url::to(['user/profile/'.$user->display_name]); ?>"><i class="fa fa-user"></i> View profile</a></li>
+                <li><a href="<?= Url::to(['user/profile/'.Html::encode($user->display_name)]); ?>"><i class="fa fa-user"></i> View profile</a></li>
                 <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
             </ul>
         </div>
     </div>
    <div class="col-md-9 col-sm-9 col-xs-7">
-            <h3 class="montserrat"><?= $user->display_name;?></h3> (member since <?= date('F Y', strtotime($user->created_at));?>)<hr><br>
+            <h3 class="montserrat"><?= Html::encode($user->display_name);?></h3> (member since <?= date('F Y', strtotime($user->created_at));?>)<hr><br>
 
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#ordered" data-toggle="tab"><span class="fa fa-paper-plane-o"></span> 
@@ -64,12 +64,12 @@ use yii\data\ActiveDataProvider;
               [
             'header'=>'Service',
             'format' =>'raw',
-            'value'=>function($data){ return '<a href="' . Url::to(['/post/view/' . $data->post_id . '/' . PostServices::findOne($data->post_id)->slug]) . '">' . PostServices::findOne($data->post_id)->title . '</a>'; },
+            'value'=>function($data){ return '<a href="' . Url::to(['/post/view/' . $data->post_id . '/' . Html::encode(PostServices::findOne($data->post_id)->slug)]) . '">' . Html::encode(PostServices::findOne($data->post_id)->title) . '</a>'; },
             ],
              [
             'header'=>'Owner',
             'format' =>'raw',
-            'value'=>function($data){ return '<a href="' . Url::to(['/user/profile/' . Users::findOne($data->post->owner_id)->display_name]) . '">' . Users::findOne($data->post->owner_id)->display_name . '</a>'; },
+            'value'=>function($data){ return '<a href="' . Url::to(['/user/profile/' . $uname = Html::encode(Users::findOne($data->post->owner_id)->display_name)]) . '">' . $uname . '</a>'; },
             ],
             'type',
             [
@@ -79,7 +79,7 @@ use yii\data\ActiveDataProvider;
              [
             'header'=>'Action',
             'format' =>'raw',
-            'value'=>function($data){ return '<a class="btn btn-default btn-xs" href="' . Url::to(['/user/profile/' . Users::findOne($data->post->owner_id)->display_name]) . '" title="More information"><i class="fa fa-info-circle"></i></a>'. ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->status == 'unpaid') ?  '<a class="btn btn-default btn-xs" href="' . Url::to(['/post/acceptedorder/' . $data->post_id]) . '" title="Make payment"><i class="fa fa-money"></i></a>' : '') . ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->status == 'paid') ?  '<a href="' . Url::to(['post/taskdashboard/'.$data->order_id]) . '" class="btn btn-default btn-xs"><i class="fa fa-th" title="Service Dashboard"></i></a>' : ''); },
+            'value'=>function($data){ return '<a class="btn btn-default btn-xs" href="' . Url::to(['/user/profile/' . $uname = Html::encode(Users::findOne($data->post->owner_id)->display_name)]) . '" title="More information"><i class="fa fa-info-circle"></i></a>'. ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->status == 'unpaid') ?  '<a class="btn btn-default btn-xs" href="' . Url::to(['/post/acceptedorder/' . $data->post_id]) . '" title="Make payment"><i class="fa fa-money"></i></a>' : '') . ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->status == 'paid') ?  '<a href="' . Url::to(['post/taskdashboard/'.$data->order_id]) . '" class="btn btn-default btn-xs"><i class="fa fa-th" title="Service Dashboard"></i></a>' : ''); },
             ],
            
         ],
@@ -108,12 +108,12 @@ use yii\data\ActiveDataProvider;
               [
             'header'=>'Service',
             'format' =>'raw',
-            'value'=>function($data){ return '<a href="' . Url::to(['/post/view/' . $data->post_id . '/' . PostServices::findOne($data->post_id)->slug]) . '">' . PostServices::findOne($data->post_id)->title . '</a>'; },
+            'value'=>function($data){ return '<a href="' . Url::to(['/post/view/' . $data->post_id . '/' . Html::encode(PostServices::findOne($data->post_id)->slug)]) . '">' . Html::encode(PostServices::findOne($data->post_id)->title) . '</a>'; },
             ],
              [
             'header'=>'Ordered by',
             'format' =>'raw',
-            'value'=>function($data){ return '<a href="' . Url::to(['/user/profile/' . Users::findOne($data->user_id)->display_name]) . '">' . Users::findOne($data->user_id)->display_name . '</a>'; },
+            'value'=>function($data){ return '<a href="' . Url::to(['/user/profile/' . $uname = Html::encode(Users::findOne($data->user_id)->display_name)]) . '">' .$uname . '</a>'; },
             ],
             'type',
             [
@@ -123,7 +123,15 @@ use yii\data\ActiveDataProvider;
              [
             'header'=>'Action',
             'format' =>'raw',
-            'value'=>function($data){ return '<a href="' . Url::to(['/user/profile/' . Users::findOne($data->post->owner_id)->display_name]) . '" title="More information"><i class="fa fa-info-circle"></i></a>&nbsp;&nbsp;' .  ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->status == 'paid') ? '<font color="green"><i class="fa fa-money" title="Payment received"></i></font>' : '<font color="red"><i class="fa fa-money" title="Payment not received"></i></font>'); },
+            'value'=>function($data){ 
+               if($data->type == 'Awaiting approval'){
+                    $url = Url::to(['post/vieworder/'.$data->post_id]);
+                 }elseif ($data->type == 'Accepted') {
+                    $url = Url::to(['post/orderstatus/'.$data->order_id]);
+                }elseif ($data->type == 'In progress') {
+                    $url = Url::to(['post/taskdashboard/'.$data->order_id]);
+                }
+                return '<a  class="btn btn-default btn-xs" href="' . $url . '" title="More information"><i class="fa fa-info-circle"></i></a>'; },
             ],
            
         ],

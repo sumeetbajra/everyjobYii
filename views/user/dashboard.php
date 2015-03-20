@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Url;
+use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\grid\GridView;
 use app\models\Notification;
@@ -14,7 +15,7 @@ use app\models\Notification;
             <div class="profile-side-menu">
                 <div class="profile-pic">
                     <img src="<?= Yii::getAlias('@web');?>/images/users/<?= $user->profilePic; ?>" class="img-circle img-responsive" width="100">
-                    <h4 class="montserrat"><?= $user->display_name; ?></h4>
+                    <h4 class="montserrat"><?= Html::encode($user->display_name); ?></h4>
                 </div>
                 <ul>
                     <li class="active"><a href="#"><i class="fa fa-tachometer"></i> Dashboard</a></li>
@@ -23,13 +24,13 @@ use app\models\Notification;
                     <li><a href="<?= Url::to(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= \Yii::$app->function->getNotificationCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['user/orderedservices']); ?>"><i class="fa fa-check-square-o"></i> Ordered services</a></li>
-                    <li><a href="<?= Url::to(['user/profile/'.$user->display_name]); ?>"><i class="fa fa-user"></i> View profile</a></li>
+                    <li><a href="<?= Url::to(['user/profile/'.Html::encode($user->display_name)]); ?>"><i class="fa fa-user"></i> View profile</a></li>
                     <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
                 </ul>
             </div>
         </div>
         <div class="col-md-9 col-sm-9 col-xs-7">
-            <h3 class="montserrat"><?= $user->display_name;?></h3> (member since <?= date('F Y', strtotime($user->created_at));?>)<hr>
+            <h3 class="montserrat"><?= Html::encode($user->display_name);?></h3> (member since <?= date('F Y', strtotime($user->created_at));?>)<hr>
             <h4 class="leftborder"><i class="fa fa-bar-chart"></i> Account Information</a></h4>
             <div class="row text-center">
                 <div class="col-md-12">
@@ -78,8 +79,8 @@ use app\models\Notification;
 
         </div><div class="clear-fix"></div>
              <h4 class="leftborder"><i class="fa fa-info-circle"></i> About &nbsp;<a href="<?= Url::to(['user/update/'])?>" style="font-size:13px; color:black"><i class="fa fa-pencil"></i></a></h4>
-            <p><?= $user->about; ?></p>
-            <p><i class="fa fa-globe"></i> <?= $user->address;?></p>
+            <p><?= Html::encode($user->about); ?></p>
+            <p><i class="fa fa-globe"></i> <?= Html::encode($user->address);?></p>
             <p><i class="fa fa-birthday-cake"></i> <?= $user->dob; ?></p><div class="clear-fix"></div>
             <h4 class="leftborder"><i class="fa fa-file-archive-o"></i> Your posts</h4>
             <?php if(count($posts) == 0): echo "<i>You have not posted any services yet. Go ahead and <a href='" . Url::to(['post/create']) . "'>create</a> one now</i>"; endif;?>
@@ -93,8 +94,8 @@ use app\models\Notification;
                 <?php endif; ?>
                 <img src="<?= Yii::getAlias('@web'); ?>/images/services/<?= $post->image_url; ?>" alt="Promotional image">
                 <div class="caption">
-                    <h4>Price: <?= $post->currency, ' ', $post->price; ?></h4>
-                    <p><?= $post->title; ?></p>                           
+                    <h4>Price: <?= $post->currency, ' ', Html::encode($post->price); ?></h4>
+                    <p><?= Html::encode($post->title); ?></p>                           
                     <?php $form = ActiveForm::begin([
                         'method'=>'POST',
                         'action' => ['post/update'],

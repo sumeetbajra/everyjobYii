@@ -168,17 +168,19 @@ class PostController extends Controller
                 $model->featured = 0;
             }
             if($model->save()){
-             $file->saveAs('images/services/' . $model->image_url);
-             $file=Yii::getAlias('@app/web/images/services/'.$model->image_url); 
-             $image=Yii::$app->image->load($file);
-             $dimension = getimagesize('images/services/' . $model->image_url);
-             $width = $dimension[0];
-             $height = $dimension[1];
-             if($height > $width ){
-               $image->resize($width*2, $width*2)->crop(800, 500)->save();
-            }else{
-             $image->resize($height*2,$height*2)->crop(800, 500)->save();
-            }
+                if(!empty($file)){
+                    $file->saveAs('images/services/' . $model->image_url);
+                    $file=Yii::getAlias('@app/web/images/services/'.$model->image_url); 
+                    $image=Yii::$app->image->load($file);
+                    $dimension = getimagesize('images/services/' . $model->image_url);
+                    $width = $dimension[0];
+                    $height = $dimension[1];
+                    if($height > $width ){
+                        $image->resize($width*2, $width*2)->crop(800, 500)->save();
+                    }else{
+                        $image->resize($height*2,$height*2)->crop(800, 500)->save();
+                    }
+                }
              \Yii::$app->getSession()->setFlash('message', 'Post created successfully. You are ready to make some money.');
              return $this->redirect(['user/dashboard']);
          }
@@ -378,7 +380,7 @@ class PostController extends Controller
     public function actionVieworder($id){
         $post_id = (int) $id;
         $model = $this->findModel($post_id);
-        $orders = PostOrder::find()->where(['post_id'=>$post_id, 'status'=>'1', 'type'=>'active'])->all();
+        $orders = PostOrder::find()->where('type != "Completed" AND type != "Rejected" AND post_id = '.$post_id.' AND status =1')->all();
         $number = count($orders);
         if($model->owner_id == \Yii::$app->user->getId()){
             return $this->render('viewOrder', ['model'=>$model, 'orders'=>$orders, 'number'=>$number]);
@@ -446,7 +448,9 @@ class PostController extends Controller
                 $notification->post_id = $_POST['post_id'];
                 $old = Notification::find()->where(['type'=>'order', 'post_id'=>$notification->post_id, 'user_id'=>\Yii::$app->user->getId()])->one();
                 $old->status = 0;
-                if($notification->save() && $model->save() && $old->save()){
+                $order = PostOrder::findOne($model->order_id);
+                $order->type = 'Rejected';
+                if($notification->save() && $model->save() && $old->save() && $order->save()){
                     \Yii::$app->session->setFlash('message', 'Order rejected successfully');
                     return $this->redirect(['post/vieworder/'. $post_id]);
                 }

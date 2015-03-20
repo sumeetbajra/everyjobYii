@@ -52,7 +52,7 @@ use app\models\PostServices;
                     <b>Title: </b>
                 </td>
                 <td>
-                    <h4 class="montserrat"><?= $title = $post->title; ?></h4>
+                    <h4 class="montserrat"><?= $title = Html::encode($post->title); ?></h4>
                 </td>
             </tr>
 
@@ -61,7 +61,7 @@ use app\models\PostServices;
                     <b>Owner: </b>
                 </td>
                 <td>
-                    <a href ="<?= Url::to(['user/profile/'.Users::findOne($post->owner_id)->display_name]); ?>"><?= Users::findOne($post->owner_id)->display_name; ?></a>
+                    <a href ="<?= Url::to(['user/profile/'.Users::findOne($post->owner_id)->display_name]); ?>"><?= Html::encode(Users::findOne($post->owner_id)->display_name); ?></a>
                 </td>
             </tr>
 
@@ -88,7 +88,7 @@ use app\models\PostServices;
             <b>Price:</b>
         </td>
         <td>
-            Rs. <?= $cost; ?>
+            Rs. <?= Html::encode($cost); ?>
         </td>
     </tr>
 
@@ -111,9 +111,9 @@ use app\models\PostServices;
         <input type="hidden" name="cmd" value="_xclick">
         <input type="hidden" name="return" value="https://3b21de01.ngrok.com/everyjobSite/web/user/dashboard">
         <input type="hidden" name="business" value="sumeetbazra@gmail.com">
-        <input type="hidden" name="item_name" value="<?= $title;?>">
+        <input type="hidden" name="item_name" value="<?= Html::encode($title);?>">
         <input type="hidden" name="item_number" value="<?= $accept->post_id; ?>">
-        <input type="hidden" name="amount" value="<?= $price; ?>">
+        <input type="hidden" name="amount" value="<?= Html::encode($price); ?>">
         <input type="hidden" name="notify_url" value="https://3b21de01.ngrok.com/everyjobSite/web/payment/paypalipn">
         <input type="hidden" name="cancel_return" value="https://3b21de01.ngrok.com/everyjobSite/web/user/dashboard">
         <input type="hidden" name="tax" value="0">
