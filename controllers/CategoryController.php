@@ -62,8 +62,12 @@ class CategoryController extends Controller
     {
         $model = new PostCategory();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->created_by = \Yii::$app->user->getId();
+            $model->created_date = date('Y-m-d H:i:s', time());
+            if($model->save()){
             return $this->redirect(['view', 'id' => $model->category_id]);
+        }
         } else {
             return $this->render('create', [
                 'model' => $model,

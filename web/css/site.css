@@ -89,3 +89,22 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+.classWithPadding{
+    font-size: 12px;
+}
+
+.quick-links{
+    list-style: none;
+    line-height: 25px;
+    padding-left: 0;
+}
+
+.quick-links .fa{
+    margin-right: 7px;
+}
+
+.summary{
+    margin-bottom: 15px;
+}
+
