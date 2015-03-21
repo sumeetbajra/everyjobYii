@@ -19,7 +19,7 @@ use yii\data\ActiveDataProvider;
             <div class="profile-side-menu">
                 <div class="profile-pic">
                     <img src="<?= Yii::getAlias('@web');?>/images/users/<?= $user->profilePic; ?>" class="img-circle img-responsive" width="100">
-                    <h4 class="montserrat"><?= $user->display_name; ?></h4>
+                    <h4 class="montserrat"><?= Html::encode($user->display_name); ?></h4>
                 </div>
                 <ul >
                     <li><a href="<?= Url::to(['user/dashboard'])?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
@@ -28,7 +28,7 @@ use yii\data\ActiveDataProvider;
                     <li class="active"><a href="#"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= \Yii::$app->function->getNotificationCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['user/orderedservices']); ?>"><i class="fa fa-check-square-o"></i> Ordered services</a></li>
-                    <li><a href="<?= Url::to(['user/profile/'.$user->display_name]); ?>"><i class="fa fa-user"></i> View profile</a></li>
+                    <li><a href="<?= Url::to(['user/profile/'.Html::encode($user->display_name)]); ?>"><i class="fa fa-user"></i> View profile</a></li>
                     <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
                 </ul>
             </div>
@@ -66,7 +66,7 @@ use yii\data\ActiveDataProvider;
                      <?php endif; ?>
                              <span class="name" style="min-width: 120px;
                                 display: inline-block;"><?php if($message->read_m == '0') : ?><b><?php endif; ?><?= $from = Users::findOne($message->from_user)->display_name; ?><?php if($message->read_m == '0') : ?></b><?php endif; ?></span> <span class=""><?php if($message->read_m == '0') : ?><b><?php endif; ?><?= $message->subject; ?><?php if($message->read_m == '0') : ?></b><?php endif; ?></span>
-                                  <span class="text-muted" style="font-size: 11px;">- <?= $message->getExcerpt($message->message); ?></span> 
+                                  <span class="text-muted" style="font-size: 11px;">- <?= Html::encode($message->getExcerpt($message->message)); ?></span> 
                              <span
                                 class="badge"><?= date('F d, Y h:i a', strtotime($message->datetimestamp)); ?></span> <span class="pull-right"><span class="glyphicon">
                                 </span></span></a>
@@ -85,8 +85,8 @@ use yii\data\ActiveDataProvider;
                             </div>
                              <span class="glyphicon glyphicon-star-empty"></span>
                              <span class="name" style="min-width: 120px;
-                                display: inline-block;"><?= $from = Users::findOne($message->to_user)->display_name; ?></span> <span class=""><?= $message->subject; ?></span>
-                                  <span class="text-muted" style="font-size: 11px;">- <?= $message->getExcerpt($message->message); ?></span> 
+                                display: inline-block;"><?= $from = Html::encode(Users::findOne($message->to_user)->display_name); ?></span> <span class=""><?= Html::encode($message->subject); ?></span>
+                                  <span class="text-muted" style="font-size: 11px;">- <?= Html::encode($message->getExcerpt($message->message)); ?></span> 
                              <span
                                 class="badge"><?= date('F d, Y h:i a', strtotime($message->datetimestamp)); ?></span> <span class="pull-right"><span class="glyphicon">
                                 </span></span></a>

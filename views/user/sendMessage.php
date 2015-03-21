@@ -23,16 +23,16 @@ use yii\captcha\Captcha;
                     <li><a href="<?= Url::to(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= \Yii::$app->function->getNotificationCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['user/orderedservices']); ?>"><i class="fa fa-check-square-o"></i> Ordered services</a></li>
-                    <li><a href="<?= Url::to(['user/profile/'.$user->display_name]); ?>"><i class="fa fa-user"></i> View profile</a></li>
+                    <li><a href="<?= Url::to(['user/profile/'.Html::encode($user->display_name)]); ?>"><i class="fa fa-user"></i> View profile</a></li>
                     <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
                 </ul>
             </div>
         </div>
 	<div class="col-md-9">
-   <h3 class="montserrat">Send new message to <?= $to->display_name;?></h3>
+   <h3 class="montserrat">Send new message to <?= Html::encode($to->display_name);?></h3>
     <hr>
 
-    <?php $form = ActiveForm::begin(['action'=>['user/sendmessage/'. $to->display_name]]);?>
+    <?php $form = ActiveForm::begin(['action'=>['user/sendmessage/'. Html::encode($to->display_name]]));?>
                     <?= $form->field($model, 'subject')->textInput(['placeholder'=>'Subject']);?>
                     <?= $form->field($model, 'message')->textarea(['placeholder'=>'Type your message', 'rows'=>'5']);?>
                     <?= Html::activeHiddenInput($model, 'to_user', ['value'=>$to->user_id]); ?>

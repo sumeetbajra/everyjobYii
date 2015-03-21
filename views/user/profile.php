@@ -16,9 +16,9 @@ use yii\captcha\Captcha;
                 <div class="row coralbg white">
                     <div class="col-md-8 no-pad">
                         <div class="user-pad">
-                            <h3><?= $user->fname, ' ', $user->lname; ?></h3>
+                            <h3><?= Html::encode($user->fname), ' ', Html::encode($user->lname); ?></h3>
                             <h4 class="white">(member since <?= date('F d Y', strtotime($user->created_at)); ?>)</h4>
-                            <h4 class="white"><i class="fa fa-globe"></i> <?= $user->address; ?></h4>
+                            <h4 class="white"><i class="fa fa-globe"></i> <?= Html::encode($user->address); ?></h4>
                             <h4 class="white"><i class="fa fa-twitter"></i> sumeetbajra</h4>
                         <!-- <button type="button" class="btn btn-labeled btn-info" href="#">
                         <span class="btn-label"><i class="fa fa-pencil"></i></span>Update</button> -->
@@ -91,7 +91,7 @@ use yii\captcha\Captcha;
         <h3>
             About Me
         </h3>
-        <?= $user->about; ?>           
+        <?= Html::encode($user->about); ?>           
     </div>
     <div class="user-menu-content">
         <h3>
@@ -102,7 +102,7 @@ use yii\captcha\Captcha;
                 if($key <= 2):
                     ?>
                 <li>
-                    <h4><?= $post->title; ?></h4>
+                    <h4><?= Html::encode($post->title); ?></h4>
                 </li>
             <?php endif; ?>
             <?php } ?>
@@ -118,7 +118,7 @@ use yii\captcha\Captcha;
             </h3>
             <div class="row">
                 <?php if($user->user_id != \Yii::$app->user->getId()): ?>
-                <?php $form = ActiveForm::begin(['action'=>['user/sendmessage/'.$user->display_name]]);?>
+                <?php $form = ActiveForm::begin(['action'=>['user/sendmessage/'.Html::encode($user->display_name)]]);?>
                 <?= $form->field($model, 'subject')->textInput(['placeholder'=>'Subject']);?>
                 <?= $form->field($model, 'message')->textarea(['placeholder'=>'Type your message', 'rows'=>'5']);?>
                 <?= Html::activeHiddenInput($model, 'to_user', ['value'=>$user->user_id]); ?>
@@ -183,8 +183,8 @@ use yii\captcha\Captcha;
         <?php endif; ?>
         <img src="<?= Yii::getAlias('@web'); ?>/images/services/<?= $post->image_url; ?>" alt="Promotional image">
         <div class="caption">
-            <h4>Price: <?= $post->currency, ' ', $post->price; ?></h4>
-            <p><?= $post->title; ?></p>
+            <h4>Price: <?= $post->currency, ' ', Html::encode($post->price); ?></h4>
+            <p><?= Html::encode($post->title); ?></p>
             <p>
                 <a href="#" class="btn btn-primary">Order Now!</a> <a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>" class="btn btn-default">More Info</a>
             </p>
@@ -228,7 +228,7 @@ use yii\captcha\Captcha;
                                        <?php } ?> 
                                    </span></div>
                                    <div class="profile-comment">
-                                   <p><?= $comment->comment; ?></p>
+                                   <p><?= Html::encode($comment->comment); ?></p>
                                </div>
                                    <ins class="ab zmin sprite sprite-i-triangle block"></ins>
                                </div>

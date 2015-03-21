@@ -17,8 +17,8 @@ use yii\grid\GridView;
         <div class="col-md-3 col-sm-3 col-xs-5">
             <div class="profile-side-menu">
                 <div class="profile-pic">
-                    <img src="<?= Yii::getAlias('@web');?>/images/users/<?= $user->profilePic; ?>" class="img-circle img-responsive" width="100">
-                    <h4 class="montserrat"><?= $user->display_name; ?></h4>
+                    <img src="<?= Yii::getAlias('@web');?>/images/users/<?= Html::encode($user->profilePic); ?>" class="img-circle img-responsive" width="100">
+                    <h4 class="montserrat"><?= Html::encode($user->display_name); ?></h4>
                 </div>
                 <ul >
                     <li><a href="<?= Url::to(['user/dashboard'])?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
@@ -27,7 +27,7 @@ use yii\grid\GridView;
                     <li><a href="<?= Url::to(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= \Yii::$app->function->getNotificationCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['user/orderedservices']); ?>"><i class="fa fa-check-square-o"></i> Ordered services</a></li>
-                    <li><a href="<?= Url::to(['user/profile/'.$user->display_name]); ?>"><i class="fa fa-user"></i> View profile</a></li>
+                    <li><a href="<?= Url::to(['user/profile/'.Html::encode($user->display_name)]); ?>"><i class="fa fa-user"></i> View profile</a></li>
                     <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
                 </ul>
             </div>
@@ -37,7 +37,7 @@ use yii\grid\GridView;
             Here you can upload files and post the updates on the task<br><br>
                 <table class="table table-bordered ">
                     <tr>
-                        <td  colspan="2"><h4 class="montserrat" style="font-size='16px'"><?= $order->post->title;?></h4></td>
+                        <td  colspan="2"><h4 class="montserrat" style="font-size='16px'"><?= Html::encode($order->post->title);?></h4></td>
                     </tr>
                     <tr>
                         <td>Ordered: <?= date('Y/m/d', strtotime($order->datetimestamp));?></td>
@@ -66,12 +66,12 @@ use yii\grid\GridView;
                                     [
                                     'header'=>'User',
                                     'format' =>'raw',
-                                    'value'=>function($data){ return '<a href="' . Url::to(['user/profile/'.Users::findOne($data->user->user_id)->display_name]) . '">' . Users::findOne($data->user->user_id)->display_name . '</a>'; },
+                                    'value'=>function($data){ return '<a href="' . Url::to(['user/profile/'. $uname = Html::encode(Users::findOne($data->user->user_id)->display_name)]) . '">' . $uname . '</a>'; },
                                     ],
                                     [
                                     'header'=>'Message',
                                     'format' =>'raw',
-                                    'value'=>function($data){ return $data->status; },
+                                    'value'=>function($data){ return Html::encode($data->status); },
                                     ],
                                     [
                                     'header'=>'Date/Time',

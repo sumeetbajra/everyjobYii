@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 
 	<div class="col-md-12">
     <h3 class="montserrat">Place New Order</h3>
-    <?= $post->title; ?>
+    <?= Html::encode($post->title); ?>
     <hr>
 <div class="post-order-form">
 

@@ -26,13 +26,13 @@ use yii\helpers\Html;
                     <li><a href="<?= Url::to(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= \Yii::$app->function->getNotificationCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['user/orderedservices']); ?>"><i class="fa fa-check-square-o"></i> Ordered services</a></li>
-                    <li><a href="<?= Url::to(['user/profile/'.$user->display_name]); ?>"><i class="fa fa-user"></i> View profile</a></li>
+                    <li><a href="<?= Url::to(['user/profile/'.Html::encode($user->display_name)]); ?>"><i class="fa fa-user"></i> View profile</a></li>
                     <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
                 </ul>
             </div>
         </div>
         <div class="col-md-9 col-sm-9 col-xs-7">
-            <h3 class="montserrat"><?= $user->display_name;?></h3> (member since <?= date('F Y', strtotime($user->created_at));?>)<hr>
+            <h3 class="montserrat"><?= Html::encode($user->display_name);?></h3> (member since <?= date('F Y', strtotime($user->created_at));?>)<hr>
             <h4 class="leftborder"><i class="fa fa-tasks"></i> Active tasks</h4>
       <div id="accordion">
         <?php if(count($tasks) == 0){
@@ -40,7 +40,7 @@ use yii\helpers\Html;
         }?>
     <?php foreach ($tasks as $key => $task) { ?>
   <section id="item<?= $key+1; ?>" class="<?php if($key == '1'): echo 'ac_hidden'; endif;  ?>">
-    <p class="pointer">&#9654;</p><h1><a href="#"><?= $task->posts->title; ?></a></h1>
+    <p class="pointer">&#9654;</p><h1><a href="#"><?= Html::encode($task->posts->title); ?></a></h1>
     <a class = 'btn btn-default pull-right' href = '<?= Url::to(['post/taskdashboard/'.$task->order_id]); ?>' id="task-dashboard-btn"><i class="fa fa-th" title="Task Dashboard"></i> Task Dashboard</a>
     <table class="table">
         <tr>
@@ -57,7 +57,7 @@ use yii\helpers\Html;
                 Delivery to:
             </td>
             <td>
-                <a href="<?= Url::to(['user/profile/'.Users::findOne($task->user_id)->display_name]); ?>"><?= Users::findOne($task->user_id)->display_name;?></a>
+                <a href="<?= Url::to(['user/profile/'.Users::findOne($task->user_id)->display_name]); ?>"><?= Html::encode(Users::findOne($task->user_id)->display_name);?></a>
             </td>
         </tr>
 
@@ -66,7 +66,7 @@ use yii\helpers\Html;
                 Additional info:
             </td>
             <td>
-                <?= PostOrder::findOne($task->order_id)->details; ?>
+                <?= Html::encode(PostOrder::findOne($task->order_id)->details); ?>
             </td>
         </tr>
     </table>

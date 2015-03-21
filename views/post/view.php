@@ -17,15 +17,15 @@ use yii\widgets\DetailView;
             <div class="col-md-8">
 
                 <div class="thumbnail">
-                    <h3 class="service-title"><?= $model->title; ?></h3>
+                    <h3 class="service-title"><?= Html::encode($model->title); ?></h3>
                     <hr>
-                    <span>by <a target="_blank" href="http://bootsnipp.com"><?= $model->owner->display_name; ?></a></span>&nbsp;&nbsp;
+                    <span>by <a target="_blank" href="http://bootsnipp.com"><?= Html::encode($model->owner->display_name); ?></a></span>&nbsp;&nbsp;
                     <span><i class="fa fa-calendar"></i> <?=  date('F d Y', strtotime($model->datetimestamp)); ?></span>&nbsp;&nbsp;
                     <span>Category: <a href="#"><?= $model->category->category_name; ?></a></span><br><br>
                     <img class="img-responsive img-thumbnail" src="<?= Yii::getAlias('@web/images/services/'.$model->image_url)?>" alt="Promotional image for the service post">
                     <div class="caption-full">
                         <h3>Service Description</h3><hr>
-                        <p><?= $model->description; ?></p>
+                        <p><?= Html::encode($model->description); ?></p>
                     </div>
                     <div class="clear-fix"></div>
                     
@@ -46,7 +46,7 @@ use yii\widgets\DetailView;
                                        <span class="glyphicon glyphicon-star-empty"></span>
                                        <?php } ?> 
                             <span class="pull-right"><?= \Yii::$app->function->getAgoTime($comment->datetimestamp); ?></span>
-                            <p><?= $comment->comment;?></p>
+                            <p><?= Html::encode($comment->comment);?></p>
                         </div>
                     </div>
 
@@ -92,7 +92,7 @@ use yii\widgets\DetailView;
                     <img class="media-object update-card-MDimentions img-circle" src="<?= Yii::getAlias('@web/images/users/'.$model->owner->profilePic); ?>" alt="Service owner profile picture">
                 </a>
                 <div class="media-body update-card-body">
-                    <h4 class="media-heading owner-name"><?=  $model->owner->fname, ' ' ,  $model->owner->lname; ?></h4>
+                    <h4 class="media-heading owner-name"><?=  Html::encode($model->owner->fname), ' ' ,  Html::encode($model->owner->lname); ?></h4>
                     <div class="social">
                         <a href="https://www.facebook.com/rem.mcintosh" class="[ social-icon facebook ] animate"><span class="fa fa-facebook"></span></a>
 
@@ -112,7 +112,7 @@ use yii\widgets\DetailView;
                   <div class="col-sm-12">
                       <div class="col-sm-6">
                           <b>Location</b><br>
-                         <?= $model->owner->address; ?><br><br>
+                         <?= Html::encode($model->owner->address); ?><br><br>
                       </div>
                       <div class="col-sm-6">
                           <b>Age</b><br>
@@ -135,7 +135,7 @@ use yii\widgets\DetailView;
 
                   <div class="update-card-body">
                       <h4>About me</h4>
-                      <p><?= $model->owner->about; ?></p>
+                      <p><?= Html::encode($model->owner->about); ?></p>
                       </div>
                   </div>
               </div>

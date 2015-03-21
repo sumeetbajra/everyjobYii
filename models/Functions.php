@@ -92,7 +92,7 @@ class Functions{
 	 * @return [int] [number of active orders]
 	 */
 	public function getOrderCount($id){
-		$orderCount = PostOrder::find()->where(['type'=>'active', 'status'=>'1', 'post_id'=>$id])->count();
+		$orderCount = PostOrder::find()->where(['type'=>'Awaiting approval', 'status'=>'1', 'post_id'=>$id])->count();
 		return $orderCount;
 	}
 

@@ -19,7 +19,7 @@ use yii\data\ActiveDataProvider;
         <div class="profile-side-menu">
             <div class="profile-pic">
                 <img src="<?= Yii::getAlias('@web');?>/images/users/<?= $user->profilePic; ?>" class="img-circle img-responsive" width="100">
-                <h4 class="montserrat"><?= $user->display_name; ?></h4>
+                <h4 class="montserrat"><?= Html::encode($user->display_name); ?></h4>
             </div>
             <ul >
                 <li><a href="<?= Url::to(['user/dashboard'])?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
@@ -28,7 +28,7 @@ use yii\data\ActiveDataProvider;
                 <li><a href="<?= Url::to(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
                     <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= \Yii::$app->function->getNotificationCount(); ?></span></a></li>
                 <li><a href="<?= Url::to(['user/orderedservices']); ?>"><i class="fa fa-check-square-o"></i> Ordered services</a></li>
-                <li><a href="<?= Url::to(['user/profile/'.$user->display_name]); ?>"><i class="fa fa-user"></i> View profile</a></li>
+                <li><a href="<?= Url::to(['user/profile/'.Html::encode($user->display_name)]); ?>"><i class="fa fa-user"></i> View profile</a></li>
                 <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
             </ul>
         </div>
@@ -43,7 +43,7 @@ use yii\data\ActiveDataProvider;
     }
     ?>
     
-    Your conversation with <?= $to->display_name;?> on <?= $messages[0]->subject;?><hr><br>
+    Your conversation with <?= Html::encode($to->display_name);?> on <?= Html::encode($messages[0]->subject);?><hr><br>
 
     <a class="btn btn-primary" href="#" data-target = "#reply-convo" data-toggle="modal"><i class="fa fa-reply"></i> Reply</a>
     <a class="btn btn-default" href="<?= Url::to(['user/inbox']); ?>"><i class="fa fa-chevron-circle-left"></i> Back to Inbox</a>
@@ -56,7 +56,7 @@ use yii\data\ActiveDataProvider;
                 <img src="<?= Yii::getAlias('@web/images/users/'.$to_user->profilePic) ?>" class="img-thumbnail pull-left" width="60"><span class="montserrat" style=" margin-left: 10px"><?= $to_user->display_name; ?> </span><br><span style="margin-left: 10px; font-size: 12px"><?= date('F d, Y H:i a', strtotime($message->datetimestamp)); ?></span><br>
                 <div class="clear-fix"></div>
                 <br>
-                <div class="msg-thread-msg"><div class="arrow-up"></div><p><?= $message->message; ?></p></div>
+                <div class="msg-thread-msg"><div class="arrow-up"></div><p><?= Html::encode($message->message); ?></p></div>
             </div>
             <?php } ?>
         </div>
@@ -75,8 +75,8 @@ use yii\data\ActiveDataProvider;
             <div class="modal-body">
                <?php 
                $model = new Message;
-               $form = ActiveForm::begin(['action'=>['user/sendmessage/'. $to->display_name]]);?>
-               <?= Html::activeHiddenInput($model, 'subject', ['value'=>$messages[0]->subject]); ?>
+               $form = ActiveForm::begin(['action'=>['user/sendmessage/'. Html::encode($to->display_name)]]);?>
+               <?= Html::activeHiddenInput($model, 'subject', ['value'=>Html::encode($messages[0]->subject)]); ?>
                <?= $form->field($model, 'message')->textarea(['placeholder'=>'Type your message', 'rows'=>'5']);?>
                <?= Html::activeHiddenInput($model, 'to_user', ['value'=>$to->user_id]); ?>
                <?= Html::activeHiddenInput($model, 'thread_id', ['value'=>$messages[0]->thread_id]); ?>
