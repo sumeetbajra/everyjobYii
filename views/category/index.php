@@ -38,13 +38,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="panel panel-info">
   <div class="panel-heading">Quick links</div>
   <div class="panel-body">
-  <ul class="quick-links">
+  <ul class="nav nav-pills  nav-stacked quick-links">
   <li>
-    <a href="<?= Url::to(['site/admin'])?>"><li><i class="fa fa-th"></i> Dashboard</a></li>
-    <li><a href="<?= Url::to(['category/index'])?>"><li><i class="fa fa-th-list"></i> Categories<br></a></li>
-    <li><a href="<?= Url::to(['category/create'])?>"><li><i class="fa fa-plus"></i> Create<br></a></li>
-    <li><i class="fa fa-paper-plane"></i> Service posts<br></li>
-    <li><i class="fa fa-comments"></i> Moderate Comments<br></li>
+    <a href="<?= Url::to(['/admin'])?>"><i class="fa fa-th"></i>Dashboard</a></li>
+    <li><a href="<?= Url::to(['category/index'])?>"><i class="fa fa-th-list"></i>Categories</a></li>
+    <li><a href="<?= Url::to(['category/create'])?>"><i class="fa fa-plus"></i>Add category</a></li>
     </ul>
     </div>
     </div>

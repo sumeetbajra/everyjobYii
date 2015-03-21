@@ -146,9 +146,4 @@ class SiteController extends Controller
         $notification = Notification::find()->where(['user_id'=>\Yii::$app->user->getId(), 'status'=>1])->orderBy('datetimestamp DESC')->all();
         return $this->render('notification', ['notifications'=>$notification, 'user'=>$user]);   
     }
-
-    public function actionAdmin(){
-        $this->layout = 'main';
-     return $this->render('dashboard');   
-    }
 }

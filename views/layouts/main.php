@@ -63,7 +63,8 @@ AppAsset::register($this);
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>
-
+    <script src="<?= Yii::getAlias('@web'); ?>/js/jquery.js"></script>
+    <script src="<?= Yii::getAlias('@web'); ?>/js/admin.js"></script>
 <?php $this->endBody() ?>
 </body>
 </html>

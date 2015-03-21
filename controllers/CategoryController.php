@@ -67,7 +67,10 @@ class CategoryController extends Controller
             $model->created_date = date('Y-m-d H:i:s', time());
             if($model->save()){
             return $this->redirect(['view', 'id' => $model->category_id]);
-        }
+            }else{
+                print_r(Yii::$app->user);
+                print_r($model->getErrors());
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,

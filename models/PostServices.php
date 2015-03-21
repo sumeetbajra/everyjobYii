@@ -25,6 +25,7 @@ use Yii;
  */
 class PostServices extends \yii\db\ActiveRecord
 {
+    public $likes, $dislikes, $views, $sold;
     /**
      * @inheritdoc
      */
