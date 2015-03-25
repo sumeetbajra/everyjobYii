@@ -31,17 +31,17 @@ use app\models\PostServices;
     ?>
 
     <?php
-    $url = 'http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency=NPR&ToCurrency=USD';
-    $xml = simpleXML_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
-    if($xml ===  FALSE)
+    //$url = 'http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency=NPR&ToCurrency=USD';
+    //$xml = simpleXML_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
+    /*if($xml ===  FALSE)
     {
                //deal with error
     }
-    else { 
-        $rate = $xml;
+    else { */
+        $rate = 100;
         $cost = PostServices::findOne($accept->post_id)->price;
         $price = round($cost * "$rate[0]", 2);
-    }
+    //}
     ?>
 
     <div class="post-order">

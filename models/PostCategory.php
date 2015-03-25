@@ -30,7 +30,7 @@ class PostCategory extends \yii\db\ActiveRecord
         return [
             [['category_name', 'created_by'], 'required'],
             [['category_name'], 'string'],
-            [['created_date'], 'safe'],
+            [['created_date', 'category_pic'], 'safe'],
             [['created_by'], 'integer']
         ];
     }
@@ -45,6 +45,7 @@ class PostCategory extends \yii\db\ActiveRecord
             'category_name' => 'Category Name',
             'created_date' => 'Created Date',
             'created_by' => 'Created By',
+            'category_pic' => 'Category Picture',
         ];
     }
 }

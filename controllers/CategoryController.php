@@ -8,6 +8,8 @@ use app\models\CategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use yii\easyimage\EasyImage;
 
 /**
  * CategoryController implements the CRUD actions for PostCategory model.
@@ -17,12 +19,12 @@ class CategoryController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
+        'verbs' => [
+        'class' => VerbFilter::className(),
+        'actions' => [
+        'delete' => ['post'],
+        ],
+        ],
         ];
     }
 
@@ -38,7 +40,7 @@ class CategoryController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
+            ]);
     }
 
     /**
@@ -50,7 +52,7 @@ class CategoryController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);
+            ]);
     }
 
     /**
@@ -65,8 +67,23 @@ class CategoryController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->created_by = \Yii::$app->user->getId();
             $model->created_date = date('Y-m-d H:i:s', time());
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $length = 8;
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }   
+            $file = UploadedFile::getInstance($model, 'category_pic');
+            $ext = explode('.', $file->name);
+            $model->category_pic = $randomString . '.' . $ext[count($ext)-1];
             if($model->save()){
-            return $this->redirect(['view', 'id' => $model->category_id]);
+                $file->saveAs('images/categories/' . $model->category_pic);
+                $file=Yii::getAlias('@app/web/images/categories/'.$model->category_pic); 
+                $image=Yii::$app->image->load($file);
+                $image->resize(1000,1000)->crop(800, 500)->save();
+                Yii::$app->session->setFlash('message', 'Category created successfully.');
+                return $this->redirect(['view', 'id' => $model->category_id]);
             }else{
                 print_r(Yii::$app->user);
                 print_r($model->getErrors());
@@ -74,7 +91,7 @@ class CategoryController extends Controller
         } else {
             return $this->render('create', [
                 'model' => $model,
-            ]);
+                ]);
         }
     }
 
@@ -87,14 +104,33 @@ class CategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->category_id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        if ($model->load(Yii::$app->request->post())) {
+            $file = UploadedFile::getInstance($model, 'category_pic');
+            if($file){
+                $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $charactersLength = strlen($characters);
+                $length = 8;
+                $randomString = '';
+                for ($i = 0; $i < $length; $i++) {
+                    $randomString .= $characters[rand(0, $charactersLength - 1)];
+                }   
+                $ext = explode('.', $file->name);
+                $model->category_pic = $randomString . '.' . $ext[count($ext)-1];
+            }
+            if($model->save()){
+                if($model->category_pic){
+                    $file->saveAs('images/categories/' . $model->category_pic);
+                    $file=Yii::getAlias('@app/web/images/categories/'.$model->category_pic); 
+                    $image=Yii::$app->image->load($file);
+                    $image->resize(1000,1000)->crop(800, 500)->save();
+                }
+                Yii::$app->session->setFlash('message', 'Category edited successfully.');
+                return $this->redirect(['view', 'id' => $model->category_id]);
+            }
+        }   
+        return $this->render('update', [
+            'model' => $model,
+            ]);     
     }
 
     /**

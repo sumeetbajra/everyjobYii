@@ -42,7 +42,7 @@ class Users extends \yii\db\ActiveRecord
     {
         return [
             [['fname', 'lname', 'gender', 'dob', 'display_name', 'address', 'about', 'password', 'created_at', 'email', 'about', 'address'], 'required'],
-            [['dob', 'created_at', 'updated_at'], 'safe'],
+            [['dob', 'created_at', 'updated_at', 'facebook_url', 'linkedin_url', 'google_url', 'twitter_url'], 'safe'],
             [['about'], 'string'],
             [['active', 'verified'], 'integer'],
             ['fname', 'match', 'pattern' => '/^[a-zA-Z\s]+$/', 'message' => 'First Name can only contain alphabet characters'],
@@ -83,6 +83,10 @@ class Users extends \yii\db\ActiveRecord
             'verified' => 'Verified',
             'updated_at' => 'Updated At',
             'accessToken' => 'Access Token',
+            'facebook_url' => 'Facebook Profile Link',
+            'google_url' => 'Google Plus Profile Link',
+            'linkedin_url' => 'LinkedIn Profile Link',
+            'twitter_url' => 'Twitter Profile Link',
         ];
     }
 }

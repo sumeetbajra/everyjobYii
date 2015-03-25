@@ -17,6 +17,10 @@ body{
 	font-family: proxima;
 }
 
+body.wysihtml5-editor{
+	font-family: arial;
+}
+
 .hero hgroup h1, .hero hgroup h3{
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
@@ -1249,3 +1253,7 @@ a.linkedin:hover {
     	min-height: 70px;
     	overflow: hidden;
     }
+
+.table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>thead>tr>th{
+	padding-left: 10px;
+}

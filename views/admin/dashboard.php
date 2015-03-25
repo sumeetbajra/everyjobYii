@@ -4,7 +4,7 @@ use yii\helpers\Url;
 
 <div class="row">
 <div class="well">
-Welcome admin!! You are in the backend of the website. Below are the available facilities to you</div>
+Welcome admin!! You are in the backend of the website. Below are the facilities available to you</div>
 
 <div class="row">
 <div class="col-md-8">
@@ -16,6 +16,12 @@ Welcome admin!! You are in the backend of the website. Below are the available f
     <font size="8"><i class="fa fa-th-list"></i></font><br>
     Manage Categories
     </a>
+    </div>
+    </div>
+         <div class="col-sm-3">
+    <div class="classWithPadding well text-center"><a href="<?= Url::to(['admin/posts']); ?>">
+    <font size="8"><i class="fa fa-paper-plane"></i></font><br>
+    Service posts</a>
     </div>
     </div>
     <div class="col-sm-3">
@@ -31,12 +37,6 @@ Welcome admin!! You are in the backend of the website. Below are the available f
     User reports</a>
     </div>
     </div>
-    <div class="col-sm-3">
-    <div class="classWithPadding well text-center"><a href="#">
-    <font size="8"><i class="fa fa-bookmark"></i></font><br>
-    Featured posts</a>
-    </div>
-    </div>
      <div class="col-sm-3">
     <div class="classWithPadding well text-center"><a href="#">
     <font size="8"><i class="fa fa-user"></i></font><br>
@@ -44,15 +44,9 @@ Welcome admin!! You are in the backend of the website. Below are the available f
     </div>
     </div>
      <div class="col-sm-3">
-    <div class="classWithPadding well text-center"><a href="<?= Url::to(['admin/posts']); ?>">
-    <font size="8"><i class="fa fa-paper-plane"></i></font><br>
-    Service posts</a>
-    </div>
-    </div>
-     <div class="col-sm-3">
     <div class="classWithPadding well text-center"><a href="#">
-    <font size="8"><i class="fa fa-comments"></i></font><br>
-    Moderate comments</a>
+    <font size="8"><i class="fa fa-file"></i></font><br>
+    Manage Content</a>
     </div>
     </div>
   </div>

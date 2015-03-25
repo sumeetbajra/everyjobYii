@@ -6,10 +6,6 @@ use yii\grid\GridView;
 use app\models\Notification;
 ?>
 
-
-<?php if(Yii::$app->session->getFlash('message')){ ?>
-    <div class="col-md-12 alert alert-info"><?= Yii::$app->session->getFlash('message'); ?></div>
-    <?php } ?>
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-5">
             <div class="profile-side-menu">
@@ -30,6 +26,9 @@ use app\models\Notification;
             </div>
         </div>
         <div class="col-md-9 col-sm-9 col-xs-7">
+            <?php if(Yii::$app->session->getFlash('message')){ ?>
+    <div class="col-md-12 alert alert-info"><?= Yii::$app->session->getFlash('message'); ?></div>
+    <?php } ?>
             <h3 class="montserrat"><?= Html::encode($user->display_name);?></h3> (member since <?= date('F Y', strtotime($user->created_at));?>)<hr>
             <h4 class="leftborder"><i class="fa fa-bar-chart"></i> Account Information</a></h4>
             <div class="row text-center">

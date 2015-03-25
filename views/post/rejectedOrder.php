@@ -18,23 +18,68 @@ use app\models\PostServices;
     <?php } ?>
 
     <div class="col-md-12">
+        <div class="row">
         <?php if($number == 0) :?>
         <h3 class="montserrat">You have no rejected orders</h3>
         <?php else: ?>
         <h3 class="montserrat">Your rejected order(s)</h3>
         <?php endif; ?>
-<hr>
+        <hr><br>
+    </div>
 
 <?php foreach($rejected as $reject){?>
     <div class="post-order">
 
         <div class="row">
-            <h4 class="montserrat"><?= Html::encode(PostServices::findOne($reject->rejected->order_id)->title); ?></h4>
-            <b>Owner: </b><a href ="<?= Url::to(['user/profile/'.Html::encode(Users::findOne($reject->user_id)->display_name])); ?>"><?= Html::encode(Users::findOne($reject->user_id)->display_name); ?></a><br>
-            <b>Ordered date:</b> <?= date('F m, Y', strtotime($reject->datetimestamp));?><br>
-            <b>Additional order info:</b> <?= Html::encode($reject->details);?><br>
-            <b>Rejected date:</b> <?= date('F m, Y', strtotime($reject->rejected->datetimestamp));?><br>
-            <b>Reason:</b> <?= Html::encode($reject->rejected->reason); ?>
+            <table class="table table-responsive table-bordered table-condensed table-curved">
+                <tr>
+                    <td colspan="2"><h4 class="montserrat"><?= Html::encode(PostServices::findOne($reject->rejected->order_id)->title); ?></h4></td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Owner: </b>
+                    </td>
+                    <td>
+                        <a href ="<?= Url::to(['user/profile/'.Html::encode(Users::findOne($reject->user_id)->display_name)]); ?>"><?= Html::encode(Users::findOne($reject->user_id)->display_name); ?></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                         <b>Ordered date:</b> 
+                    </td>
+                    <td>
+                        <?= date('F m, Y', strtotime($reject->datetimestamp));?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                          <b>Additional order info:</b> 
+                    </td>
+                    <td>
+                        <?= Html::encode($reject->details);?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Rejected date:</b> 
+                    </td>
+                    <td>
+                        <?= date('F m, Y', strtotime($reject->rejected->datetimestamp));?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                         <b>Reason:</b> 
+                    </td>
+                    <td>
+                        <?= Html::encode($reject->rejected->reason); ?>
+                    </td>
+                </tr>
+            
+           </table>
+          
+            
+           
         </div>
     </div><br>
 <hr>

@@ -10,9 +10,16 @@ use yii\widgets\ActiveForm;
 
 <div class="post-category-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype'=>'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'category_name')->textInput() ?>
+
+ 					<div class="row">
+ 						<div class="col-xs-12 col-sm-12 col-md-12 bootstrap-file">
+ 							<?= $form->field($model, 'category_pic')->fileInput(['id'=>'input-2', 'class'=>'file', 'multiple'=>'true', 'data-show-upload'=>"false", 'data-show-caption'=>"true"]) ?>
+ 							<!-- <input id="input-2" type="file" class="file" multiple="true" data-show-upload="false" data-show-caption="true"> -->
+ 						</div>
+ 					</div>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

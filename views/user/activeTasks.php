@@ -48,7 +48,9 @@ use yii\helpers\Html;
                 Delivery date:
             </td>
             <td>
-                <?= date('Y-m-d', time() + $task->posts->max_delivery_days*86400); ?>
+                <?= $delivery = date('Y-m-d', strtotime($task->delivery_date)); ?>
+                <?php $rem = time() - strtotime($task->delivery_date); 
+                if($rem >= 1 && $rem <= 864000): echo " <font color='red'>Expiring automatically in " .  ceil((864000 - $rem)/84600) . " days</font>"; endif; ?>
             </td>
         </tr>
 

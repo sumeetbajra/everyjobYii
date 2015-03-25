@@ -25,7 +25,7 @@ use yii\widgets\DetailView;
                     <img class="img-responsive img-thumbnail" src="<?= Yii::getAlias('@web/images/services/'.$model->image_url)?>" alt="Promotional image for the service post">
                     <div class="caption-full">
                         <h3>Service Description</h3><hr>
-                        <p><?= Html::encode($model->description); ?></p>
+                        <p><?= $model->description; ?></p>
                     </div>
                     <div class="clear-fix"></div>
                     

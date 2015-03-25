@@ -10,7 +10,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $fname;
     public $password;
     public $authKey, $username, $address, $about, $profilePic;
-    public $accessToken, $lname, $gender, $dob, $display_name, $created_at, $active, $verified, $updated_at;
+    public $accessToken, $lname, $gender, $dob, $display_name, $created_at, $active, $verified, $updated_at, $facebook_url, $twitter_url, $linkedin_url, $google_url;
 
     /**
      * @inheritdoc

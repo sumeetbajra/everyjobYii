@@ -13,6 +13,11 @@ class AdminController extends \yii\web\Controller
 		return $this->render('dashboard');
 	}
 
+	public function actionLogin()
+	{
+		return $this->render('login');
+	}
+
 	public function actionPosts($sort = 'views', $page = '1'){
 		$posts = PostServices::find()->joinWith('views')->where(['active'=>'1'])->orderBy('post_views.view_count DESC')->all();
 		$ratings = new PostRatings;

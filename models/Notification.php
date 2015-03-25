@@ -37,7 +37,7 @@ class Notification extends \yii\db\ActiveRecord
             [['user_id', 'read', 'source', 'post_id', 'status'], 'integer'],
             [['datetimestamp'], 'safe'],
             [['notification'], 'string', 'max' => 255],
-            [['type'], 'string', 'max' => 20]
+            [['type'], 'string', 'max' => 50]
         ];
     }
 

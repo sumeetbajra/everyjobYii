@@ -193,7 +193,8 @@ $('ul.setup-panel li.active a').trigger('click');
 
 $('.removeNotific').on('click', function(){
     var id = $(this).attr('href');
-    var id = id.replace(/^#\?/, '');
+    var id = id.split('#'),
+    id = id[id.length-1];
     $.ajax({
         url: 'clearnotific',
         data: {id: id},
@@ -205,7 +206,7 @@ $('.removeNotific').on('click', function(){
 });
 
 $('.reject-order-btn').on('click', function(){
-    $(this).parent().next().next().toggleClass('hidden-form');
+    $(this).parents('.row').eq(0).next().next().toggleClass('hidden-form');
     return false;
 });
 
@@ -279,5 +280,30 @@ $('.glyphicon.star').click(function(){
     };
     $('.star-input').val(id);
     
+});
+
+$('#post-desc').wysihtml5();
+
+$('.completeAjaxButton').on('click', function(){
+    //$(this).children('i').removeClass().addClass('fa fa-refresh fa-spin');
+    var button = $(this);
+    $(this).html('<i class="fa fa-refresh fa-spin"></i> Please wait');
+    var id = $(this).attr('id');
+    $.ajax({
+        method : 'GET',
+        url: '../requestcompletion',
+        data: {id: id},
+        success:function(response){
+            if(response == 'true'){
+                button.removeClass().addClass('btn btn-success');
+                button.addClass('disabled');
+                button.html('<i class="fa fa-check-circle-o"></i> Requested');
+            }else{
+                button.removeClass().addClass('btn btn-warning');
+                buton.html('<i class="fa fa-cross"></i> Failed');
+            }
+        }
+    });
+    return false;
 });
 });

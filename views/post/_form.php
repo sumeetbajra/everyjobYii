@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput(['placeholder'=>'Your service title (max 80 words)']) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6, 'placeholder'=>'Describe your post in maximum 200 words']) ?>
+    <?= $form->field($model, 'description')->textarea(['rows' => 6, 'placeholder'=>'Describe your post in maximum 200 words', 'id'=>'post-desc']) ?>
 
     <?= $form->field($model, 'category_id')->dropDownList($categories)->label('Category');?>
 

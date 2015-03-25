@@ -133,7 +133,7 @@ class PaymentController extends Controller
 	$model->payer_email = $payer_email;
 	$model->datetimestamp = date('Y-m-d H:i:s', time());
 	$accepted = AcceptedOrders::findOne($model->order_id);
-	$accepted->status = 'paid';	
+	$accepted->payment = 'paid';	
 	
 	$notification = new Notification;
 	$notification->user_id = PostServices::findOne($model->post_id)->owner_id;

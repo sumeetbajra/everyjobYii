@@ -30,10 +30,10 @@ AppAsset::register($this);
     <title>Everyjob - Job for everyone</title>
 
     <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="<?= Yii::getAlias('@web'); ?>/wysiwyg/bootstrap-wysihtml5.css">
     <link href="<?= Yii::getAlias('@web'); ?>/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web'); ?>/css/dropzone.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web'); ?>/css/custom.css" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="<?= Yii::getAlias('@web'); ?>/css/heroic-features.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web'); ?>/css/fileinput.css" rel="stylesheet">
@@ -131,6 +131,10 @@ AppAsset::register($this);
         <a class="content" href="<?= Url::to(['post/rejectedorder/'.Yii::$app->user->getId()]); ?>">
         <?php elseif($notification->type == 'order_accept') : ?>
         <a class="content" href="<?= Url::to(['post/acceptedorder/'.Yii::$app->user->getId()]); ?>">
+        <?php elseif($notification->type == 'payment_complete') : ?>
+        <a class="content" href="<?= Url::to(['user/activetasks/']); ?>">
+        <?php elseif($notification->type == 'close_task_request') : ?>
+        <a class="content" href="<?= Url::to(['post/taskdashboard/'.$notification->post_id]); ?>">
         <?php endif; ?>
         
        <div class="notification-item">
@@ -299,10 +303,13 @@ AppAsset::register($this);
 <!-- jQuery -->
 <script src="<?= Yii::getAlias('@web'); ?>/js/jquery.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/dropzone.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/wysiwyg/libs/js/wysihtml5-0.3.0_rc2.min.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/wysiwyg/bootstrap-wysihtml5.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootstrap.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/fileinput.min.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/bootbox.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/custom.js"></script>
 </body>
 

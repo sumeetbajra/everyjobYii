@@ -19,6 +19,7 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode('Everyjob Backend') ?></title>
     <link href="<?= Yii::getAlias('@web/css/font-awesome.min.css')?>" rel="stylesheet">
+    <link href="<?= Yii::getAlias('@web'); ?>/css/fileinput.css" rel="stylesheet">
     <?php $this->head() ?>
 </head>
 <body>

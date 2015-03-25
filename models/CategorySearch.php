@@ -19,7 +19,7 @@ class CategorySearch extends PostCategory
     {
         return [
             [['category_id', 'created_by'], 'integer'],
-            [['category_name', 'created_date'], 'safe'],
+            [['category_name', 'created_date', 'category_pic'], 'safe'],
         ];
     }
 
