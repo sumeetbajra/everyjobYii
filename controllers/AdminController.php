@@ -3,6 +3,7 @@
 namespace app\controllers;
 use app\models\PostServices;
 use app\models\PostRatings;
+use app\models\Users;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 
@@ -64,6 +65,11 @@ class AdminController extends \yii\web\Controller
 			\Yii::$app->session->setFlash('message', 'Post added to featured succesfully');
 			return $this->redirect(Url::to(['admin/posts']));
 		}
+	}
+
+	public function actionViewusers(){
+		$users = Users::find()->where(['active'=>1])->all();
+		return $this->render('viewUsers', ['users'=>$users]);
 	}
 
 }

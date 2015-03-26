@@ -18,13 +18,15 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode('Everyjob Backend') ?></title>
+    <link href="<?= Yii::getAlias('@web'); ?>/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= Yii::getAlias('@web'); ?>/css/site.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web/css/font-awesome.min.css')?>" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web'); ?>/css/fileinput.css" rel="stylesheet">
+    <link href="<?= Yii::getAlias('@web'); ?>/css/datatable.css" rel="stylesheet">
     <?php $this->head() ?>
 </head>
 <body>
 
-<?php $this->beginBody() ?>
     <div class="wrap">
         <?php
             NavBar::begin([
@@ -50,7 +52,7 @@ AppAsset::register($this);
             NavBar::end();
         ?>
 
-        <div class="container">
+        <div class="container" id="admin-container">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
@@ -64,9 +66,9 @@ AppAsset::register($this);
             <p class="pull-right"><?= Yii::powered() ?></p>
         </div>
     </footer>
-    <script src="<?= Yii::getAlias('@web'); ?>/js/jquery.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/jquery.js"></script>
     <script src="<?= Yii::getAlias('@web'); ?>/js/admin.js"></script>
-<?php $this->endBody() ?>
+    <script src="<?= Yii::getAlias('@web'); ?>/js/datatable.js"></script>
 </body>
 </html>
 <?php $this->endPage() ?>

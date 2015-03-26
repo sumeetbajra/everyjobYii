@@ -196,7 +196,7 @@ $('.removeNotific').on('click', function(){
     var id = id.split('#'),
     id = id[id.length-1];
     $.ajax({
-        url: 'clearnotific',
+        url: '../user/clearnotific',
         data: {id: id},
         success:function(response){
             //do sth

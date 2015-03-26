@@ -14,7 +14,7 @@ Welcome admin!! You are in the backend of the website. Below are the facilities 
     <div class="col-sm-3">
     <div class="classWithPadding well text-center"><a href="<?= Url::to(['category/index'])?>">
     <font size="8"><i class="fa fa-th-list"></i></font><br>
-    Manage Categories
+    Categories
     </a>
     </div>
     </div>
@@ -38,7 +38,7 @@ Welcome admin!! You are in the backend of the website. Below are the facilities 
     </div>
     </div>
      <div class="col-sm-3">
-    <div class="classWithPadding well text-center"><a href="#">
+    <div class="classWithPadding well text-center"><a href="<?= Url::to(['/admin/viewusers']); ?>">
     <font size="8"><i class="fa fa-user"></i></font><br>
     Registered users</a>
     </div>
