@@ -39,8 +39,8 @@ class Message extends \yii\db\ActiveRecord
             [['from_user', 'to_user', 'thread_id', 'read_m', 'status'], 'integer'],
             [['datetimestamp'], 'safe'],
             [['subject'], 'string', 'max' => 30],
-            [['captcha'], 'captcha'],
-            [['captcha'], 'required'],
+            [['captcha'], 'captcha', 'on'=>'nonadmin'],
+            [['captcha'], 'required', 'on'=>'nonadmin'],
         ];
     }
 

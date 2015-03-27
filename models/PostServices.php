@@ -21,11 +21,11 @@ use Yii;
  * @property integer $max_active_orders
  * @property integer $max_delivery_days
  * @property integer $active
- * @property string $url
+ * @property string $slug
+ * @property string $tags
  */
 class PostServices extends \yii\db\ActiveRecord
 {
-    public $likes, $dislikes, $views, $sold;
     /**
      * @inheritdoc
      */
@@ -40,13 +40,13 @@ class PostServices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'category_id', 'owner_id', 'price', 'currency', 'max_active_orders', 'max_delivery_days', 'slug'], 'required'],
+            [['title', 'description', 'category_id', 'owner_id', 'price', 'currency', 'datetimestamp', 'max_active_orders', 'max_delivery_days', 'slug'], 'required'],
             [['description'], 'string'],
             [['category_id', 'owner_id', 'featured', 'max_active_orders', 'max_delivery_days', 'active'], 'integer'],
             [['expiry_date', 'datetimestamp'], 'safe'],
             [['title'], 'string', 'max' => 100],
             [['price', 'currency'], 'string', 'max' => 10],
-            [['image_url', 'slug'], 'string', 'max' => 255]
+            [['image_url', 'slug', 'tags'], 'string', 'max' => 255]
         ];
     }
 
@@ -71,10 +71,11 @@ class PostServices extends \yii\db\ActiveRecord
             'max_delivery_days' => 'Max Delivery Days',
             'active' => 'Active',
             'slug' => 'Slug',
+            'tags' => 'Tags',
         ];
     }
 
-    public function getOwner()
+        public function getOwner()
     {
         // Customer has_many Order via Order.customer_id -> id
         return $this->hasOne(Users::className(), ['user_id' => 'owner_id']);

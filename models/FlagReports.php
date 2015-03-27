@@ -51,4 +51,12 @@ class FlagReports extends \yii\db\ActiveRecord
             'active' => 'Active',
         ];
     }
+
+        public function getReporter(){
+      return $this->hasOne(Users::className(), ['user_id'=>'reported_by']);
+    }
+
+    public function getUser(){
+      return $this->hasOne(Users::className(), ['user_id'=>'user_id']);
+    }
 }

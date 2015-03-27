@@ -2,6 +2,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\models\PostViews;
+use app\models\FlagReports;
 use yii\widgets\ActiveForm;
 use yii\captcha\Captcha;
 ?>
@@ -10,6 +11,7 @@ use yii\captcha\Captcha;
     <img src="<?= Yii::getAlias('@web/images/default-cover.jpg')?>" class="img-responsive">
 </div>
 
+<?php if($user->user_id != \Yii::$app->user->getId()) : ?>
 <div class="shortcut-links">
 <a class="btn btn-danger" data-toggle="modal" data-target="#report">
     <i class="fa fa-exclamation"></i>
@@ -18,6 +20,7 @@ use yii\captcha\Captcha;
         <i class="fa fa-envelope"></i>
     </a>
 </div>
+<?php endif; ?>
 
 <div class="container profile">
     <div class="container">
@@ -276,15 +279,25 @@ use yii\captcha\Captcha;
                                 <h4 class="modal-title" id="myModalLabel">Report User</h4>
                             </div>
                             <div class="modal-body">
-                                Please choose an appropriate reason:<br><br>                                
-                                        <input type="radio" class="report-radio" name="report" value="fake"> Fake profile<br>
-                                        <input type="radio" class="report-radio" name="report" value="inappropriate"> Inappropriate content or post<br>
-                                        <input type="radio" class="report-radio" name="report" value="spam"> Spam<br>
-                                        <input type="radio" class="report-radio" name="report" value="others"> Others (Specify):<br><br>
+                                <?php 
+                                $report = FlagReports::find()->where(['reported_by'=>\Yii::$app->user->getId(), 'user_id'=>$user->user_id, 'active'=>'1'])->one();
+                                if(!empty($report)): ?>
+                                <div class="col-md-12 alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><i class="fa fa-info-circle"></i> User Reported. Thank you for your feeback.</div><div class="clear-fix"></div>
+                            <?php else: ?>
+                                Please choose an appropriate reason:<br><br>  
+                                        <label><input type="radio" class="report-radio" name="report" value="Fake Profile"> Fake profile</label><br>                              
+                                        <label><input type="radio" class="report-radio" name="report" value="Inappropriate Content"> Inappropriate content or post</label><br>
+                                        <label><input type="radio" class="report-radio" name="report" value="Spam"> Spam</label><br>
+                                        <label><input type="radio" class="report-radio" name="report" value="others"> Others (Specify):</label><br><br>
                                         <textarea class="form-control input report-other hidden" placeholder="Briefly explain the reason in maximum 255 words" max="255" class="hidden"></textarea>
+                                    <?php endif; ?>
                             </div>
                             <div class="modal-footer">
-                             <?= Html::button('Report', ['class' => 'btn btn-primary pull-right', 'name' => 'report-button', 'id'=> $user->user_id ]) ?>
+                                  <?php if(!empty($report)): ?>
+                                  <?= Html::button('Close', ['class' => 'btn btn-primary pull-right', 'data-dismiss' => 'modal']) ?>
+                              <?php else: ?>
+                             <?= Html::button('Report', ['class' => 'btn btn-primary pull-right report-button', 'name' => 'report-button', 'id'=> $user->user_id ]) ?>
+                         <?php endif; ?>
                          </div>
                      </div><!-- /.modal-content -->
                  </div><!-- /.modal-dialog -->

@@ -43,17 +43,28 @@ use yii\data\ActiveDataProvider;
     }
     ?>
     
-    Your conversation with <?= Html::encode($to->display_name);?> on <?= Html::encode($messages[0]->subject);?><hr><br>
+    Your conversation with <?php 
+    if(empty($to)){
+        echo 'Everyjob Admin';
+    }else{
+        echo Html::encode($to->display_name);
+    }
+    ?> on <?= Html::encode($messages[0]->subject);?><hr><br>
 
+    <?php if (!empty($to)) : ?>
     <a class="btn btn-primary" href="#" data-target = "#reply-convo" data-toggle="modal"><i class="fa fa-reply"></i> Reply</a>
+<?php endif; ?>
     <a class="btn btn-default" href="<?= Url::to(['user/inbox']); ?>"><i class="fa fa-chevron-circle-left"></i> Back to Inbox</a>
     <br><br>
     <div class="mgs-visible">
         <?php foreach($messages as $message){ 
-            $to_user = Users::findOne($message->from_user)
+            $to_user = ((Users::findOne($message->from_user)) ? Users::findOne($message->from_user) : '');
             ?>
             <div class="msg-thread-one">
-                <img src="<?= Yii::getAlias('@web/images/users/'.$to_user->profilePic) ?>" class="img-thumbnail pull-left" width="60"><span class="montserrat" style=" margin-left: 10px"><?= $to_user->display_name; ?> </span><br><span style="margin-left: 10px; font-size: 12px"><?= date('F d, Y H:i a', strtotime($message->datetimestamp)); ?></span><br>
+                <?php $profilePic = ((empty($to_user)) ? 'default.jpg' : $to_user->profilePic);
+                $display_name = ((empty($to_user)) ? 'Everyjob Admin' : $to_user->display_name);
+                ?>
+                <img src="<?= Yii::getAlias('@web/images/users/'.$profilePic) ?>" class="img-thumbnail pull-left" width="60"><span class="montserrat" style=" margin-left: 10px"><?= $display_name; ?> </span><br><span style="margin-left: 10px; font-size: 12px"><?= date('F d, Y H:i a', strtotime($message->datetimestamp)); ?></span><br>
                 <div class="clear-fix"></div>
                 <br>
                 <div class="msg-thread-msg"><div class="arrow-up"></div><p><?= Html::encode($message->message); ?></p></div>
@@ -65,6 +76,7 @@ use yii\data\ActiveDataProvider;
 </div>
 </div>
 
+<?php if (!empty($to)) : ?>
 <div class="modal fade" id="reply-convo" tabindex="-1" role="dialog"  aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -88,3 +100,4 @@ use yii\data\ActiveDataProvider;
      </div><!-- /.modal-content -->
  </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<?php endif; ?>

@@ -81,7 +81,7 @@ class UserController extends \yii\web\Controller
         $user = Users::find()->where(['display_name'=>$user])->one();
         $ratings = new PostRatings;
         $posts = PostServices::find()->where(['owner_id'=>$user->user_id, 'active'=>'1'])->all();
-        $model = new Message;
+        $model = new Message(['scenario'=>'nonadmin']);
         $comments = Comments::find()->joinWith('commentBy')->where(['comments.user_id'=>$user->user_id])->all();
         return $this->render('profile', [
             'user' => $user,
@@ -162,7 +162,7 @@ public function actionClearnotific(){
 public function actionSendmessage($user){
     $user_id = \Yii::$app->user->getId();
     $me = Users::find()->where(['user_id'=>$user_id])->one();
-    $message = new Message;
+    $message = new Message(['scenario'=>'nonadmin']);
     $to = Users::find()->where(['display_name'=>$user])->one();
     if($user == '' && count($to) == 0){
         return $this->redirect(['site/error']);
@@ -189,9 +189,9 @@ public function actionInbox(){
     $user_id = \Yii::$app->user->getId();
     $user = Users::find()->where(['user_id'=>$user_id])->one();
     //$messages = Message::find()->where(['to_user'=>$user_id])->orderBy('datetimestamp DESC')->all();
-    $sql = "SELECT * FROM (SELECT * FROM message WHERE to_user = $user_id ORDER BY datetimestamp DESC) msg GROUP BY msg.thread_id ORDER BY msg.datetimestamp DESC";
+    $sql = "SELECT * FROM (SELECT * FROM message WHERE to_user = $user_id AND status = 1 ORDER BY datetimestamp DESC) msg GROUP BY msg.thread_id ORDER BY msg.datetimestamp DESC";
     $messages = Message::findbySql($sql)->all();
-    $sql = "SELECT * FROM (SELECT * FROM message WHERE from_user = $user_id ORDER BY datetimestamp DESC) msg GROUP BY msg.thread_id ORDER BY msg.datetimestamp DESC";
+    $sql = "SELECT * FROM (SELECT * FROM message WHERE from_user = $user_id AND status = 1 ORDER BY datetimestamp DESC) msg GROUP BY msg.thread_id ORDER BY msg.datetimestamp DESC";
     $sent = Message::findbySql($sql)->all();
     return $this->render('messages', ['user'=>$user, 'messages'=>$messages, 'sent'=>$sent]);
 }
@@ -202,7 +202,7 @@ public function actionInbox(){
  */
 public function actionConversation($id){
     $id = (int) $id;
-    $message = Message::findOne($id);
+    $message = Message::find()->where(['thread_id'=>$id, 'status'=>'1'])->all();
     if(!empty($message)){
         $user_id = \Yii::$app->user->getId();
         $user = Users::find()->where(['user_id'=>$user_id])->one();
@@ -210,7 +210,7 @@ public function actionConversation($id){
         $message->bindValue(':id', $id);
         $message->bindValue(':from_user', \Yii::$app->user->getId());
         $message->execute();
-        $messages = Message::find()->where(['thread_id'=>$id])->orderBy('datetimestamp DESC')->all();
+        $messages = Message::find()->where(['thread_id'=>$id, 'status'=>'1'])->orderBy('datetimestamp DESC')->all();
         return $this->render('conversation', ['user'=>$user, 'messages'=>$messages]);
     }else{
         return $this->redirect(['site/error']);
@@ -224,7 +224,7 @@ public function actionConversation($id){
 public function actionActivetasks(){
     $user_id = \Yii::$app->user->getID();
     $user = User::findIdentity($user_id);
-    $message = new Message;
+    $message = new Message(['scenario'=>'nonadmin']);
     $tasks = AcceptedOrders::find()->joinWith('posts')->joinWith('order')->where('post_services.owner_id = '.$user_id . ' AND accepted_orders.payment = "paid" AND post_order.type != "Completed"')->all();
     return $this->render('activeTasks', ['tasks'=>$tasks, 'user'=>$user, 'message'=>$message]);
 }
@@ -267,7 +267,12 @@ public function actionOrderedservices(){
 
 public function actionReportuser(){
     $type = htmlentities($_GET['type']);
+    $page = preg_replace('/[^-a-zA-Z0-9_]/', '', $type);
     $id = (int) $_GET['id'];
+    $reason = htmlentities($_GET['reason']);
+    if($type == 'others' && $reason != ''){
+        $type = $reason;
+    }
     $report = new FlagReports;
     $report->reported_by = \Yii::$app->user->getId();
     $report->user_id = $id;

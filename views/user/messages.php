@@ -65,7 +65,14 @@ use yii\data\ActiveDataProvider;
                          <span class="glyphicon glyphicon-star-empty"></span>
                      <?php endif; ?>
                              <span class="name" style="min-width: 120px;
-                                display: inline-block;"><?php if($message->read_m == '0') : ?><b><?php endif; ?><?= $from = Users::findOne($message->from_user)->display_name; ?><?php if($message->read_m == '0') : ?></b><?php endif; ?></span> <span class=""><?php if($message->read_m == '0') : ?><b><?php endif; ?><?= $message->subject; ?><?php if($message->read_m == '0') : ?></b><?php endif; ?></span>
+                                display: inline-block;"><?php if($message->read_m == '0') : ?><b><?php endif; ?><?php
+                                $from = Users::findOne($message->from_user); 
+                                if(empty($from)){
+                                    echo "Everyjob Admin";
+                                }else{
+                                    echo $from->display_name;
+                                }
+                                ?><?php if($message->read_m == '0') : ?></b><?php endif; ?></span> <span class=""><?php if($message->read_m == '0') : ?><b><?php endif; ?><?= $message->subject; ?><?php if($message->read_m == '0') : ?></b><?php endif; ?></span>
                                   <span class="text-muted" style="font-size: 11px;">- <?= Html::encode($message->getExcerpt($message->message)); ?></span> 
                              <span
                                 class="badge"><?= date('F d, Y h:i a', strtotime($message->datetimestamp)); ?></span> <span class="pull-right"><span class="glyphicon">

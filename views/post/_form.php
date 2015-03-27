@@ -31,6 +31,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'max_delivery_days')->textInput(['placeholder'=>'Maximum delivery days'])->label('Maximum delivery days') ?>
 
+    <?= $form->field($model, 'tags')->textInput(['placeholder'=>'Type tags separated by space', 'id'=>'myTags'])->label('Tags (Separated by space or tab)') ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         <?php if(!$model->isNewRecord){ ?>

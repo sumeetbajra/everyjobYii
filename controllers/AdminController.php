@@ -4,6 +4,8 @@ namespace app\controllers;
 use app\models\PostServices;
 use app\models\PostRatings;
 use app\models\Users;
+use app\models\Message;
+use app\models\FlagReports;
 use app\models\Comments;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
@@ -69,8 +71,9 @@ class AdminController extends \yii\web\Controller
 	}
 
 	public function actionViewusers(){
+		$message = new Message;
 		$users = Users::find()->where(['active'=>1])->all();
-		return $this->render('viewUsers', ['users'=>$users]);
+		return $this->render('viewUsers', ['users'=>$users, 'model'=>$message]);
 	}
 
 	public function actionUser($id){
@@ -78,6 +81,45 @@ class AdminController extends \yii\web\Controller
 		$user = Users::find()->joinWith('posts')->where(['users.user_id' => $id])->one();
 		$comments = Comments::find()->joinWith('commentBy')->where(['comments.user_id'=>$id])->all();
 		return $this->render('user', ['user'=>$user, 'comments'=>$comments]);
+	}
+
+	public function actionUserreports(){
+		$reports = FlagReports::find()->joinWith('user')->where(['flag_reports.active'=>'1'])->all();
+		$model = new Message;
+		return $this->render('userReports', ['reports'=>$reports, 'model'=>$model]);
+	}
+
+	public function actionClosereport($id){
+		$id = (int) $id;
+		$report = FlagReports::findOne($id);
+		if(!empty($report)){
+			$report->active = 0;
+			if($report->save()){
+				\Yii::$app->session->setFlash('message', 'The report closed succesfully.');
+				return $this->redirect(Url::to(['/admin/userreports']));
+			}
+		}
+	}
+
+	public function actionMessage($id){
+		$id = (int) $id;
+		$message = new Message();
+		if(\Yii::$app->request->post() && $message->load(\Yii::$app->request->post())){
+			$message->from_user = '0';
+			$message->datetimestamp = date('Y-m-d H:i:s', time());
+			$message->thread_id = 0;
+			if($message->save()){
+				$message->thread_id = $message->message_id;
+				$message->save();
+				\Yii::$app->session->setFlash('message', 'Message sent succesfully.');
+				return $this->redirect(\Yii::$app->request->referrer);
+			}else{
+				print_r($message->getErrors());
+				exit;
+				\Yii::$app->session->setFlash('error', 'Please specify subject or message.');
+				return $this->redirect(\Yii::$app->request->referrer);
+			}
+		}
 	}
 
 }

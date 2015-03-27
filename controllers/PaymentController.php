@@ -24,6 +24,10 @@ class PaymentController extends Controller
 		include(Yii::getAlias('@vendor/Paypal/Paypal_IPN.php'));
 	}
 
+	public function actionMasspayment(){
+		include(Yii::getAlias('@vendor/Paypal/Paypal_MPA.php'));
+	}
+
 	public function actionHellopaisa()
 	{
 		/*

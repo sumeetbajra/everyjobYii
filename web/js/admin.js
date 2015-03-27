@@ -5,4 +5,10 @@ $(document).ready(function(){
 	});
 
 	 $('#myTable').DataTable();
+
+	 $('.admin-msg-btn').on('click', function(){
+	 	var id = $(this).attr('id');
+	 	$('#message-to_user').val(id);
+	 	$('#admin-msg-form').attr('action', '/everyjobSite/web/admin/message/'+id);
+	 });
 });

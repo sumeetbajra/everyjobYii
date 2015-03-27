@@ -259,24 +259,34 @@ $('#msg-delete').on('click', function(){
     location.reload();
 });
 
-$('.profile').on('click', 'button[name="report-button"]', function(){
-    var type = $('input[name="report"]').val();
+$('.profile').on('click', '.report-button', function(){
+    var type = $('input.report-radio[type=radio]:checked').val();
+    if(type == 'others'){
+        var reason = $('.report-other').val();
+    }else{
+        var reason = '';
+    }
     var id = $(this).attr('id');
     $.ajax({
         url: '../reportuser/',
-        type: 'GET',
-        data: {type: type, id:id},
+        method: 'GET',
+        data: {type: type, id:id, reason: reason},
         success:function(response){
             if(response=='true'){
-                $('#report .modal-body').html('<div class="col-md-12 alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><i class="fa fa-info-circle"></i> User Reported. Please wait while we verify the report.</div><div class="clear-fix"></div>');
-                $('button[name="report-button"]').hide();
+                $('#report .modal-body').html('<div class="col-md-12 alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><i class="fa fa-info-circle"></i> User Reported. Thank you for your feeback.</div><div class="clear-fix"></div>');
+                $('button[name="report-button"]').html('Close').attr('data-dismiss', 'modal').removeClass('report-button');
             }
         }
     });
 });
 
-$('.profile').on('click', 'button[value="others"]', function(){
-    $('.report-other').toggleClass('hidden');
+$('.profile').on('change', 'input:radio', function(){
+    var textarea =  $('.report-other');
+    if($(this).val() == 'others'){
+       textarea.removeClass('hidden');
+    }else{
+        textarea.addClass('hidden');
+    }
 });
 
 $('#dropzone-btn').on('click', function(){
@@ -326,4 +336,13 @@ $('.completeAjaxButton').on('click', function(){
     });
     return false;
 });
+
+        $("#myTags").tagit({
+            autocomplete: {delay: 0, minLength: 2},
+            tagLimiter: 10,
+            singleField: true,
+            singleFieldDelimiter: ",",
+            readOnly: false,
+        });
+
 });
