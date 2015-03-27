@@ -10,6 +10,7 @@ use app\models\PostRatings;
 use app\models\Users;
 use app\models\AcceptedOrders;
 use app\models\Comments;
+use app\models\FlagReports;
 use app\models\PostOrder;
 use yii\data\ActiveDataProvider;
 use app\models\PostServices;
@@ -29,7 +30,7 @@ class UserController extends \yii\web\Controller
         'class' => AccessControl::className(),
         'rules' => [
         [
-        'actions' => ['dashboard', 'profile', 'update', 'clearnotific', 'activetasks', 'sendmessage', 'inbox', 'conversation', 'deletemsg', 'orderedservices'],
+        'actions' => ['dashboard', 'profile', 'update', 'clearnotific', 'activetasks', 'sendmessage', 'inbox', 'conversation', 'deletemsg', 'orderedservices', 'reportuser'],
         'allow' => true,
         'roles' => ['@'],
         ],
@@ -264,6 +265,18 @@ public function actionOrderedservices(){
     return $this->render('orderedServices', ['user'=>$user, 'orders'=>$orders, 'received'=>$received]);
 }
 
-
-
+public function actionReportuser(){
+    $type = htmlentities($_GET['type']);
+    $id = (int) $_GET['id'];
+    $report = new FlagReports;
+    $report->reported_by = \Yii::$app->user->getId();
+    $report->user_id = $id;
+    $report->report = $type;
+    $report->datetimestamp = date('Y-m-d H:i:s', time());
+    if($report->save()){
+        echo "true";
+    }else{
+        echo "false";
+    }
+}
 }

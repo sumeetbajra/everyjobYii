@@ -25,6 +25,10 @@ body.wysihtml5-editor{
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+.hidden{
+	display: none;
+}
+
 .caption p{
 	text-align: left;
 	word-wrap: break-word;
@@ -1167,7 +1171,7 @@ a.linkedin:hover {
     .carousel-control.left {left:-25px;}
     .carousel-control.right {right:-25px;}
     .broun-block {
-    	background: url("http://myinstantcms.ru/images/bg-broun1.jpg") repeat scroll center top rgba(0, 0, 0, 0);
+    	/**background: url("http://myinstantcms.ru/images/bg-broun1.jpg") repeat scroll center top rgba(0, 0, 0, 0);**/
     	padding-bottom: 34px;
     }
     .block-text {
@@ -1256,4 +1260,19 @@ a.linkedin:hover {
 
 .table-condensed>tbody>tr>td, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>td, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>thead>tr>th{
 	padding-left: 10px;
+}
+
+.shortcut-links{
+    position: fixed;
+    top: 48vh;
+    left: 0;
+}
+
+.shortcut-links .btn{
+    width: 40px;
+    display: inline-block;
+}
+
+input.report-radio{
+    margin-right: 10px;
 }

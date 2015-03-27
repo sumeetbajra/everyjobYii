@@ -89,4 +89,20 @@ class Users extends \yii\db\ActiveRecord
             'twitter_url' => 'Twitter Profile Link',
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPosts()
+    {
+        return $this->hasMany(PostServices::className(), ['owner_id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBought()
+    {
+        return $this->hasMany(AcceptedOrders::className(), ['user_id' => 'user_id']);
+    }
 }

@@ -128,16 +128,10 @@ use yii\grid\GridView;
            <a href="#" class="btn btn-default pull-right"><i class="fa fa-chevron-arrow-left"></i> Back</a>&nbsp; &nbsp;
            <?= Html::submitButton('<i class="fa fa-plus"></i>  Add Status', ['class' => 'btn btn-primary pull-right', 'id'=>'dropzone-btn']) ?>
            <div class="clear-fix"></div>
-
-
-
-
          </div>
        </div>
-
      </div>
    </div>  
-
    <div class="modal fade" id="completeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -159,8 +153,6 @@ use yii\grid\GridView;
           <?= Html::hiddenInput('stars', '', ['class'=>'star-input']); ?>
           <?= Html::hiddenInput('order_id', $order->order_id); ?>
           <?= Html::hiddenInput('user_id', $order->post->owner_id); ?>
-
-
         </div>
         <div class="modal-footer">
           <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'submit-button']) ?>
@@ -169,6 +161,3 @@ use yii\grid\GridView;
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
-
-
-

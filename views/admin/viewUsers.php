@@ -54,9 +54,9 @@ $this->params['breadcrumbs'][] = 'Registered Users';
           	<td><?= $user->fname; ?></td>
           	<td><?= $user->lname; ?></td>
           	<td><?= date('M d, Y', strtotime($user->created_at)); ?></td>
-          	<td style="padding-left:25px"><a href="#" class="table-link"><?= \Yii::$app->function->getPostedServices($user->user_id); ?></a></td>
-          	<td style="padding-left:25px"><a href="#" class="table-link"><?= \Yii::$app->function->getBoughtServices($user->user_id); ?></a></td>
-          	<td><a href="#" class="btn btn-danger btn-sm">Deactivate</a>&nbsp;<a href="#" class="btn btn-primary btn-sm" title="Details"><i class="fa fa-info-circle"></i></a>
+          	<td style="padding-left:25px"><a href="<?= Url::to(['/admin/user/'.$user->user_id.'#posted']); ?>" class="table-link"><?= \Yii::$app->function->getPostedServices($user->user_id); ?></a></td>
+          	<td style="padding-left:25px"><a href="<?= Url::to(['/admin/user/'.$user->user_id.'#bought']); ?>" class="table-link"><?= \Yii::$app->function->getBoughtServices($user->user_id); ?></a></td>
+          	<td><a href="#" class="btn btn-danger btn-sm">Deactivate</a>&nbsp;<a href="<?= Url::to(['/admin/user/'.$user->user_id]); ?>" class="btn btn-primary btn-sm" title="Details"><i class="fa fa-info-circle"></i></a>
           	<a href="#" class="btn btn-primary btn-sm" title="Send message"><i class="fa fa-envelope"></i></a>
           	</a>
           	</td>

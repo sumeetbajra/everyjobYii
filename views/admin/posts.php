@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\User;
 use app\models\PostViews;
-use app\models\PostRatingS;
+use app\models\PostRatings;
 use yii\helpers\Url;
 use yii\grid\GridView;
 
