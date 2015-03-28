@@ -28,20 +28,10 @@ use app\models\PostServices;
 
 <?php foreach($accepted as $accept){
     $post = PostServices::findOne($accept->post_id);
-    ?>
-
-    <?php
-    //$url = 'http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency=NPR&ToCurrency=USD';
-    //$xml = simpleXML_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
-    /*if($xml ===  FALSE)
-    {
-               //deal with error
-    }
-    else { */
-        $rate = 100;
         $cost = PostServices::findOne($accept->post_id)->price;
-        $price = round($cost * "$rate[0]", 2);
-    //}
+        $rate = \Yii::$app->function->getCurrencyRate();
+        $price = round($cost * "$rate", 2);
+
     ?>
 
     <div class="post-order">
@@ -109,13 +99,13 @@ use app\models\PostServices;
      <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" style="float:left; margin-right: 30px" target="_new">
         <img src="<?= Yii::getAlias('@web/images/paypal.png');?>" style="display:block">
         <input type="hidden" name="cmd" value="_xclick">
-        <input type="hidden" name="return" value="https://3b21de01.ngrok.com/everyjobSite/web/user/dashboard">
+        <input type="hidden" name="return" value="https://decb1a8.ngrok.com/everyjobSite/web/user/dashboard">
         <input type="hidden" name="business" value="sumeetbazra@gmail.com">
         <input type="hidden" name="item_name" value="<?= Html::encode($title);?>">
         <input type="hidden" name="item_number" value="<?= $accept->post_id; ?>">
         <input type="hidden" name="amount" value="<?= Html::encode($price); ?>">
-        <input type="hidden" name="notify_url" value="https://3b21de01.ngrok.com/everyjobSite/web/payment/paypalipn">
-        <input type="hidden" name="cancel_return" value="https://3b21de01.ngrok.com/everyjobSite/web/user/dashboard">
+        <input type="hidden" name="notify_url" value="https://decb1a8.ngrok.com/everyjobSite/web/payment/paypalipn">
+        <input type="hidden" name="cancel_return" value="https://decb1a8.ngrok.com/everyjobSite/web/user/dashboard">
         <input type="hidden" name="tax" value="0">
         <input type="hidden" name="quantity" value="1">
         <input type="hidden" name="no_note" value="1">
@@ -128,18 +118,7 @@ use app\models\PostServices;
         alt="PayPal - The safer, easier way to pay online">
     </form>
 
-    <form action = "http://dev.esewa.com.np/epay/main" method="POST" style="float:left; margin-right: 30px">
-        <input value="0" name="txAmt" type="hidden"><!-- tax amount -->
-        <input value="<?= PostServices::findOne($accept->accepted->order_id)->price; ?>" name="amt" type="hidden"><!-- price of the service -->
-        <input value="0" name="psc" type="hidden"><!-- product service charge -->
-        <input value="0" name="pdc" type="hidden"><!-- product delivery charge -->
-        <input value="<?= PostServices::findOne($accept->accepted->order_id)->price; ?>" name="tAmt" type="hidden"><!-- total amount -->
-        <input value="testmerchant" name="scd" type="hidden"><!-- merchant service code -->
-        <input value="<?= $accept->post_id; ?>" name="pid" type="hidden"><!-- product id -->
-        <input value="https://21143750.ngrok.com/everyjobSite/web/user/payment?=success&via=esewa" type="hidden" name="su"><!-- success url -->
-        <input value="https://21143750.ngrok.com/everyjobSite/web/user/payment?=failure&via=esewa" type="hidden" name="fu"><!-- failure url -->
-        <input value="" type="submit" style="background: url(<?= Yii::getAlias('@web/images/esewa.png');?>); height: 90px; width: 233px; border:none">
-    </form>
+ 
 
     <span>
         <img src="<?= Yii::getAlias('@web/images/hellopaisa.png');?>" height="90">

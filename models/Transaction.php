@@ -63,4 +63,13 @@ class Transaction extends \yii\db\ActiveRecord
             'error_log' => 'Error Log',
         ];
     }
+
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOrder()
+    {
+        return $this->hasOne(AcceptedOrders::className(), ['order_id' => 'order_id']);
+    }
 }

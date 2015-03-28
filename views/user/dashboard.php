@@ -68,7 +68,10 @@ use app\models\Notification;
         <div class="panel panel-default " style="padding:0">
 
           <div class="panel-body">
-            <h2>Rs. 0</h2>
+            <?php 
+            $rate = \Yii::$app->function->getCurrencyRate();
+            ?>
+            <h2>Rs. <?= (\Yii::$app->function->getMoneyForWithdraw())/("$rate");?></h2>
         </div>
         <div class="panel-footer">Money ready for withdraw</div>
     </div>

@@ -398,7 +398,7 @@ public function actionRejectedorder($id){
 
 public function actionAcceptedorder($id){
     $user_id = (int) $id;
-    $orders = PostOrder::find()->joinWith('accepted')->where('accepted_orders.post_id != "" AND accepted_orders.payment = "unpaid"', ['user_id'=>$id, 'status'=>'1'])->all();
+    $orders = PostOrder::find()->joinWith('accepted')->where('accepted_orders.post_id != "" AND accepted_orders.payment = "unpaid" AND post_order.user_id = '.$id.' AND status = 1')->all();
     $number = count($orders);
     return $this->render('acceptedOrder', ['accepted'=>$orders, 'number'=>$number]);
 }
@@ -409,7 +409,7 @@ public function actionAcceptorder(){
         $model->order_id = (int) $_POST['order_id'];
         $order = PostOrder::find()->joinWith('post')->where(['order_id'=>$model->order_id])->one();
         $model->user_id = $order->user_id;
-        $model->delivery_date = date('Y-m-d H:i:s', time() + ($order->max_delivery_days*86400));
+        $model->delivery_date = date('Y-m-d H:i:s', time() + ($order->post->max_delivery_days*86400));
         $model->post_id = PostOrder::findOne($model->order_id)->post_id;
         $model->datetimestamp = date('Y-m-d H:i:s', time());
         $model->payment = 'unpaid';
@@ -427,7 +427,7 @@ public function actionAcceptorder(){
                 $order = PostOrder::findOne($model->order_id);
                 $order->type = 'accepted';
                 $order->save();
-                return $this->goBack();
+                return $this->redirect(\Yii::$app->request->referrer);
             }
         }else{
             print_r($model->getErrors());
@@ -536,7 +536,7 @@ public function actionProcessorder(){
             $comment->comment_by = \Yii::$app->user->getId();
             $comment->user_id = $user_id;
             $order->type = 'Completed';
-            $accepted->completed_date = date('Y-m-d H:i:s', time());
+            $accepted->closed_date = date('Y-m-d H:i:s', time());
             if($comment->stars != 0 && $order->save() && $comment->save() && $accepted->save()){
                 $notification = new Notification;
                 $notification->user_id = $user_id;

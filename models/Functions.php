@@ -53,12 +53,33 @@ class Functions{
 
 	/**
 	 * toal money available for withdraw
+	 * @param [int] [id] id of the user
 	 * @return [decimal] [amount]
 	 */
-	public function getMoneyInAccount(){
-
+	public function getMoneyForWithdraw($id = 0){
+		if($id == 0){
+			$id = $this->user_id;
+		}
+		$amount = 0;
+		foreach (Transaction::find()->joinWith('order')->where('closed_date != "" AND payment="paid"')->each() as $key => $value) {
+			$amount += $value->amount;
+		}
+		return $amount;
 	}
 
+	public function getCurrencyRate($currency = ''){
+		return 0.01;
+		/*$url = 'http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency=NPR&ToCurrency=USD';
+		$xml = simpleXML_load_file($url,"SimpleXMLElement",LIBXML_NOCDATA);
+		if($xml ===  FALSE)
+		{
+               			return 0.01;
+		}
+		else { 
+			$rate = $xml;
+			return $rate[0];
+		}*/
+	}
 	/**
 	 * get total number of active posts posted by the user
 	 * @param [int] (optional) id of the user
