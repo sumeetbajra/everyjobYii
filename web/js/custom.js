@@ -29,6 +29,21 @@ $(document).ready(function(){
     }
 });
 
+    var searchPath = window.location.protocol + "//" + window.location.host + "/everyjobSite/web/user/search";
+    $('#select-to').searchbox({
+         url: searchPath,
+  param: 'q',
+  dom_id: '#thumbnails',
+  delay: 250,
+  loading_css: '#spinner'
+    });
+
+    $('#select-to').blur();
+
+$('*','body').not("#thumbnails").on('click', function(){
+    $('.search-results-ul').hide();
+});
+
     $('.page-selection').bootpag({
    total: $('input[name="totalPages"]').val(),
    maxVisible: 5,

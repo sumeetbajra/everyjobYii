@@ -40,12 +40,11 @@ AppAsset::register($this);
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-
+        <style>
+        
+        </style>
     </head>
-
-
     <body>
-
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
@@ -60,6 +59,13 @@ AppAsset::register($this);
                     <span class="navbar-brand logo">everyjob</span>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
+                  <span class="user-search col-md-3">
+                   <div class="input-group">
+  <input type="text" class="form-control" placeholder="Search users" id="select-to" tabindex="-1">
+  <span class="input-group-addon"><i class="fa fa-search"></i></span>
+  <div id ="thumbnails"></div>
+</div>
+                </span>
                 <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                          <li>
@@ -241,6 +247,7 @@ AppAsset::register($this);
 
 <!-- Bootstrap Core JavaScript -->
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootstrap.min.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/searchbox.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/custom.js"></script>
 
 </body>

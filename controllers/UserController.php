@@ -32,7 +32,7 @@ class UserController extends \yii\web\Controller
         'class' => AccessControl::className(),
         'rules' => [
         [
-        'actions' => ['dashboard', 'profile', 'update', 'clearnotific', 'activetasks', 'sendmessage', 'inbox', 'conversation', 'deletemsg', 'orderedservices', 'reportuser', 'transaction', 'withdraw'],
+        'actions' => ['dashboard', 'profile', 'update', 'clearnotific', 'activetasks', 'sendmessage', 'inbox', 'conversation', 'deletemsg', 'orderedservices', 'reportuser', 'transaction', 'withdraw', 'search'],
         'allow' => true,
         'roles' => ['@'],
         ],
@@ -316,4 +316,18 @@ public function actionWithdraw($stamp){
             }
          }
 }
+
+public function actionSearch(){
+        $q = htmlentities($_GET['q']);
+            if(!empty($q)){
+                $result = array();
+                $users = Users::find()->where('display_name LIKE "'.$q.'%"')->limit(5)->all();
+                $ul = '<ul class="search-results-ul col-md-3">';
+                foreach ($users as $key => $value) {
+                 $ul .= '<li><a href="' . Url::to(['user/profile/'.$value->display_name]) . '"><img src="' . \Yii::getAlias('@web/images/users/'.$value->profilePic) . '" height="30" class="img-circle" style="margin-right: 10px"> '.$value->display_name.'</a></li>';
+             }
+             $ul .= '</ul>';
+             echo $ul;
+         }
+    }
 }

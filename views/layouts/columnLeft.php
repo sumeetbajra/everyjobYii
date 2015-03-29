@@ -68,65 +68,72 @@ AppAsset::register($this);
                     <span class="navbar-brand logo">everyjob</span>
                 </div>
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                         <li>
-                            <a href="<?= Url::to(['site/index'])?>">Home</a>
-                        </li>
-                        <li>
-                            <a href="<?= Url::to(['site/about'])?>">About</a>
-                        </li>
-                        <li>
-                            <a href="<?= Url::to(['post/posts'])?>">Services</a>
-                        </li>
-                         <?php  if(Yii::$app->user->isGuest) : ?>
-                        <li>
-                            <a href="<?= Url::to(['site/register'])?>">Register</a>
-                        </li>
-                        <li>
-                            <a href="#" data-toggle="modal" data-target="#myModal">Sign In</a>
-                        </li>
-                          <?php else: ?>
-                           <li class="dropdown">
+                <span class="user-search col-md-3">
+                 <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search users" id="select-to" tabindex="-1">
+                  <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                  <div id ="thumbnails"></div>
+              </div>
+          </span>
+          <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+               <li>
+                <a href="<?= Url::to(['site/index'])?>">Home</a>
+            </li>
+            <li>
+                <a href="<?= Url::to(['site/about'])?>">About</a>
+            </li>
+            <li>
+                <a href="<?= Url::to(['post/posts'])?>">Services</a>
+            </li>
+            <?php  if(Yii::$app->user->isGuest) : ?>
+            <li>
+                <a href="<?= Url::to(['site/register'])?>">Register</a>
+            </li>
+            <li>
+                <a href="#" data-toggle="modal" data-target="#myModal">Sign In</a>
+            </li>
+        <?php else: ?>
+        <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Profile <span class="caret"></span></a>
           <ul class="dropdown-menu profile-side-menu" role="menu">
             <li><a href="<?= Url::to(['user/dashboard']); ?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
-              <li><a href="<?= Url::to(['post/create']) ?>"><i class="fa fa-plus"></i> Create a post</a></li>
-        <li><a><i class="fa fa-tasks"></i> Active tasks</a></li>
-        <li><a><i class="fa fa-envelope"></i> Messeges (0)</a></li>
-        <li><a><i class="fa fa-globe"></i> Notifications (0)</a></li>
-        <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
-          </ul>
-        </li>
+            <li><a href="<?= Url::to(['post/create']) ?>"><i class="fa fa-plus"></i> Create a post</a></li>
+            <li><a><i class="fa fa-tasks"></i> Active tasks</a></li>
+            <li><a><i class="fa fa-envelope"></i> Messeges (0)</a></li>
+            <li><a><i class="fa fa-globe"></i> Notifications (0)</a></li>
+            <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
+        </ul>
+    </li>
 
-<li class="dropdown">
-     <?php
-    $notifications = Notification::find()->where(['user_id'=>Yii::$app->user->getId(), 'read'=>'0'])->count();
-    ?>
-  <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#<?= Yii::$app->user->getId()?>" class="removeNotific">
-    <i class="glyphicon glyphicon-bell"></i><span class="notific-count <?= ($notifications == 0) ? 'hidden' : ''?>"><font color="red"><b>!</b></font></span>
-  </a>
-  
-  <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel" id="notification-dropdown">
-    
-    <div class="notification-heading"><h4 class="menu-title">Notifications</h4><h4 class="menu-title pull-right"><a href="<?= Url::to(['site/notification'])?>" >View all</a><i class="glyphicon glyphicon-circle-arrow-right"></i></h4>
-    </div>
-    <li class="divider"></li>
-   <div class="notifications-wrapper">
-    
-    <?php
-    $notifications = Notification::find()->where(['user_id'=>Yii::$app->user->getId(), 'status'=>'1'])->orderBy('datetimestamp DESC')->limit(6)->all();
-    if(count($notifications) == 0){ ?>
-           <a class="content" href="#">
-        
-       <div class="notification-item">
-        <p class="item-info">No notifications</p>
-      </div>
-       
+    <li class="dropdown">
+       <?php
+       $notifications = Notification::find()->where(['user_id'=>Yii::$app->user->getId(), 'read'=>'0'])->count();
+       ?>
+       <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#<?= Yii::$app->user->getId()?>" class="removeNotific">
+        <i class="glyphicon glyphicon-bell"></i><span class="notific-count <?= ($notifications == 0) ? 'hidden' : ''?>"><font color="red"><b>!</b></font></span>
     </a>
-   <?php }
-    foreach ($notifications as $key => $notification) { ?>
-    <?php if($notification->type == 'order') : ?>
+    
+    <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel" id="notification-dropdown">
+        
+        <div class="notification-heading"><h4 class="menu-title">Notifications</h4><h4 class="menu-title pull-right"><a href="<?= Url::to(['site/notification'])?>" >View all</a><i class="glyphicon glyphicon-circle-arrow-right"></i></h4>
+        </div>
+        <li class="divider"></li>
+        <div class="notifications-wrapper">
+            
+            <?php
+            $notifications = Notification::find()->where(['user_id'=>Yii::$app->user->getId(), 'status'=>'1'])->orderBy('datetimestamp DESC')->limit(6)->all();
+            if(count($notifications) == 0){ ?>
+            <a class="content" href="#">
+                
+             <div class="notification-item">
+                <p class="item-info">No notifications</p>
+            </div>
+            
+        </a>
+        <?php }
+        foreach ($notifications as $key => $notification) { ?>
+        <?php if($notification->type == 'order') : ?>
         <a class="content" href="<?= Url::to(['post/vieworder/'.$notification->post_id]); ?>">
         <?php elseif($notification->type == 'comment') : ?>
         <a class="content" href="<?= Url::to(['post/vieworder/'.$notification->post_id]); ?>">
@@ -140,157 +147,157 @@ AppAsset::register($this);
         <a class="content" href="<?= Url::to(['post/taskdashboard/'.$notification->post_id]); ?>">
         <?php endif; ?>
         
-       <div class="notification-item">
-        <div class="notification-image col-xs-2"><img src="<?= Yii::getAlias('@web/images/users/') . Users::find()->where(['user_id'=>$notification->source])->one()->profilePic; ?>" class="img-responsive"></div><p class="item-info"><?= $notification->notification; ?>
-    </p>
-    <p><font size="1" color="#D0D0D0"><?=  \Yii::$app->function->getAgoTime($notification->datetimestamp); ?></font></p>
-      </div>
-       
-    </a>
-    <?php } ?>
+        <div class="notification-item">
+            <div class="notification-image col-xs-2"><img src="<?= Yii::getAlias('@web/images/users/') . Users::find()->where(['user_id'=>$notification->source])->one()->profilePic; ?>" class="img-responsive"></div><p class="item-info"><?= $notification->notification; ?>
+        </p>
+        <p><font size="1" color="#D0D0D0"><?=  \Yii::$app->function->getAgoTime($notification->datetimestamp); ?></font></p>
+    </div>
+    
+</a>
+<?php } ?>
 
-   </div>
-    <li class="divider"></li>
-    <div class="notification-footer"><h4 class="menu-title"><a href="<?= Url::to(['site/notification'])?>">View all<i class="glyphicon glyphicon-circle-arrow-right"></a></i></h4></div>
-  </ul>
-  
+</div>
+<li class="divider"></li>
+<div class="notification-footer"><h4 class="menu-title"><a href="<?= Url::to(['site/notification'])?>">View all<i class="glyphicon glyphicon-circle-arrow-right"></a></i></h4></div>
+</ul>
+
 </li>
 
-                          <li><a href= '<?= Url::to(["site/logout"]) ?>' data-method = 'POST'>Logout (<?= Yii::$app->user->identity->display_name ?>)</a></li>
-                          <?php endif; ?>
-                        
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-            </div>
-            <!-- /.container -->
-        </nav>
+<li><a href= '<?= Url::to(["site/logout"]) ?>' data-method = 'POST'>Logout (<?= Yii::$app->user->identity->display_name ?>)</a></li>
+<?php endif; ?>
+
+</ul>
+</div>
+<!-- /.navbar-collapse -->
+</div>
+<!-- /.container -->
+</nav>
 
 <div class="container">
     
-        <?= $content; ?>
+    <?= $content; ?>
     
 </div>
-       
-  <!-- Footer -->
-  
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <!-- About -->
-                    <div class="col-md-3 md-margin-bottom-40">
-                        <a href="index.html" class="logo">everyjob</a>
-                        <p>About Unify dolor sit amet, consectetur adipiscing elit. Maecenas eget nisl id libero tincidunt sodales.</p>
-                        <p>Duis eleifend fermentum ante ut aliquam. Cras mi risus, dignissim sed adipiscing ut, placerat non arcu.</p>    
-                    </div><!--/col-md-3-->
-                    <!-- End About -->
 
-                    <!-- Latest -->
-                    <div class="col-md-3 md-margin-bottom-40">
-                        <div class="posts">
-                            <div class="headline"><h2>Latest Posts</h2></div>
-                            <ul class="list-unstyled latest-list">
-                                <li>
-                                    <a href="#">Incredible content</a>
-                                    <small>May 8, 2014</small>
-                                </li>
-                                <li>
-                                    <a href="#">Best shoots</a>
-                                    <small>June 23, 2014</small>
-                                </li>
-                                <li>
-                                    <a href="#">New Terms and Conditions</a>
-                                    <small>September 15, 2014</small>
-                                </li>
-                            </ul>
-                        </div>
-                    </div><!--/col-md-3-->  
-                    <!-- End Latest --> 
-                    
-                    <!-- Link List -->
-                    <div class="col-md-3 md-margin-bottom-40">
-                        <div class="headline"><h2>Useful Links</h2></div>
-                        <ul class="list-unstyled link-list">
-                            <li><a href="#">About us</a></li>
-                            <li><a href="#">Portfolio</a></li>
-                            <li><a href="#">Latest jobs</a></li>
-                            <li><a href="#">Community</a></li>
-                            <li><a href="#">Contact us</a></li>
-                        </ul>
-                    </div><!--/col-md-3-->
-                    <!-- End Link List -->                    
+<!-- Footer -->
 
-                    <!-- Address -->
-                    <div class="col-md-3 map-img md-margin-bottom-40">
-                        <div class="headline"><h2>Contact Us</h2></div>                         
-                        <address class="md-margin-bottom-40">
-                            25, Lorem Lis Street, Orange <br>
-                            California, US <br>
-                            Phone: 800 123 3456 <br>
-                            Fax: 800 123 3456 <br>
-                            Email: <a href="mailto:info@anybiz.com" class="">info@anybiz.com</a>
-                        </address>
-                    </div><!--/col-md-3-->
-                    <!-- End Address -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <!-- About -->
+            <div class="col-md-3 md-margin-bottom-40">
+                <a href="index.html" class="logo">everyjob</a>
+                <p>About Unify dolor sit amet, consectetur adipiscing elit. Maecenas eget nisl id libero tincidunt sodales.</p>
+                <p>Duis eleifend fermentum ante ut aliquam. Cras mi risus, dignissim sed adipiscing ut, placerat non arcu.</p>    
+            </div><!--/col-md-3-->
+            <!-- End About -->
+
+            <!-- Latest -->
+            <div class="col-md-3 md-margin-bottom-40">
+                <div class="posts">
+                    <div class="headline"><h2>Latest Posts</h2></div>
+                    <ul class="list-unstyled latest-list">
+                        <li>
+                            <a href="#">Incredible content</a>
+                            <small>May 8, 2014</small>
+                        </li>
+                        <li>
+                            <a href="#">Best shoots</a>
+                            <small>June 23, 2014</small>
+                        </li>
+                        <li>
+                            <a href="#">New Terms and Conditions</a>
+                            <small>September 15, 2014</small>
+                        </li>
+                    </ul>
                 </div>
-            </div> 
-        </footer><!--/footer-->
+            </div><!--/col-md-3-->  
+            <!-- End Latest --> 
+            
+            <!-- Link List -->
+            <div class="col-md-3 md-margin-bottom-40">
+                <div class="headline"><h2>Useful Links</h2></div>
+                <ul class="list-unstyled link-list">
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Portfolio</a></li>
+                    <li><a href="#">Latest jobs</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Contact us</a></li>
+                </ul>
+            </div><!--/col-md-3-->
+            <!-- End Link List -->                    
 
-        <div class="copyright">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">                     
-                        <p>
-                            2014 © All Rights Reserved.
-                           <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
-                        </p>
-                    </div>
+            <!-- Address -->
+            <div class="col-md-3 map-img md-margin-bottom-40">
+                <div class="headline"><h2>Contact Us</h2></div>                         
+                <address class="md-margin-bottom-40">
+                    25, Lorem Lis Street, Orange <br>
+                    California, US <br>
+                    Phone: 800 123 3456 <br>
+                    Fax: 800 123 3456 <br>
+                    Email: <a href="mailto:info@anybiz.com" class="">info@anybiz.com</a>
+                </address>
+            </div><!--/col-md-3-->
+            <!-- End Address -->
+        </div>
+    </div> 
+</footer><!--/footer-->
 
-                    <!-- Social Links -->
-                    <div class="col-md-6">
-                        <ul class="footer-socials list-inline">
-                            <li>
-                                <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
-                                    <i class="fa fa-facebook"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Skype">
-                                    <i class="fa fa-skype"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google Plus">
-                                    <i class="fa fa-google-plus"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Linkedin">
-                                    <i class="fa fa-linkedin"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pinterest">
-                                    <i class="fa fa-pinterest"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
-                                    <i class="fa fa-twitter"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Dribbble">
-                                    <i class="fa fa-dribbble"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- End Social Links -->
-                </div>
-            </div> 
-        </div><!--/copyright-->
-    
+<div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">                     
+                <p>
+                    2014 © All Rights Reserved.
+                    <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+                </p>
+            </div>
+
+            <!-- Social Links -->
+            <div class="col-md-6">
+                <ul class="footer-socials list-inline">
+                    <li>
+                        <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Skype">
+                            <i class="fa fa-skype"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Google Plus">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Linkedin">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Pinterest">
+                            <i class="fa fa-pinterest"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="tooltips" data-toggle="tooltip" data-placement="top" title="" data-original-title="Dribbble">
+                            <i class="fa fa-dribbble"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- End Social Links -->
+        </div>
+    </div> 
+</div><!--/copyright-->
+
 <!--   <footer>
     <div class="container">
     <div class="row">
@@ -317,6 +324,7 @@ AppAsset::register($this);
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootbox.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootpag.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/datatable.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/searchbox.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/custom.js"></script>
 </body>
 
