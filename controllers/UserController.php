@@ -9,7 +9,9 @@ use yii\helpers\Url;
 use app\models\PostRatings;
 use app\models\Users;
 use app\models\AcceptedOrders;
+use app\models\WithdrawTransaction;
 use app\models\Comments;
+use app\models\Transaction;
 use app\models\FlagReports;
 use app\models\PostOrder;
 use yii\data\ActiveDataProvider;
@@ -30,7 +32,7 @@ class UserController extends \yii\web\Controller
         'class' => AccessControl::className(),
         'rules' => [
         [
-        'actions' => ['dashboard', 'profile', 'update', 'clearnotific', 'activetasks', 'sendmessage', 'inbox', 'conversation', 'deletemsg', 'orderedservices', 'reportuser'],
+        'actions' => ['dashboard', 'profile', 'update', 'clearnotific', 'activetasks', 'sendmessage', 'inbox', 'conversation', 'deletemsg', 'orderedservices', 'reportuser', 'transaction', 'withdraw'],
         'allow' => true,
         'roles' => ['@'],
         ],
@@ -283,5 +285,35 @@ public function actionReportuser(){
     }else{
         echo "false";
     }
+}
+
+public function actionTransaction(){
+    $user_id = \Yii::$app->user->getID();
+        $user = User::findIdentity($user_id);
+    $transactionsIn = Transaction::find()->joinWith('order')->joinWith('post')->joinWith('withdraw')->where([
+        'payment_status'=>'completed', 
+        'post_services.owner_id'=>\Yii::$app->user->getId(),
+        ])->all();
+    $transactionsOut = Transaction::find()->joinWith('order')->joinWith('post')->where([
+        'payment_status'=>'completed', 
+        'accepted_orders.user_id'=>\Yii::$app->user->getId(),
+        ])->all();
+    return $this->render('transactions', ['transactionsIn'=>$transactionsIn, 'transactionsOut'=>$transactionsOut, 'user'=>$user]);
+}
+
+public function actionWithdraw($stamp){
+        $id = htmlentities($stamp);
+        $id = preg_replace('/[^-a-zA-Z0-9_]/', '', $id);
+         $transaction = Transaction::find()->where(['transaction_id'=>$id])->one();
+         if(!empty($transaction)){
+            $withdraw = new WithdrawTransaction;
+            $withdraw->transaction_id = $id;
+            $withdraw->user_id = \Yii::$app->user->getId();
+            $withdraw->request_date = date('Y-m-d H:i:s', time());
+            if($withdraw->save()){
+                \Yii::$app->session->setFlash('message', 'Transaction withdrawal requested successfully. You will receive payment within 10 days.');
+                return $this->redirect(\Yii::$app->request->referrer);
+            }
+         }
 }
 }

@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use yii\helpers\Url;
+use yii\helpers\CJSON;
 use yii\filters\AccessControl;
 use app\models\PostServices;
 use app\models\PostRatings;
@@ -42,6 +43,10 @@ class PostController extends Controller
         'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view', 'processorder', 'rejectedorder', 'acceptorder', 'acceptedorder', 'taskdashboard', 'completetask', 'requestcompletion', 'rejectcompletionrequest'],
         'allow' => true,
         'roles' => ['@'],
+        ],
+         [
+        'actions' => ['posts', 'loadpost'],
+        'allow' => true,
         ],
         ],
         ],
@@ -611,5 +616,50 @@ public function actionProcessorder(){
     }
     Yii::$app->session->setFlash('message', 'Oops!! Something went wrong. Try again later.');
     return $this->redirect(Url::to(['post/taskdashboard/'.$id]));
+    }
+
+    public function actionPosts($sort = 'view', $q = ''){
+        $this->layout = 'noSideMenu';
+        $searchKeys = str_replace(' ', '+', $q);
+        if(!empty($q)){
+            $q = explode(' ', $q);
+            $search = 'active = 1 AND ';
+            foreach ($q as $key => $keyword) {
+                if($key != count($q) - 1){
+                    $search .= 'tags LIKE "%' . htmlentities($keyword) . '%" OR ';
+                }else{
+                    $search .= 'tags LIKE "%' . htmlentities($keyword) . '%"';
+                }
+            }
+            $posts = PostServices::find()->joinWith('views')->where($search)->orderBy('post_views.view_count DESC')->all();
+        }else{
+            $posts = PostServices::find()->joinWith('views')->where(['active'=>'1'])->orderBy('post_views.view_count DESC')->all();
+        }
+        $post = new PostServices;
+        $posts = $post->sort($posts, $sort);
+        return $this->render('posts', ['posts'=>$posts, 'sort'=>$sort, 'keywords'=>$searchKeys]);
+    }
+
+    public function actionLoadpost($sort, $page){
+        $page = (int) $page;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $posts = PostServices::find()->joinWith('views')->where(['active'=>'1'])->orderBy('post_views.view_count DESC')->all();
+        $post = new PostServices;
+        $ratings = new PostRatings;
+        $posts = $post->sort($posts, $sort, $page);
+         foreach ($posts as $key => $post) {
+                    $data[$key]['featured'] =  $post->featured;
+                    $data[$key]['image_url'] = $post->image_url;
+                    $data[$key]['currency'] = $post->currency;
+                    $data[$key]['price'] = $post->price;
+                    $data[$key]['title'] = $post->title;
+                    $data[$key]['display_name'] = Users::findOne($post->owner_id)->display_name;
+                    $data[$key]['soldCount'] = \Yii::$app->function->getSoldCount($post->post_id);
+                    $data[$key]['viewCount'] = (PostViews::find()->where(['post_id'=>$post->post_id])->count() == 0 ? 0 : PostViews::find()->where(['post_id'=>$post->post_id])->one()->view_count); 
+                    $data[$key]['likes'] = $ratings->postRating($post->post_id)['likes'];
+                    $data[$key]['dislikes'] = $ratings->postRating($post->post_id)['dislikes'];
+                    $data[$key]['id'] = $post->post_id;
+        }
+        echo json_encode($data, true);
     }
 }

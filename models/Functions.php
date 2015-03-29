@@ -61,8 +61,8 @@ class Functions{
 			$id = $this->user_id;
 		}
 		$amount = 0;
-		foreach (Transaction::find()->joinWith('order')->where('closed_date != "" AND payment="paid"')->each() as $key => $value) {
-			$amount += $value->amount;
+		foreach (Transaction::find()->joinWith('order')->joinWith('post')->where('payment="paid" AND owner_id='.$id)->each() as $key => $value) {
+			$amount += $value->post_price;
 		}
 		return $amount;
 	}

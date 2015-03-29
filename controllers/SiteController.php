@@ -56,6 +56,38 @@ class SiteController extends Controller
         ];
     }
 
+    public function actionMail($email, $token){      
+        return Yii::$app->mailer->compose()
+        ->setTo($email)
+        ->setFrom(['mail-noreply@example.com' => 'Everyjob'])
+        ->setSubject('Everyjob Account activation')
+        ->setHtmlBody('Please click  <a href="localhost/everyjobSite/web/site/activate?token='.$token.'">here</a> to activate your account. <br><br> Thank you, <br>Everyjob Team')
+        ->send();
+    }
+
+    public function actionActivate($token){
+        $token = htmlentities($token);
+        $token = preg_replace('/[^-a-zA-Z0-9_]/', '', $token);
+        $user = Users::find()->where(['accessToken'=>$token, 'verified'=>'0'])->one();
+        if(!empty($user)){
+            $hourdiff = round((strtotime($user->created_at) - time())/3600, 1);
+            if($hourdiff < 24){
+                $user->verified = 1;
+                if($user->save()){
+                    $model = new Users;
+                   return $this->render('login', ['model'=>$model]);
+               }
+           }else{
+              $message = 'It seems that your activation link has expired. Please click here to resend new activation link to your email.';
+                $name = 'Token Expired';
+                return $this->render('error', ['message'=>$message, 'name'=>$name]);
+           }
+       }else{
+        return $this->goHome();
+    }
+
+    }
+
     public function actionIndex(){
         $this->layout = 'master';
         $model = new LoginForm();
@@ -73,7 +105,17 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(['user/dashboard']);
+            $user = Users::findOne(\Yii::$app->user->getId());
+            if($user->verified == 0){
+                Yii::$app->user->logout();
+                $message = 'Your account must be email verified in order to login. Please follow the verification link sent to your email address.';
+                $name = 'Account unverified';
+                return $this->render('error', ['message'=>$message, 'name'=>$name]);
+            }elseif($user->authKey == 'admin'){
+                return $this->redirect(['/admin']);
+            }else{
+                return $this->redirect(['user/dashboard']);
+            }
         } else {
             return $this->render('login', [
                 'model' => $model,
@@ -107,12 +149,28 @@ class SiteController extends Controller
                 $file = UploadedFile::getInstance($model, 'profilePic');
                 $ext = explode('.', $file->name);
                 $model->profilePic = $randomString . '.' . $ext[count($ext)-1];
+            $token = array(); //remember to declare $pass as an array
+            $alphaLength = strlen($characters) - 1; //put the length -1 in cache
+            for ($i = 0; $i < 32; $i++) {
+                $n = rand(0, $alphaLength);
+                $token[] = $characters[$n];
+            }
+                $token = implode($token); //turn the array into a string
+                $model->accessToken = $token;
                 if($model->save()){
+                   Yii::$app->mailer->compose()
+                   ->setTo($model->email)
+                   ->setFrom(['mail-noreply@example.com' => 'Everyjob'])
+                   ->setSubject('Everyjob Account activation')
+                   ->setHtmlBody('Please click  <a href="localhost/everyjobSite/web/site/activate?token='.$token.'">here</a> to activate your account. <br><br> Thank you, <br>Everyjob Team')
+                   ->send();
                     $file->saveAs('images/users/' . $model->profilePic);
                     $file=Yii::getAlias('@app/web/images/users/'.$model->profilePic); 
                     $image=Yii::$app->image->load($file);
                     $image->resize(800,800)->crop(500, 500)->save();
-                    return $this->redirect(Url::to(['site/index']));
+                    $message = 'An activation link has been sent to your email address. Please follow that link and sign in in order to activate your account.';
+                $name = 'Account Activation';
+                return $this->render('error', ['message'=>$message, 'name'=>$name]);
                 }
             }else{
                 $model->addError('password', 'The passwords do not match');
@@ -137,6 +195,7 @@ class SiteController extends Controller
 
     public function actionAbout()
     {
+        $this->layout = 'master';
         return $this->render('about');
     }
 

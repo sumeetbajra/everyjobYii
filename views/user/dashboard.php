@@ -20,6 +20,7 @@ use app\models\Notification;
                 <li><a href="<?= Url::to(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges <span class="badge"><?= \Yii::$app->function->getMsgCount(); ?></span></a></li>
                 <li><a href="<?= Url::to(['site/notification']); ?>"><i class="fa fa-globe"></i> Notifications <span class="badge"><?= \Yii::$app->function->getNotificationCount(); ?></span></a></li>
                 <li><a href="<?= Url::to(['user/orderedservices']); ?>"><i class="fa fa-check-square-o"></i> Ordered services</a></li>
+                <li><a href="<?= Url::to(['user/transaction']); ?>"><i class="fa fa-credit-card"></i> Transaction details</a></li>
                 <li><a href="<?= Url::to(['user/profile/'.Html::encode($user->display_name)]); ?>"><i class="fa fa-user"></i> View profile</a></li>
                 <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
             </ul>
@@ -71,7 +72,7 @@ use app\models\Notification;
             <?php 
             $rate = \Yii::$app->function->getCurrencyRate();
             ?>
-            <h2>Rs. <?= (\Yii::$app->function->getMoneyForWithdraw())/("$rate");?></h2>
+            <h2>Rs. <?= (\Yii::$app->function->getMoneyForWithdraw())/*/("$rate")*/;?></h2>
         </div>
         <div class="panel-footer">Money ready for withdraw</div>
     </div>

@@ -69,7 +69,7 @@ AppAsset::register($this);
                             <a href="<?= Url::to(['site/about'])?>">About</a>
                         </li>
                         <li>
-                            <a href="<?= Url::to(['site/index'])?>">Services</a>
+                            <a href="<?= Url::to(['post/posts'])?>">Services</a>
                         </li>
                          <?php  if(Yii::$app->user->isGuest) : ?>
                         <li>

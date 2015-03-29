@@ -26,6 +26,8 @@ use Yii;
  */
 class PostServices extends \yii\db\ActiveRecord
 {
+
+    public $likes, $dislikes, $sold;
     /**
      * @inheritdoc
      */
@@ -93,5 +95,34 @@ class PostServices extends \yii\db\ActiveRecord
 
        public function getViews(){
         return $this->hasMany(PostViews::className(), ['post_id'=>'post_id']);
+    }
+
+    public function sort($posts, $sort, $page = '1'){
+        $page -= 1;
+        $page = $page * 8;
+        $ratings = new PostRatings;
+         if ($sort == 'likes') {
+            foreach ($posts as $key => $post) {
+                $post->likes = $ratings->postRating($post->post_id)['likes'];
+            }
+            usort($posts, function($a, $b) {
+                return $b->likes - $a->likes;
+            });
+        }elseif ($sort == 'dislike') {
+            foreach ($posts as $key => $post) {
+                $post->dislikes = $ratings->postRating($post->post_id)['dislikes'];
+            }
+            usort($posts, function($a, $b) {
+                return $b->dislikes - $a->dislikes;
+            });
+        }elseif ($sort == 'sold') {
+            foreach ($posts as $key => $post) {
+                $post->sold = \Yii::$app->function->getSoldCount($post->post_id);
+            }
+            usort($posts, function($a, $b) {
+                return $b->sold - $a->sold;
+            });
+        }
+        return array_slice($posts, $page, 8);
     }
 }

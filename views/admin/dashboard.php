@@ -25,7 +25,7 @@ Welcome admin!! You are in the backend of the website. Below are the facilities 
     </div>
     </div>
     <div class="col-sm-3">
-    <div class="classWithPadding well text-center"><a href="#">
+    <div class="classWithPadding well text-center"><a href="<?= Url::to(['admin/withdrawrequests'])?>">
     <font size="8"><i class="fa fa-money"></i></font><br>
     Cash withdrawal
 </a>

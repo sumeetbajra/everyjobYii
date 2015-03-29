@@ -32,7 +32,7 @@
  			</a></li>
  			<li class="disabled"><a href="#step-3">
  				<h4 class="list-group-item-heading">Step 3</h4>
- 				<p class="list-group-item-text">Third step description</p>
+ 				<p class="list-group-item-text">Social Media Profiles</p>
  			</a></li>
  		</ul>
  	</div>
@@ -146,7 +146,39 @@
  		<div class="row setup-content" id="step-3">
  			<div class="col-xs-12 well"> 
  				<div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">					
- 					<h3 class="text-center"> Thats it!!</h3><br>				
+ 					<h3 class="text-center"> Add your social profiles (Optional)!!</h3><br>				
+ 					<div class="row">
+ 						<div class="col-xs-12"> 
+ 							<div class="form-group">
+ 								<h4><i class="fa fa-facebook-official"></i> Facebook username: </h4>
+ 								<?= $form->field($model, 'facebook_url')->textInput(['value'=>'https://www.facebook.com/', 'placeholder'=>'Facebook Username', 'class'=>'social-input input-lg form-control']);?>
+ 							</div>
+ 						</div>
+ 					</div>
+ 					<div class="row">
+ 						<div class="col-xs-12"> 
+ 						<div class="form-group">
+ 							<h4><i class="fa fa-twitter"></i> Twitter username: </h4>
+ 							<?= $form->field($model, 'twitter_url')->textInput(['value'=>'https://www.twitter.com/', 'placeholder'=>'Twitter Username', 'class'=>'social-input input-lg form-control']);?>
+ 						</div>
+ 						</div>
+ 					</div>
+ 					<div class="row">
+ 						<div class="col-xs-12"> 
+ 						<div class="form-group">
+ 							<h4><i class="fa fa-google-plus-square"></i> Google+ Id: </h4>
+ 							<?= $form->field($model, 'google_url')->textInput(['value'=>'https://www.plus.google.com/', 'placeholder'=>'Google plus Username', 'class'=>'social-input input-lg form-control']);?>
+ 						</div>
+ 						</div>
+ 					</div>
+ 					<div class="row">
+ 						<div class="col-xs-12"> 
+ 						<div class="form-group">
+ 							<h4><i class="fa fa-facebook-official"></i> LinkdeIn Id: </h4>
+ 							<?= $form->field($model, 'linked_url')->textInput(['value'=>'https://www.linkedin.com/profile/view?id=', 'placeholder'=>'LinkedIn Username', 'class'=>'social-input input-lg form-control']);?>
+ 						</div>
+ 						</div>
+ 					</div>
  					<div class="row">
  						<div class="col-xs-8 col-sm-9 col-md-6">
  							<?= Html::submitButton('Register', ['class' => 'btn btn-primary btn-block btn-lg', 'name' => 'login-button']) ?>

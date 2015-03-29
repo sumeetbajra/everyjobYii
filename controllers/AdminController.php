@@ -5,6 +5,7 @@ use app\models\PostServices;
 use app\models\PostRatings;
 use app\models\Users;
 use app\models\Message;
+use app\models\Transaction;
 use app\models\FlagReports;
 use app\models\Comments;
 use yii\data\ActiveDataProvider;
@@ -120,6 +121,11 @@ class AdminController extends \yii\web\Controller
 				return $this->redirect(\Yii::$app->request->referrer);
 			}
 		}
+	}
+
+	public function actionWithdrawrequests(){
+		$transaction = Transaction::find()->joinWith('withdraw')->joinWith('post')->where(['complete'=>'0'])->all();
+		return $this->render('withdraw', ['transaction'=>$transaction]);
 	}
 
 }

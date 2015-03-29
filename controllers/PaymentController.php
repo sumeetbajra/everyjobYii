@@ -9,7 +9,7 @@ use yii\helpers\Url;
 use app\models\User;
 use app\models\Users;
 use app\models\Transaction;
-	
+use app\models\WithdrawTransaction;
 use app\models\Error;
 use app\models\PostOrder;
 use app\models\PostServices;
@@ -24,8 +24,17 @@ class PaymentController extends Controller
 		include(Yii::getAlias('@vendor/Paypal/Paypal_IPN.php'));
 	}
 
-	public function actionMasspayment(){
-		include(Yii::getAlias('@vendor/Paypal/Paypal_MPA.php'));
+	public function actionMasspayment($transaction){
+		$withdraw = WithdrawTransaction::find()->where(['transaction_id'=>$transaction])->one();
+		$transaction = Transaction::find()->joinWith('post')->where(['transaction_id'=>$transaction])->one();
+		if(!empty($transaction) || !empty($withdraw)){
+			$receiver_email = $transaction->post->owner->email;
+			$amount = $transaction->amount;
+			$uid = 'EJ_'.time();
+			include(Yii::getAlias('@vendor/Paypal/Paypal_MPA.php'));
+		}else{
+			echo "Transaction id is invalid";
+		}
 	}
 
 	public function actionHellopaisa()

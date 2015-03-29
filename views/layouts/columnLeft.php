@@ -39,6 +39,7 @@ AppAsset::register($this);
     <link href="<?= Yii::getAlias('@web/assets/tag-it-master/');?>/css/jquery.tagit.css" rel="stylesheet" type="text/css">
     <link href="<?= Yii::getAlias('@web'); ?>/css/heroic-features.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web'); ?>/css/fileinput.css" rel="stylesheet">
+    <link href="<?= Yii::getAlias('@web'); ?>/css/datatable.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web/css/font-awesome.min.css')?>" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -76,7 +77,7 @@ AppAsset::register($this);
                             <a href="<?= Url::to(['site/about'])?>">About</a>
                         </li>
                         <li>
-                            <a href="<?= Url::to(['site/index'])?>">Services</a>
+                            <a href="<?= Url::to(['post/posts'])?>">Services</a>
                         </li>
                          <?php  if(Yii::$app->user->isGuest) : ?>
                         <li>
@@ -314,6 +315,8 @@ AppAsset::register($this);
 <script src="<?= Yii::getAlias('@web/assets/tag-it-master'); ?>/js/tag-it.js" charset="utf-8"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/fileinput.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootbox.min.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/bootpag.min.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/datatable.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/custom.js"></script>
 </body>
 

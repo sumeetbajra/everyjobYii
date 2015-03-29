@@ -1,6 +1,71 @@
 $(document).ready(function(){
 
-    $('.button-checkbox').each(function () {
+    $(".social-input").keydown(function(e) {
+    var oldvalue=$(this).val();
+    var field=this;
+    setTimeout(function () {
+        if(field.value.indexOf('http://') !== 0) {
+            $(field).val(oldvalue);
+        } 
+    }, 1);
+});
+
+    $('#sort-type').val($('input[name="sort"]').val());
+
+    $('#sort-type').on('change', function(){
+        var type = $(this).val();
+        var keyword = $('input[name="keywords"]').val();
+        window.location = 'posts?sort='+type+'&q='+keyword;
+    });
+
+    $("#search-input").keypress(function(event) {
+    if (event.which == 13) {
+        event.preventDefault();
+        var keyword = $(this).val().replace(/\s+/g, " ");
+        if(keyword.length){
+            keyword = keyword.replace(/\s+/g, "+")
+            window.location = 'posts?q='+keyword+'&sort=view';
+        }
+    }
+});
+
+    $('.page-selection').bootpag({
+   total: $('input[name="totalPages"]').val(),
+   maxVisible: 5,
+     firstLastUse: true,
+   first: '←',
+    last: '→'
+}).on('page', function(event, num){
+    $('#content').html('<font size="4"><i class="fa fa-spin fa-refresh"></i> Loading. Please Wait...</font>');
+    var page = $('input[name="totalPages"]').val();
+    var sort = $('input[name="sort"]').val();
+    $.ajax({
+        url: '../post/loadpost',
+        data: {sort: sort, page: num},
+        method: 'GET',
+        success: function(response){
+            $('#content').empty();
+            var items = $.parseJSON(response);
+            for (var i = 0; i <= items.length - 1; i++) {
+                var html = '<div class="col-md-3  hero-feature"><div class="thumbnail">';
+                if(items[i].featured == 1){
+                    html += '<div class="ribbon-wrapper-green"><div class="ribbon-green">Featured</div></div>';
+                }
+                html += '<img src="../../web/images/services/' + items[i].image_url +'" alt="Promotional image">';
+                 html += '<div class="caption" style="text-align:left"><h4 class="text-center">Price: '+ items[i].currency + ' ' + items[i].price + '</h4>';
+                    html += '<p align="left" style="min-height: 40px">'+ items[i].title.substring(0,70)+'</p><br>';
+                    html += '<span style="position: relative; top: -16px">by <b><a href="#">'+items[i].display_name+'</b></a></span><br>';
+                    html += '<span style="position: relative; top: -12px">Sold:  '+items[i].soldCount+'&nbsp;&nbsp;<i class="fa fa-eye"></i> '+items[i].viewCount+'&nbsp;<i class="fa fa-thumbs-up"></i> '+items[i].likes+' &nbsp;<i class="fa fa-thumbs-down"></i> '+items[i].dislikes+'</span></div>';
+          
+                html += '</div></div>';
+ $('#content').append(html);
+            }
+            console.log();
+        }
+    });
+});
+
+       $('.button-checkbox').each(function () {
 
         // Settings
         var $widget = $(this),
@@ -344,5 +409,7 @@ $('.completeAjaxButton').on('click', function(){
             singleFieldDelimiter: ",",
             readOnly: false,
         });
+
+$('.myTable').DataTable();
 
 });

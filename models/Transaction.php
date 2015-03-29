@@ -72,4 +72,20 @@ class Transaction extends \yii\db\ActiveRecord
     {
         return $this->hasOne(AcceptedOrders::className(), ['order_id' => 'order_id']);
     }
+
+        /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPost()
+    {
+        return $this->hasOne(PostServices::className(), ['post_id' => 'post_id']);
+    }
+
+        /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getWithdraw()
+    {
+        return $this->hasOne(WithdrawTransaction::className(), ['transaction_id' => 'transaction_id']);
+    }
 }
