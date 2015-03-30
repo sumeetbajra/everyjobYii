@@ -32,7 +32,7 @@ AppAsset::register($this);
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= Yii::getAlias('@web'); ?>/css/jquery-ui.min.css">
-    <link href="<?= Yii::getAlias('@web/assets/tag-it-master/');?>/css/jquery.tagit.css" rel="stylesheet" type="text/css">
+    <link href="<?= Yii::getAlias('@web/js/tag-it-master/');?>/css/jquery.tagit.css" rel="stylesheet" type="text/css">
     <link href="<?= Yii::getAlias('@web'); ?>/css/heroic-features.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web'); ?>/css/fileinput.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web/css/font-awesome.min.css')?>" rel="stylesheet">
@@ -245,17 +245,19 @@ AppAsset::register($this);
 
 
 
-<!-- jQuery -->
-<script src="<?= Yii::getAlias('@web'); ?>/js/dropzone.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/jquery.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/dropzone.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/wysiwyg/libs/js/wysihtml5-0.3.0_rc2.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/wysiwyg/bootstrap-wysihtml5.js"></script>
+
 <!-- Bootstrap Core JavaScript -->
-<script src="<?= Yii::getAlias('@web'); ?>/js/jquery-ui.min.js" charset="utf-8"></script>
-<script src="<?= Yii::getAlias('@web/assets/tag-it-master'); ?>/js/tag-it.js" charset="utf-8"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootstrap.min.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/jquery-ui.min.js" charset="utf-8"></script>
+<script src="<?= Yii::getAlias('@web/js/tag-it-master'); ?>/js/tag-it.js" charset="utf-8"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/fileinput.min.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/bootbox.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootpag.min.js"></script>
+<script src="<?= Yii::getAlias('@web'); ?>/js/datatable.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/searchbox.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/custom.js"></script>
 

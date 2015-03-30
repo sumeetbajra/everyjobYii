@@ -385,7 +385,7 @@ public function actionOrder($id){
 public function actionVieworder($id){
     $post_id = (int) $id;
     $model = $this->findModel($post_id);
-    $orders = PostOrder::find()->where('type != "Completed" AND type != "Rejected" AND post_id = '.$post_id.' AND status =1')->all();
+    $orders = PostOrder::find()->where('type != "Completed" AND type != "Rejected" AND type != "Accepted" AND post_id = '.$post_id.' AND status =1')->all();
     $number = count($orders);
     if($model->owner_id == \Yii::$app->user->getId()){
         return $this->render('viewOrder', ['model'=>$model, 'orders'=>$orders, 'number'=>$number]);

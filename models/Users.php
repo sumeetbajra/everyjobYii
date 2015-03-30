@@ -27,6 +27,7 @@ use Yii;
  */
 class Users extends \yii\db\ActiveRecord
 {
+    public $rememberMe;
     /**
      * @inheritdoc
      */

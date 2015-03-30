@@ -36,7 +36,7 @@ AppAsset::register($this);
     <link href="<?= Yii::getAlias('@web'); ?>/css/custom.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= Yii::getAlias('@web'); ?>/css/jquery-ui.min.css">
-    <link href="<?= Yii::getAlias('@web/assets/tag-it-master/');?>/css/jquery.tagit.css" rel="stylesheet" type="text/css">
+    <link href="<?= Yii::getAlias('@web/js/tag-it-master/');?>/css/jquery.tagit.css" rel="stylesheet" type="text/css">
     <link href="<?= Yii::getAlias('@web'); ?>/css/heroic-features.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web'); ?>/css/fileinput.css" rel="stylesheet">
     <link href="<?= Yii::getAlias('@web'); ?>/css/datatable.css" rel="stylesheet">
@@ -319,7 +319,7 @@ AppAsset::register($this);
 <!-- Bootstrap Core JavaScript -->
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootstrap.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/jquery-ui.min.js" charset="utf-8"></script>
-<script src="<?= Yii::getAlias('@web/assets/tag-it-master'); ?>/js/tag-it.js" charset="utf-8"></script>
+<script src="<?= Yii::getAlias('@web/js/tag-it-master'); ?>/js/tag-it.js" charset="utf-8"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/fileinput.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootbox.min.js"></script>
 <script src="<?= Yii::getAlias('@web'); ?>/js/bootpag.min.js"></script>

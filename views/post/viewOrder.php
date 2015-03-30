@@ -11,10 +11,6 @@ use app\models\RejectedOrder;
 /* @var $form yii\widgets\ActiveForm */
 $user = Users::findOne(\Yii::$app->user->getId());
 ?>
-
-<?php if(!empty(Yii::$app->session->getFlash('message'))){ ?>
-    <div class="col-md-12 alert alert-info"><?= Yii::$app->session->getFlash('message'); ?></div>
-    <?php } ?>
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-5">
             <div class="profile-side-menu">
@@ -37,7 +33,7 @@ $user = Users::findOne(\Yii::$app->user->getId());
         </div>
         <div class="col-md-9 col-sm-9 col-xs-7">
 
-    <?php if(!empty(Yii::$app->session->getFlash('message'))){ ?>
+  <?php if(Yii::$app->session->getFlash('message')){ ?>
     <div class="col-md-12 alert alert-info"><?= Yii::$app->session->getFlash('message'); ?></div>
     <?php } ?>
 
