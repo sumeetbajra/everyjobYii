@@ -33,7 +33,7 @@ use yii\captcha\Captcha;
    <h3 class="montserrat">Send new message to <?= Html::encode($to->display_name);?></h3>
     <hr>
 
-    <?php $form = ActiveForm::begin(['action'=>['user/sendmessage/'. Html::encode($to->display_name]]));?>
+    <?php $form = ActiveForm::begin(['action'=>['user/sendmessage/'. Html::encode($to->display_name)]]);?>
                     <?= $form->field($model, 'subject')->textInput(['placeholder'=>'Subject']);?>
                     <?= $form->field($model, 'message')->textarea(['placeholder'=>'Type your message', 'rows'=>'5']);?>
                     <?= Html::activeHiddenInput($model, 'to_user', ['value'=>$to->user_id]); ?>

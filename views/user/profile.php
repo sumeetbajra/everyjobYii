@@ -41,7 +41,7 @@ use yii\captcha\Captcha;
                     <div class="user-image">
                         <?php 
                         if($user->profilePic == 'default.jpg'){
-                            $src = 'default-profile.jpg';
+                            $src = 'default.jpg';
                         }else{
                             $src = $user->profilePic;
                         }
