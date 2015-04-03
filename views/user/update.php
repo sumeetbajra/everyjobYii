@@ -21,10 +21,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'about')->textarea(['rows' => 6, 'placeholder'=>'Describe yourself in maximum 200 words']) ?>
 
-    <?= $form->field($model, 'dob')->input('date');?>
+    <a name="dob"></a><?= $form->field($model, 'dob')->input('date');?>
 
-    <div class="bootstrap-file"><?= $form->field($model, 'profilePic')->fileInput(['id'=>'input-2', 'class'=>'file', 'multiple'=>'true', 'data-show-upload'=>"false", 'data-show-caption'=>"true"]) ?></div>
+    <div class="bootstrap-file"><a name="profilePic"></a><?= $form->field($model, 'profilePic')->fileInput(['id'=>'input-2', 'class'=>'file', 'multiple'=>'true', 'data-show-upload'=>"false", 'data-show-caption'=>"true"]) ?></div>
 <div class="row">
+<a name="location"></a>
    <div class="col-sm-6">
    	<?= Html::textInput('city', (!empty($model->address) ? explode(',', $model->address)[0]: ''), ['class'=>'form-control', 'placeholder'=>'City']);?>
    </div>
@@ -38,6 +39,24 @@ use yii\widgets\ActiveForm;
  	<?= Html::dropDownList('country', (!empty($model->address) ? array_search($country, $countries) : ''), $countries, ['class'=>'form-control', 'placeholder'=>'City']);?>
  </div>
 </div><br>
+<div class="row">
+<a name="fname"></a>
+   <div class="col-sm-6">
+<?= $form->field($model, 'fname')->input('text');?>
+</div>
+<div class="col-sm-6">
+<?= $form->field($model, 'lname')->input('text');?>
+</div>
+</div>
+<div class="row">
+<a name="display_name"></a>
+   <div class="col-sm-6">
+<?= $form->field($model, 'display_name')->input('text');?>
+</div>
+   <div class="col-sm-6">
+<?= $form->field($model, 'email')->input('email');?>
+</div></div>
+<br>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         <?php if(!$model->isNewRecord){ ?>

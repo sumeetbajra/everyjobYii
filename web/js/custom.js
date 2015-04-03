@@ -427,4 +427,8 @@ $('.completeAjaxButton').on('click', function(){
 
 $('.myTable').DataTable();
 
+$('a.settings-edit').on('click', function(){
+    
+})
+
 });

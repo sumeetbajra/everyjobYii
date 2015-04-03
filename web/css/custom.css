@@ -1317,3 +1317,11 @@ a.linkedin:hover {
     .search-results-ul li:last-child{
     	border-bottom: none;
     }
+
+    .settings-edit{
+    	display: none;
+    }
+
+    table.profile-settings tr:hover td:last-child a{
+    	display: inline-block;
+    }
