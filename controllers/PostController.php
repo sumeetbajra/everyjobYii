@@ -618,6 +618,12 @@ public function actionProcessorder(){
     return $this->redirect(Url::to(['post/taskdashboard/'.$id]));
     }
 
+    /**
+     * action that allows users to search various service posts
+     * based on keywords or filter criterias
+     * @param  string $sort [criteria for sorting]
+     * @param  string $q    [keyword for search]
+     */
     public function actionPosts($sort = 'view', $q = ''){
         $this->layout = 'noSideMenu';
         $searchKeys = str_replace(' ', '+', $q);

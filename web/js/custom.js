@@ -70,9 +70,9 @@ $('*','body').not("#thumbnails").on('click', function(){
                  html += '<div class="caption" style="text-align:left"><h4 class="text-center">Price: '+ items[i].currency + ' ' + items[i].price + '</h4>';
                     html += '<p align="left" style="min-height: 40px">'+ items[i].title.substring(0,70)+'</p><br>';
                     html += '<span style="position: relative; top: -16px">by <b><a href="#">'+items[i].display_name+'</b></a></span><br>';
-                    html += '<span style="position: relative; top: -12px">Sold:  '+items[i].soldCount+'&nbsp;&nbsp;<i class="fa fa-eye"></i> '+items[i].viewCount+'&nbsp;<i class="fa fa-thumbs-up"></i> '+items[i].likes+' &nbsp;<i class="fa fa-thumbs-down"></i> '+items[i].dislikes+'</span></div>';
-          
-                html += '</div></div>';
+                    html += '<span style="position: relative; top: -12px">Sold:  '+items[i].soldCount+'&nbsp;&nbsp;<i class="fa fa-eye"></i> '+items[i].viewCount+'&nbsp;<i class="fa fa-thumbs-up"></i> '+items[i].likes+' &nbsp;<i class="fa fa-thumbs-down"></i> '+items[i].dislikes+'</span>';
+                    html += '<p><a href="<?= Url::to([\'post/view/\''+items[i].post_id+'/'+items[i].slug+'\'"]); ?>" class="btn btn-primary">More Info</a></p>';
+                html += '</div></div></div>';
  $('#content').append(html);
             }
             console.log();

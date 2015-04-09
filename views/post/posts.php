@@ -58,7 +58,7 @@ $ratings = new PostRatings;
                     <p align="left" style="min-height: 40px"><?= substr(Html::encode($post->title), 0, 70); ?></p><br>
                     <span style="position: relative; top: -16px">by <b><a href="#"><?= User::findIdentity($post->owner_id)->display_name; ?></b></a></span><br>
                     <span style="position: relative; top: -12px">Sold:  <?= \Yii::$app->function->getSoldCount($post->post_id);?>&nbsp;&nbsp;<i class="fa fa-eye"></i> <?= (PostViews::find()->where(['post_id'=>$post->post_id])->count() == 0 ? 0 : PostViews::find()->where(['post_id'=>$post->post_id])->one()->view_count);?> &nbsp;<i class="fa fa-thumbs-up"></i> <?= $ratings->postRating($post->post_id)['likes'];?> &nbsp;<i class="fa fa-thumbs-down"></i> <?= $ratings->postRating($post->post_id)['dislikes'];?></span>                    
-                                         
+                    <p><a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>" class="btn btn-primary">More Info</a></p>
                     </div>
                 </div>
             </div>

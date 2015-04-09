@@ -19,13 +19,13 @@ use yii\widgets\ActiveForm;
         'options' => ['enctype'=>'multipart/form-data'],
     ]); ?>
 
+<a name="dob"></a>
     <?= $form->field($model, 'about')->textarea(['rows' => 6, 'placeholder'=>'Describe yourself in maximum 200 words']) ?>
 
-    <a name="dob"></a><?= $form->field($model, 'dob')->input('date');?>
+    <a name="profilePic"></a><?= $form->field($model, 'dob')->input('date');?>
 
-    <div class="bootstrap-file"><a name="profilePic"></a><?= $form->field($model, 'profilePic')->fileInput(['id'=>'input-2', 'class'=>'file', 'multiple'=>'true', 'data-show-upload'=>"false", 'data-show-caption'=>"true"]) ?></div>
-<div class="row">
-<a name="location"></a>
+    <div class="bootstrap-file"><a name="location"></a><?= $form->field($model, 'profilePic')->fileInput(['id'=>'input-2', 'class'=>'file', 'multiple'=>'true', 'data-show-upload'=>"false", 'data-show-caption'=>"true"]) ?></div>    
+<div class="row">   
    <div class="col-sm-6">
    	<?= Html::textInput('city', (!empty($model->address) ? explode(',', $model->address)[0]: ''), ['class'=>'form-control', 'placeholder'=>'City']);?>
    </div>
@@ -60,7 +60,7 @@ use yii\widgets\ActiveForm;
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         <?php if(!$model->isNewRecord){ ?>
-        <a class="btn btn-primary" href="<?= Url::to(['user/profile']); ?>">Back</a>
+        <a class="btn btn-primary" href="<?= \Yii::$app->request->referrer; ?>">Back</a>
         <?php } ?>
     </div>
 

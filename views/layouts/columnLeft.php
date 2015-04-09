@@ -99,10 +99,9 @@ AppAsset::register($this);
           <ul class="dropdown-menu profile-side-menu" role="menu">
             <li><a href="<?= Url::to(['user/dashboard']); ?>"><i class="fa fa-tachometer"></i> Dashboard</a></li>
             <li><a href="<?= Url::to(['post/create']) ?>"><i class="fa fa-plus"></i> Create a post</a></li>
-            <li><a><i class="fa fa-tasks"></i> Active tasks</a></li>
-            <li><a><i class="fa fa-envelope"></i> Messeges (0)</a></li>
-            <li><a><i class="fa fa-globe"></i> Notifications (0)</a></li>
-            <li><a><i class="fa fa-cogs"></i> Profile Settings</a></li>
+            <li><a href="<?= Url::to(['user/activetasks']); ?>"><i class="fa fa-tasks"></i> Active tasks</a></li>
+            <li><a href="<?= Url::to(['user/inbox']);?>"><i class="fa fa-envelope"></i> Messeges (<?= \Yii::$app->function->getNotificationCount(); ?>)</a></li>
+            <li><a href="<?= Url::to(['user/settings']); ?>"><i class="fa fa-cogs"></i> Profile Settings</a></li>
         </ul>
     </li>
 
@@ -111,7 +110,7 @@ AppAsset::register($this);
        $notifications = Notification::find()->where(['user_id'=>Yii::$app->user->getId(), 'read'=>'0'])->count();
        ?>
        <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="#<?= Yii::$app->user->getId()?>" class="removeNotific">
-        <i class="glyphicon glyphicon-bell"></i><span class="notific-count <?= ($notifications == 0) ? 'hidden' : ''?>"><font color="red"><b>!</b></font></span>
+        <font color = "<?= ($notifications == 0) ? 'black' : 'red'?>"><i class="glyphicon glyphicon-bell"></i></font>
     </a>
     
     <ul class="dropdown-menu notifications" role="menu" aria-labelledby="dLabel" id="notification-dropdown">
