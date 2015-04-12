@@ -655,7 +655,7 @@ a.linkedin:hover {
   }
   ul.user-menu-list>li {
   	padding-bottom: 8px;
-  	text-align: center;
+  	text-align: left;
   }
 
   div.user-menu div.user-menu-content:not(.active){
@@ -898,6 +898,18 @@ a.linkedin:hover {
 
     .notifications {
     	min-width:420px; 
+    }
+
+    .notification{
+    	height: 60px;
+  padding: 10px 0;
+  border-bottom: solid thin #ECECEC;
+  color: #337ab7;
+    }
+
+    .notification:hover{
+    	background: #fafafa;
+    	cursor: pointer;
     }
 
     .notifications-wrapper {

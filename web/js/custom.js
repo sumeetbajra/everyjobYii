@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    $(".social-input").keydown(function(e) {
+    /*$(".social-input").keydown(function(e) {
     var oldvalue=$(this).val();
     var field=this;
     setTimeout(function () {
@@ -8,7 +8,7 @@ $(document).ready(function(){
             $(field).val(oldvalue);
         } 
     }, 1);
-});
+});*/
 
     $('#sort-type').val($('input[name="sort"]').val());
 

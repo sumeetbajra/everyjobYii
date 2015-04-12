@@ -82,7 +82,7 @@
  							<?= $form->field($model, 'gender')->dropDownList([''=>'Select Gender', 'male'=>'Male', 'female'=>'Female', 'others'=>'Others']);?>
  						</div>
  						<div class="col-xs-12 col-sm-6 col-md-6">
- 							<?= $form->field($model, 'dob')->input('date');?>
+ 							<?= $form->field($model, 'dob')->input('date', ['min'=>'1930-01-01', 'max'=>date('Y-m-d', time()-(12*365*24*60*60))]);?>
  						</div>
  					</div>
  					<div class="row">

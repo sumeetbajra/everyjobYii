@@ -15,7 +15,7 @@ use app\models\Notification;
     <div class="col-md-12 alert alert-info"><?= Yii::$app->session->getFlash('message'); ?></div>
     <?php } ?>
     <div class="row">
-        <div class="col-md-3 col-sm-3 col-xs-5">
+        <div class="col-md-3 col-sm-4 col-xs-4">
             <div class="profile-side-menu">
                 <div class="profile-pic">
                     <img src="<?= Yii::getAlias('@web');?>/images/users/<?= $user->profilePic; ?>" class="img-circle img-responsive" width="100">
@@ -34,18 +34,16 @@ use app\models\Notification;
             </div>
         </div>
 
-	<div class="col-md-9">
+	<div class="col-md-9 col-sm-8 col-xs-8">
     <h3 class="montserrat">Notifications</h3>
     All the important activities related to your profile
-    <hr><br>
+    <hr>
 <?php foreach($notifications as $notification){ ?>
 
 <div class="notification">
 
 <img src="<?= Yii::getAlias('@web/images/users/') . Users::find()->where(['user_id'=>$notification->source])->one()->profilePic; ?>" class="pull-left" width="35" style="margin-right:7px">
-<p>&nbsp;&nbsp;<?= $notification->notification; ?>&nbsp;<font size="1" color="#D0D0D0"><?= \Yii::$app->function->getAgoTime($notification->datetimestamp); ?></font></p><br>
-<hr>
-
+<p>&nbsp;&nbsp;<?= $notification->notification; ?><br>&nbsp;&nbsp;<font size="1" color="#D0D0D0"><?= \Yii::$app->function->getAgoTime($notification->datetimestamp); ?></font></p><br>
     
 
 </div>

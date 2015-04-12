@@ -94,9 +94,12 @@ class SiteController extends Controller
     }
 
     public function actionIndex(){
+       /* $created_at = strtotime('2015-02-21 21:02:33');
+        print_r(hash('sha256', (hash('sha256', $created_at)).'password'));
+        exit;*/
         $this->layout = 'master';
         $model = new LoginForm();
-        $posts = PostServices::find()->joinWith('views')->orderBy('view_count DESC')->limit(8)->all();
+        $posts = PostServices::find()->joinWith('views')->where(['active'=>'1'])->orderBy('view_count DESC')->limit(8)->all();
         $ratings = new PostRatings;
         return $this->render('index', ['model'=>$model, 'posts'=>$posts, 'ratings'=>$ratings]);
     }
@@ -116,10 +119,16 @@ class SiteController extends Controller
                 $message = 'Your account must be email verified in order to login. Please follow the verification link sent to your email address.';
                 $name = 'Account unverified';
                 return $this->render('error', ['message'=>$message, 'name'=>$name]);
+            }elseif($user->active == 0){
+                Yii::$app->user->logout();
+                $message = 'Your account has been deactivated by the system administrator. Please message us at support@everyjob.com.np for further queries.';
+                $name = 'Account deactivated';
+                return $this->render('error', ['message'=>$message, 'name'=>$name]);
+
             }elseif($user->authKey == 'admin'){
                 return $this->redirect(['/admin']);
             }else{
-                return $this->redirect(['user/dashboard']);
+                return $this->redirect(\Yii::$app->request->referrer);
             }
         } else {
             return $this->render('login', [
@@ -161,6 +170,8 @@ class SiteController extends Controller
             }
                 $token = implode($token); //turn the array into a string
                 $model->accessToken = $token;
+                //encrypt password
+                $model->password = hash('sha256', (hash('sha256', strtotime($model->created_at))).$model->password);
                 if($model->save()){
                    Yii::$app->mailer->compose()
                    ->setTo($model->email)

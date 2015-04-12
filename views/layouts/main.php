@@ -69,6 +69,7 @@ AppAsset::register($this);
 <script src="<?= Yii::getAlias('@web'); ?>/js/jquery.js"></script>
     <script src="<?= Yii::getAlias('@web'); ?>/js/admin.js"></script>
     <script src="<?= Yii::getAlias('@web'); ?>/js/bootstrap.min.js"></script>
+    <script src="<?= Yii::getAlias('@web'); ?>/js/bootbox.min.js"></script>
     <script src="<?= Yii::getAlias('@web'); ?>/js/datatable.js"></script>
 </body>
 </html>

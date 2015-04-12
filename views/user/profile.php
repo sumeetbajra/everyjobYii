@@ -112,16 +112,16 @@ use yii\captcha\Captcha;
         </h3>
         <ul class="user-menu-list">
             <?php foreach($posts as $key=>$post){ 
-                if($key <= 2):
+                if($key <= 3):
                     ?>
                 <li>
-                    <h4><?= Html::encode($post->title); ?></h4>
+                    <a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>"><?= Html::encode($post->title); ?></a>
                 </li>
             <?php endif; ?>
             <?php } ?>
             <li>
-                <button type="button" class="btn btn-labeled btn-danger" href="#">
-                    <span class="btn-label"><i class="fa fa-eye"></i></span>View All Posts</button>
+                <a class="btn btn-labeled btn-danger" href="#posts">
+                    <span class="btn-label"><i class="fa fa-eye"></i></span>View All Posts</a>
                 </li>
             </ul>
         </div>
@@ -164,21 +164,22 @@ use yii\captcha\Captcha;
         </h2>
         If there's more you want to know, you can contact me via following:<br><br>
         <div class="social">
-            <a href="https://www.facebook.com/rem.mcintosh" class="[ social-icon facebook ] animate"><span class="fa fa-facebook"></span></a>
+            <a href="<?= Html::encode($user->facebook_url); ?>" class="[ social-icon facebook ] animate" <?php if($user->facebook_url): echo ''; else: echo 'disabled'; endif;?>><span class="fa fa-facebook"></span></a>
 
-            <a href="https://twitter.com/Mouse0270" class="[ social-icon twitter ] animate"><span class="fa fa-twitter"></span></a>
+            <a href="<?= Html::encode($user->twitter_url);?>" class="[ social-icon twitter ] animate" <?php if($user->twitter_url): echo ''; else: echo 'disabled'; endif;?>><span class="fa fa-twitter"></span></a>
 
-            <a href="https://plus.google.com/u/0/115077481218689845626/posts" class="[ social-icon google-plus ] animate"><span class="fa fa-google-plus"></span></a>
+            <a href="<?= Html::encode($user->google_url); ?>" class="[ social-icon google-plus ] animate" <?php if($user->google_url): echo ''; else: echo 'disabled'; endif;?>><span class="fa fa-google-plus"></span></a>
 
-            <a href="www.linkedin.com/in/remcintosh/" class="[ social-icon linkedin ] animate"><span class="fa fa-linkedin"></span></a>
+            <a href="<?= Html::encode($user->linkedin_url);?>" class="[ social-icon linkedin ] animate" <?php if($user->linkedin_url): echo ''; else: echo 'disabled'; endif;?>><span class="fa fa-linkedin"></span></a>
         </div>
     </div>
 </div>
 </div>
 </div>
+<a name="posts"></a>
 <br>
 <div class="row">
-    <div class="col-lg-12">
+    <div class="col-lg-12">    
         <h3>Posted by the user</h3>
         <hr>
     </div>
@@ -211,7 +212,11 @@ use yii\captcha\Captcha;
 <div class="pull-left" style="margin-top:-30px"><a href="#">View All <i class="fa fa-angle-double-right"></i></a></div><br>
 <?php else: ?>
     </div>
-    <i>You have not posted any services yet. Go ahead and <a href='" . Url::to(['post/create']) . "'>create</a> one now</i><br><br>
+    <?php if($user->user_id != \Yii::$app->user->getId()): ?>
+         <i>This user has not posted any services yet.</i><br><br>
+            <?php else: ?>
+            <i>You have not posted any services yet. Go ahead and <a href='" . Url::to(['post/create']) . "'>create</a> one now</i><br><br>
+            <?php endif; ?>
 <?php endif; ?>
 <div class="container">
     <div class="row">

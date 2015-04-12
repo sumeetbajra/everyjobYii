@@ -32,7 +32,7 @@ class UserController extends \yii\web\Controller
             'class' => AccessControl::className(),
             'rules' => [
             [
-            'actions' => ['dashboard', 'profile', 'update', 'clearnotific', 'activetasks', 'sendmessage', 'inbox', 'conversation', 'deletemsg', 'orderedservices', 'reportuser', 'transaction', 'withdraw', 'search', 'settings'],
+            'actions' => ['dashboard', 'profile', 'update', 'clearnotific', 'activetasks', 'sendmessage', 'inbox', 'conversation', 'deletemsg', 'orderedservices', 'reportuser', 'transaction', 'withdraw', 'search', 'settings', 'deactivate'],
             'allow' => true,
             'roles' => ['@'],
             ],
@@ -80,18 +80,25 @@ class UserController extends \yii\web\Controller
          */
         public function actionProfile($user){
             $this->layout = 'master';
-            $user = Users::find()->where(['display_name'=>$user])->one();
-            $ratings = new PostRatings;
-            $posts = PostServices::find()->where(['owner_id'=>$user->user_id, 'active'=>'1'])->all();
-            $model = new Message(['scenario'=>'nonadmin']);
-            $comments = Comments::find()->joinWith('commentBy')->where(['comments.user_id'=>$user->user_id])->all();
-            return $this->render('profile', [
-                'user' => $user,
-                'posts' => $posts,
-                'ratings'=>$ratings,
-                'model'=>$model,
-                'comments' => $comments,
+            $user = Users::find()->where(['display_name'=>$user, 'active'=>'1', 'authKey'=>NULL])->one();
+            if($user){
+                $ratings = new PostRatings;
+                $posts = PostServices::find()->where(['owner_id'=>$user->user_id, 'active'=>'1'])->all();
+                $model = new Message(['scenario'=>'nonadmin']);
+                $comments = Comments::find()->joinWith('commentBy')->where(['comments.user_id'=>$user->user_id])->all();
+                return $this->render('profile', [
+                    'user' => $user,
+                    'posts' => $posts,
+                    'ratings'=>$ratings,
+                    'model'=>$model,
+                    'comments' => $comments,
                 ]);
+            }else{
+                $message = 'Sorry but the user you tried to view is not valid.';
+                $name = 'User unavailable';
+                return $this->render('/site/error', ['message'=>$message, 'name'=>$name]);
+            }
+            
         }
 
         /**
@@ -336,7 +343,7 @@ class UserController extends \yii\web\Controller
         $q = htmlentities($_GET['q']);
             if(!empty($q)){
                     $result = array();
-                    $users = Users::find()->where('display_name LIKE "'.$q.'%"')->limit(5)->all();
+                    $users = Users::find()->where('display_name LIKE "'.$q.'%" AND active = 1 AND authKey IS NULL')->limit(5)->all();
                     $ul = '<ul class="search-results-ul col-md-3">';
                     foreach ($users as $key => $value) {
                      $ul .= '<li><a href="' . Url::to(['user/profile/'.$value->display_name]) . '"><img src="' . \Yii::getAlias('@web/images/users/'.$value->profilePic) . '" height="30" class="img-circle" style="margin-right: 10px"> '.$value->display_name.'</a></li>';
@@ -346,8 +353,32 @@ class UserController extends \yii\web\Controller
              }
     }
 
+    /**
+    * Settings page for user details
+    */
     public function actionSettings(){
         $user = Users::findOne(\Yii::$app->user->getId());
         return $this->render('settings', ['user'=>$user]);
+    }
+
+    /**
+    * Deactivate user
+    * change status of user to 0
+    * @param [id] [id of the user]
+    **/
+    public function actionDeactivate($id){
+        $user = Users::findOne($id);
+        if($user){
+            $user->active = 0;
+            foreach(PostServices::find()->where(['owner_id'=>$id])->each() as $post){
+                $post->active = 0;
+                $post->save();
+            }
+            if($user->save()){
+                \Yii::$app->session->setFlash('message', 'User deactivated successfully.');
+                    return $this->redirect(\Yii::$app->request->referrer);
+            }
+
+        }
     }
 }
