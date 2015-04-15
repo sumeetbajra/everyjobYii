@@ -181,7 +181,7 @@ class UserController extends \yii\web\Controller
             $message->from_user = \Yii::$app->user->getId();
             if($message->save()){
                 if(!isset($message->thread_id)){
-                    $sql = "UPDATE `message` SET `thread_id`= " . $message->message_id . " WHERE `message_id` = " . $message->message_id;
+                    $sql = "UPDATE `message` SET `thread_id`= " . (int) $message->message_id . " WHERE `message_id` = " . (int) $message->message_id;
                     $message = \Yii::$app->db->createCommand($sql)->execute();
                 }
                     \Yii::$app->session->setFlash('message', 'Message sent successfully');
@@ -198,9 +198,9 @@ class UserController extends \yii\web\Controller
         $user_id = \Yii::$app->user->getId();
         $user = Users::find()->where(['user_id'=>$user_id])->one();
         //$messages = Message::find()->where(['to_user'=>$user_id])->orderBy('datetimestamp DESC')->all();
-        $sql = "SELECT * FROM (SELECT * FROM message WHERE to_user = $user_id AND status = 1 ORDER BY datetimestamp DESC) msg GROUP BY msg.thread_id ORDER BY msg.datetimestamp DESC";
+        $sql = "SELECT * FROM (SELECT * FROM message WHERE to_user = $user_id AND (status != 0 AND status != $user_id) ORDER BY datetimestamp DESC) msg GROUP BY msg.thread_id ORDER BY msg.datetimestamp DESC";
         $messages = Message::findbySql($sql)->all();
-        $sql = "SELECT * FROM (SELECT * FROM message WHERE from_user = $user_id AND status = 1 ORDER BY datetimestamp DESC) msg GROUP BY msg.thread_id ORDER BY msg.datetimestamp DESC";
+        $sql = "SELECT * FROM (SELECT * FROM message WHERE from_user = $user_id AND (status != 0 AND status != $user_id) ORDER BY datetimestamp DESC) msg GROUP BY msg.thread_id ORDER BY msg.datetimestamp DESC";
         $sent = Message::findbySql($sql)->all();
         return $this->render('messages', ['user'=>$user, 'messages'=>$messages, 'sent'=>$sent]);
     }
@@ -211,7 +211,7 @@ class UserController extends \yii\web\Controller
      */
     public function actionConversation($id){
         $id = (int) $id;
-        $message = Message::find()->where(['thread_id'=>$id, 'status'=>'1'])->all();
+        $message = Message::find()->where("thread_id = $id AND status != 0")->all();
         if(!empty($message)){
             $user_id = \Yii::$app->user->getId();
             $user = Users::find()->where(['user_id'=>$user_id])->one();
@@ -219,7 +219,7 @@ class UserController extends \yii\web\Controller
             $message->bindValue(':id', $id);
             $message->bindValue(':from_user', \Yii::$app->user->getId());
             $message->execute();
-            $messages = Message::find()->where(['thread_id'=>$id, 'status'=>'1'])->orderBy('datetimestamp DESC')->all();
+            $messages = Message::find()->where("thread_id = $id AND status != 0")->orderBy('datetimestamp DESC')->all();
             return $this->render('conversation', ['user'=>$user, 'messages'=>$messages]);
         }else{
             return $this->redirect(['site/error']);
@@ -249,8 +249,13 @@ class UserController extends \yii\web\Controller
         $result = true;
         if(isset($_GET['id'])){
             $id = (int) $_GET['id'];
-            foreach (Message::find()->where('thread_id = ' . $id . ' AND (from_user = ' . $user_id . ' OR to_user = ' . $user_id . ') AND status = 1')->each() as $message) {
-                $message->status = 0;
+
+            foreach (Message::find()->where('thread_id = ' . $id . ' AND (from_user = ' . $user_id . ' OR to_user = ' . $user_id . ') AND status != 0')->each() as $message) {
+                if($message->status == 1){
+                    $message->status = $user_id;
+                }else{
+                    $message->status = 0;
+                }
                 if($message->save()){
                     $result = $result || true;
                 }
@@ -269,8 +274,8 @@ class UserController extends \yii\web\Controller
     public function actionOrderedservices(){
         $user_id = \Yii::$app->user->getID();
         $user = User::findIdentity($user_id);
-        $orders = PostOrder::find()->joinWith('post')->where('user_id = ' . $user_id . ' AND type != "Cancelled" AND type != "Completed" AND type != "Rejected"');
-        $received = PostOrder::find()->joinWith('post')->where('post_services.owner_id = ' . $user_id . ' AND type != "Cancelled" AND type != "Completed" AND type != "Rejected"');
+        $orders = PostOrder::find()->joinWith('post')->where('user_id = ' . $user_id . ' AND status = 1 AND type != "Cancelled" AND type != "Completed" AND type != "Rejected"');
+        $received = PostOrder::find()->joinWith('post')->where('post_services.owner_id = ' . $user_id . ' AND status = 1 AND type != "Cancelled" AND type != "Completed" AND type != "Rejected"');
         return $this->render('orderedServices', ['user'=>$user, 'orders'=>$orders, 'received'=>$received]);
     }
 
@@ -327,9 +332,19 @@ class UserController extends \yii\web\Controller
                 $withdraw->transaction_id = $id;
                 $withdraw->user_id = \Yii::$app->user->getId();
                 $withdraw->request_date = date('Y-m-d H:i:s', time());
+                $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $charactersLength = strlen($characters);
+                $length = 8;
+                $randomString = '';
+                for ($i = 0; $i < $length; $i++) {
+                    $randomString .= $characters[rand(0, $charactersLength - 1)];
+                }   
+                $withdraw->withdraw_id = $randomString;
                 if($withdraw->save()){
                     \Yii::$app->session->setFlash('message', 'Transaction withdrawal requested successfully. You will receive payment within 10 days.');
                     return $this->redirect(\Yii::$app->request->referrer);
+                }else{
+                    print_r($withdraw->getErrors());
                 }
              }
     }

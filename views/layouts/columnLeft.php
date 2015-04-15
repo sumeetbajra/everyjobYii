@@ -91,7 +91,7 @@ AppAsset::register($this);
                 <a href="<?= Url::to(['site/register'])?>">Register</a>
             </li>
             <li>
-                <a href="#" data-toggle="modal" data-target="#myModal">Sign In</a>
+               <a href="<?= Url::to(['site/login'])?>">Sign In</a>
             </li>
         <?php else: ?>
         <li class="dropdown">

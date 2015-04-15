@@ -32,7 +32,7 @@ use yii\captcha\Captcha;
                             <h3><?= Html::encode($user->fname), ' ', Html::encode($user->lname); ?></h3>
                             <h4 class="white">(member since <?= date('F d Y', strtotime($user->created_at)); ?>)</h4>
                             <h4 class="white"><i class="fa fa-globe"></i> <?= Html::encode($user->address); ?></h4>
-                            <h4 class="white"><i class="fa fa-twitter"></i> sumeetbajra</h4>
+                            <h4 class="white"><i class="fa fa-user"></i> <?= Html::encode($user->display_name); ?></h4>
                         <!-- <button type="button" class="btn btn-labeled btn-info" href="#">
                         <span class="btn-label"><i class="fa fa-pencil"></i></span>Update</button> -->
                     </div>

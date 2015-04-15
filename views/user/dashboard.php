@@ -94,7 +94,7 @@ use app\models\Notification;
             <?php if($post->featured == 1) : ?>
             <div class="ribbon-wrapper-green"><div class="ribbon-green">Featured</div></div>
         <?php endif; ?>
-        <img src="<?= Yii::getAlias('@web'); ?>/images/services/<?= $post->image_url; ?>" alt="Promotional image">
+        <a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>"><img src="<?= Yii::getAlias('@web'); ?>/images/services/<?= $post->image_url; ?>" alt="Promotional image"></a>
         <div class="caption">
             <h4>Price: <?= $post->currency, ' ', Html::encode($post->price); ?></h4>
             <p><?= Html::encode($post->title); ?></p>                           
@@ -104,7 +104,7 @@ use app\models\Notification;
                 ]);
                 ?>
                 <input type="hidden" name="post_id" value="<?= $post->post_id; ?>">
-                <a href="#" class="btn btn-primary">Delete</a> 
+                <a href="#" class="btn btn-primary" onclick="bootbox.confirm('Are you sure?', function(result){if(result){window.location = '<?= Url::to(['post/delete/'.$post->post_id]);?>'}})">Delete</a> 
                 <button class="btn btn-default" type="submit">Edit</button>
                 <a href="<?= Url::to(['post/vieworder/'.$post->post_id]); ?>" class="btn btn-default">Orders (<?= \Yii::$app->function->getOrderCount($post->post_id); ?>)</a>
                 <?php ActiveForm::end() ?>                        

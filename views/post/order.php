@@ -25,9 +25,7 @@ use yii\widgets\ActiveForm;
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Order' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?php if(!$model->isNewRecord){ ?>
         <a class="btn btn-primary" href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>">Back</a>
-        <?php } ?>
     </div>
 
     <?php ActiveForm::end(); ?>

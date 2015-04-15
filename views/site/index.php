@@ -128,7 +128,7 @@ use app\models\PostViews;
                         <h4>Price: <?= $post->currency, ' ', $post->price; ?></h4>
                         <p><?= $post->title; ?></p>
                         <p>
-                            <a href="#" class="btn btn-primary">Order Now!</a> <a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>" class="btn btn-default">More Info</a>
+                            <a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>" class="btn btn-primary">Order Now!</a> <a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>" class="btn btn-default">More Info</a>
                         </p>
                     </div>
                     <span class="pull-left" style="position: relative; top: -16px">by <b><a href="<?= Url::to(['user/profile/'.$post->owner->display_name]); ?>"><?= User::findIdentity($post->owner_id)->display_name; ?></b></a></span>
@@ -139,7 +139,7 @@ use app\models\PostViews;
      <?php  } ?>
 
             
-                <div class="pull-right"><a href="#">View All <i class="fa fa-angle-double-right"></i></a></div>
+                <div class="pull-right"><a href="<?= Url::to(['post/posts']); ?>">View All <i class="fa fa-angle-double-right"></i></a></div>
             </div>
             <!-- /.row -->
             <hr>

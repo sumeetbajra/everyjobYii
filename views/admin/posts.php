@@ -83,7 +83,7 @@ $ratings = new PostRatings;
                         ]);
                         ?>
                         <input type="hidden" name="post_id" value="<?= $post->post_id; ?>">
-                        <a href="#" class="btn btn-primary">Delete</a> 
+                        <a href="#" class="btn btn-primary" onclick="bootbox.confirm('Are you sure?', function(result){if(result){window.location = '<?= Url::to(['post/delete/'.$post->post_id]);?>'}})">Delete</a> 
                         <?php if($post->featured == 1) : ?>
                   <a href="<?= Url::to(['admin/addtofeatured/'.$post->post_id]); ?>" class="btn btn-danger">Remove featured</a>
                 <?php else: ?>

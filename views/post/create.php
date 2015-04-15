@@ -33,7 +33,7 @@ use app\models\PostOrder;
         </div>
 	<div class="col-md-9">
     <h3 class="montserrat">Create New Post</h3>
-    Post a new service for free. Make it descriptive in order to attract buyers.
+    Post a new service for free. Make it descriptive in order to attract buyers. (Fields marked * are required.)
     <hr>
 
     <?= $this->render('_form', [

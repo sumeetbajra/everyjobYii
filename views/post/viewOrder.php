@@ -37,14 +37,14 @@ $user = Users::findOne(\Yii::$app->user->getId());
     <div class="col-md-12 alert alert-info"><?= Yii::$app->session->getFlash('message'); ?></div>
     <?php } ?>
 
-        <?php if($number == 0) :?>
-        <h3 class="montserrat">You have no pending orders</h3>
-        <?php else: ?>
-        <h3 class="montserrat">You have received new order(s)</h3>
-        <?php endif; ?>
+        <h3 class="montserrat">Received Orders</h3>
 <?= Html::encode($model->title); ?>
 <hr><br>
-
+ <?php if($number == 0) :?>
+        <i>You have no pending orders</i>
+        <?php else: ?>
+        <!-- You have received new order(s) -->
+        <?php endif; ?>
 <?php foreach($orders as $order){
     $reject = new RejectedOrder;
     ?>

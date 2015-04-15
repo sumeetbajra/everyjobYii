@@ -15,7 +15,7 @@ $ratings = new PostRatings;
 ?>
 
 <h3 class="montserrat">All the posts</h3><hr><br>
-<input type="hidden" value="<?= ceil(count($posts) / 4)?>" name="totalPages">
+<input type="hidden" value="<?= ceil(count($posts) / 8)?>" name="totalPages">
  <input type="hidden" value="<?= $sort?>" name="sort">
  <input type="hidden" value="<?= $keywords?>" name="keywords">
 

@@ -40,7 +40,7 @@ class PostController extends Controller
         //'only' => ['logout'],
         'rules' => [
         [
-        'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view', 'processorder', 'rejectedorder', 'acceptorder', 'acceptedorder', 'taskdashboard', 'completetask', 'requestcompletion', 'rejectcompletionrequest'],
+        'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view', 'processorder', 'rejectedorder', 'acceptorder', 'acceptedorder', 'taskdashboard', 'completetask', 'requestcompletion', 'rejectcompletionrequest', 'cancelorder'],
         'allow' => true,
         'roles' => ['@'],
         ],
@@ -50,12 +50,12 @@ class PostController extends Controller
         ],
         ],
         ],
-        'verbs' => [
+  /*      'verbs' => [
         'class' => VerbFilter::className(),
         'actions' => [
         'delete' => ['post'],
         ],
-        ],
+        ],*/
         ];
     }
 
@@ -278,9 +278,16 @@ class PostController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+            $id = (int) $id;
+            $post = PostServices::findOne($id);
+            if($post && ($post->owner_id == \Yii::$app->user->getId() || Users::findOne(\Yii::$app->user->getId())->authKey == 'admin')){
+                $post->active = 0;
+                if($post->save()){
+                    return $this->redirect(\Yii::$app->request->referrer);
+                }
+            }else{
+                return $this->redirect(\Yii::$app->request->referrer);
+            }
     }
 
     /**
@@ -499,7 +506,7 @@ public function actionProcessorder(){
         }
     }
     $status = new TaskStatus;
-    if(!empty($order->datetimestamp) && $accepted->closed_date == '' && ($order->post->owner_id == $user_id || $order->user_id == $user_id)){
+    if(empty($_FILES) && !empty($order->datetimestamp) && $accepted->closed_date == '' && ($order->post->owner_id == $user_id || $order->user_id == $user_id)){
         if(\Yii::$app->request->post()){
             $status->order_id = $order_id;
             $status->user_id = $user_id;
@@ -632,9 +639,9 @@ public function actionProcessorder(){
             $search = 'active = 1 AND ';
             foreach ($q as $key => $keyword) {
                 if($key != count($q) - 1){
-                    $search .= 'tags LIKE "%' . htmlentities($keyword) . '%" OR ';
+                    $search .= 'active = 1 AND tags LIKE "%' . htmlentities($keyword) . '%" OR ';
                 }else{
-                    $search .= 'tags LIKE "%' . htmlentities($keyword) . '%"';
+                    $search .= 'active = 1 AND tags LIKE "%' . htmlentities($keyword) . '%"';
                 }
             }
             $posts = PostServices::find()->joinWith('views')->where($search)->orderBy('post_views.view_count DESC')->all();
@@ -665,7 +672,22 @@ public function actionProcessorder(){
                     $data[$key]['likes'] = $ratings->postRating($post->post_id)['likes'];
                     $data[$key]['dislikes'] = $ratings->postRating($post->post_id)['dislikes'];
                     $data[$key]['id'] = $post->post_id;
+                    $data[$key]['slug'] = $post->slug;
         }
         echo json_encode($data, true);
+    }
+
+    /**
+    * cancel active order
+    * @param [id] [id of the order to cancel]
+    **/
+    public function actionCancelorder($id){
+        $order = PostOrder::findOne($id);
+        if($order){
+            $order->status = 0;
+            if($order->save()){
+                return $this->redirect(\Yii::$app->request->referrer);
+            }
+        }
     }
 }

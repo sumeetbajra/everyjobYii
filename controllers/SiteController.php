@@ -194,7 +194,7 @@ class SiteController extends Controller
         return $this->render('register1', ['model'=>$model, 'countries'=>$countries]);               
     }
 
-    public function actionContact()
+  /*  public function actionContact()
     {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
@@ -206,11 +206,11 @@ class SiteController extends Controller
                 'model' => $model,
                 ]);
         }
-    }
+    }*/
 
     public function actionAbout()
     {
-        $this->layout = 'master';
+        $this->layout = 'noSideMenu';
         return $this->render('about');
     }
 

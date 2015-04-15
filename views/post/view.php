@@ -70,12 +70,11 @@ use yii\widgets\DetailView;
                    <div class="list-group">
                     <?php if($model->owner_id == \Yii::$app->user->getId()): ?>
                     <a href="#" class="list-group-item disabled"><i class="fa fa-money"></i> Order</a>
-                    <a href="#" class="list-group-item disabled"><i class="fa fa-cart-arrow-down"></i> Add to Cart</a>
-                  <?php elseif(PostOrder::find()->where(['user_id'=>\Yii::$app->user->getId(), 'post_id'=>$model->post_id])->count() != 0): ?>
-                  <a href="#" class="list-group-item disabled">Order waiting approval</a>
+                    <!-- <a href="#" class="list-group-item disabled"><i class="fa fa-cart-arrow-down"></i> Add to Cart</a> -->
+                  <?php elseif(PostOrder::find()->where(['user_id'=>\Yii::$app->user->getId(), 'post_id'=>$model->post_id, 'status'=>'1', 'type'=>'Awaiting approval'])->count() != 0): ?>
+                  <a href="#" class="list-group-item disabled cancel-order" onclick="bootbox.confirm('Are you sure?', function(result){if(result){window.location='<?= Url::to(['post/cancelorder/'.PostOrder::find()->where(['user_id'=>\Yii::$app->user->getId(), 'post_id'=>$model->post_id, 'type'=>'Awaiting approval'])->one()->order_id]); ?>'}})">Waiting approval</a>
                   <?php else: ?>
                     <a href="<?= Url::to(['post/order/'.$model->post_id]); ?>" class="list-group-item"><i class="fa fa-money"></i> Order</a>
-                    <a href="#" class="list-group-item"><i class="fa fa-cart-arrow-down"></i> Add to Cart</a>
                   <?php endif; ?>
                     <a href="#" id ="post-like_<?= $model->post_id; ?>" class="list-group-item post-rate-button <?= (($like_e) ? 'disabled' : '')?>"><i class="fa fa-thumbs-up"></i> <?= $likes; ?></a>
                     <a href="#" id ="post-dislike_<?= $model->post_id; ?>" class="list-group-item post-rate-button <?= (($dislike_e) ? 'disabled' : '')?>"><i class="fa fa-thumbs-down"></i> <?= $dislikes; ?></a>
@@ -94,13 +93,13 @@ use yii\widgets\DetailView;
                 <div class="media-body update-card-body">
                     <h4 class="media-heading owner-name"><?=  Html::encode($model->owner->fname), ' ' ,  Html::encode($model->owner->lname); ?></h4>
                     <div class="social">
-                        <a href="https://www.facebook.com/rem.mcintosh" class="[ social-icon facebook ] animate"><span class="fa fa-facebook"></span></a>
+                         <a href="<?= Html::encode($model->owner->facebook_url); ?>" class="[ social-icon facebook ] animate" <?php if($model->owner->facebook_url): echo ''; else: echo 'disabled'; endif;?>><span class="fa fa-facebook"></span></a>
 
-                        <a href="https://twitter.com/Mouse0270" class="[ social-icon twitter ] animate"><span class="fa fa-twitter"></span></a>
+            <a href="<?= Html::encode($model->owner->twitter_url);?>" class="[ social-icon twitter ] animate" <?php if($model->owner->twitter_url): echo ''; else: echo 'disabled'; endif;?>><span class="fa fa-twitter"></span></a>
 
-                        <a href="https://plus.google.com/u/0/115077481218689845626/posts" class="[ social-icon google-plus ] animate"><span class="fa fa-google-plus"></span></a>
+            <a href="<?= Html::encode($model->owner->google_url); ?>" class="[ social-icon google-plus ] animate" <?php if($model->owner->google_url): echo ''; else: echo 'disabled'; endif;?>><span class="fa fa-google-plus"></span></a>
 
-                        <a href="www.linkedin.com/in/remcintosh/" class="[ social-icon linkedin ] animate"><span class="fa fa-linkedin"></span></a>
+            <a href="<?= Html::encode($model->owner->linkedin_url);?>" class="[ social-icon linkedin ] animate" <?php if($model->owner->linkedin_url): echo ''; else: echo 'disabled'; endif;?>><span class="fa fa-linkedin"></span></a>
                     </div>
                     <a href="<?= Url::to(['user/profile/'.$model->owner->display_name]); ?>" class="pull-right">View profile</a>
                 </div>

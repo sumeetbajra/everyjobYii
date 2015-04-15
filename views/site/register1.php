@@ -58,16 +58,16 @@
  					<div class="row">
  						<div class="col-xs-12 col-sm-6 col-md-6">
  							<div class="form-group">
- 								<?= $form->field($model, 'fname')->textInput(['placeholder'=>'First Name']);?>
+ 								<?= $form->field($model, 'fname')->textInput(['maxlength'=>'50', 'placeholder'=>'First Name']);?>
  							</div>
  						</div>
  						<div class="col-xs-12 col-sm-6 col-md-6">
  							<div class="form-group">
- 								<?= $form->field($model, 'lname')->textInput(['placeholder'=>'Last Name']);?>
+ 								<?= $form->field($model, 'lname')->textInput(['maxlength'=>'50', 'placeholder'=>'Last Name']);?>
  							</div>
  						</div>
  					</div>
- 					<?= $form->field($model, 'display_name')->textInput(['placeholder'=>'Display Name']);?>
+ 					<?= $form->field($model, 'display_name')->textInput(['maxlength'=>'50', 'placeholder'=>'Display Name']);?>
  					<?= $form->field($model, 'email')->input('email')->textInput(['placeholder'=>'Email']);?>
 
  					<h4>Upload a profile picture (Optional)</h4>
@@ -87,7 +87,7 @@
  					</div>
  					<div class="row">
  						<div class="col-xs-12 col-sm-6 col-md-6">
- 							<?= $form->field($model, 'password')->passwordInput(['placeholder'=>'Password']);?>
+ 							<?= $form->field($model, 'password')->passwordInput(['maxlength'=>'50', 'placeholder'=>'Password']);?>
  						</div>
  						<div class="col-xs-12 col-sm-6 col-md-6">
  							<div class="form-group">
@@ -112,13 +112,13 @@
  					<h4>Write about yourself</h4>
  					<div class="row">
  						<div class="col-xs-12 col-sm-12 col-md-12">
- 							<?= $form->field($model, 'about')->textarea(['placeholder'=>'Describe yourself (min 20 words)', 'rows'=>'6']);?>
+ 							<?= $form->field($model, 'about')->textarea(['minlength'=>'20', 'maxlength'=>'200', 'placeholder'=>'Describe yourself (min 20 words)', 'rows'=>'6']);?>
  						</div>
  					</div>
  					<h4>Where do you live?</h4>
  					<div class="row">
  						<div class="col-xs-12 col-sm-6 col-md-6">
- 							<?= Html::textInput('city', '', ['class'=>'form-control input-lg', 'placeholder'=>'City']);?>
+ 							<?= Html::textInput('city', '', ['maxlength'=>'70', 'class'=>'form-control input-lg', 'placeholder'=>'City']);?>
  						</div>
  						<div class="col-xs-12 col-sm-6 col-md-6">
  							<?= Html::dropDownList('country', '', $countries, ['class'=>'form-control input-lg', 'placeholder'=>'City']);?>

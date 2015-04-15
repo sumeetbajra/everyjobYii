@@ -29,6 +29,16 @@ $(document).ready(function(){
     }
 });
 
+    $('.cancel-order').on('mouseenter', function(){
+        $(this).removeClass('disabled');
+        $(this).html('Cancel');
+    });
+
+    $('.cancel-order').on('mouseout', function(){
+        $(this).addClass('disabled');
+        $(this).html('Order waiting approval');
+    });
+
     var searchPath = window.location.protocol + "//" + window.location.host + "/everyjobSite/web/user/search";
     $('#select-to').searchbox({
          url: searchPath,
@@ -69,9 +79,9 @@ $('*','body').not("#thumbnails").on('click', function(){
                 html += '<img src="../../web/images/services/' + items[i].image_url +'" alt="Promotional image">';
                  html += '<div class="caption" style="text-align:left"><h4 class="text-center">Price: '+ items[i].currency + ' ' + items[i].price + '</h4>';
                     html += '<p align="left" style="min-height: 40px">'+ items[i].title.substring(0,70)+'</p><br>';
-                    html += '<span style="position: relative; top: -16px">by <b><a href="#">'+items[i].display_name+'</b></a></span><br>';
+                    html += '<span style="position: relative; top: -16px">by <b><a href="../user/profile/' + items[i].display_name + '">'+items[i].display_name+'</b></a></span><br>';
                     html += '<span style="position: relative; top: -12px">Sold:  '+items[i].soldCount+'&nbsp;&nbsp;<i class="fa fa-eye"></i> '+items[i].viewCount+'&nbsp;<i class="fa fa-thumbs-up"></i> '+items[i].likes+' &nbsp;<i class="fa fa-thumbs-down"></i> '+items[i].dislikes+'</span>';
-                    html += '<p><a href="<?= Url::to([\'post/view/\''+items[i].post_id+'/'+items[i].slug+'\'"]); ?>" class="btn btn-primary">More Info</a></p>';
+                    html += '<p><a href="../post/view/'+items[i].id+'/'+items[i].slug+'" class="btn btn-primary">More Info</a></p>';
                 html += '</div></div></div>';
  $('#content').append(html);
             }
@@ -323,15 +333,16 @@ $('#msg-delete').on('click', function(){
 
     $('input[name="delete[]"]').each(function(){
         if($(this).is(':checked')){
-            var hreff = $(this).parents('a').attr('href');
+            var hreff = $(this).parents('a').attr('href').split('/');
             var sizee = hreff.length - 1;
             var id = hreff[sizee];
-            $.ajax({
+            console.log(id);
+           $.ajax({
                 url: 'deletemsg',
                 data: {id: id},
                 type: 'GET',
                 success: function(response){
-                //do sth
+                console.log(response);
             }
         });
         }

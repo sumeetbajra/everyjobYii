@@ -47,8 +47,8 @@ class PostServices extends \yii\db\ActiveRecord
             [['category_id', 'owner_id', 'featured', 'max_active_orders', 'max_delivery_days', 'active'], 'integer'],
             [['expiry_date', 'datetimestamp'], 'safe'],
             [['title'], 'string', 'max' => 100],
-            [['price', 'currency'], 'string', 'max' => 10],
-            [['image_url', 'slug', 'tags'], 'string', 'max' => 255]
+            [['price', 'currency'], 'string', 'max' => 5],
+            [['image_url', 'slug', 'tags', 'description'], 'string']
         ];
     }
 
@@ -59,18 +59,18 @@ class PostServices extends \yii\db\ActiveRecord
     {
         return [
             'post_id' => 'Post ID',
-            'title' => 'Title',
-            'description' => 'Description',
+            'title' => 'Title*',
+            'description' => 'Description*',
             'category_id' => 'Category ID',
             'owner_id' => 'Owner ID',
-            'price' => 'Price',
+            'price' => 'Price*',
             'currency' => 'Currency',
             'image_url' => 'Image Url',
             'expiry_date' => 'Expiry Date',
             'featured' => 'Featured',
             'datetimestamp' => 'Datetimestamp',
-            'max_active_orders' => 'Max Active Orders',
-            'max_delivery_days' => 'Max Delivery Days',
+            'max_active_orders' => 'Max Active Orders*',
+            'max_delivery_days' => 'Max Delivery Days*',
             'active' => 'Active',
             'slug' => 'Slug',
             'tags' => 'Tags',
