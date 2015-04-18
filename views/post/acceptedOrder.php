@@ -120,12 +120,12 @@ use app\models\PostServices;
 
     <form action = "http://dev.esewa.com.np/epay/main" method="POST" style="float:left; margin-right: 30px">
         <input value="0" name="txAmt" type="hidden"><!-- tax amount -->
-        <input value="<?= PostServices::findOne($accept->accepted->order_id)->price; ?>" name="amt" type="hidden"><!-- price of the service -->
+        <input value="<?php//= PostServices::findOne($accept->accepted->order_id)->price; ?>" name="amt" type="hidden"><!-- price of the service -->
         <input value="0" name="psc" type="hidden"><!-- product service charge -->
         <input value="0" name="pdc" type="hidden"><!-- product delivery charge -->
-        <input value="<?= PostServices::findOne($accept->accepted->order_id)->price; ?>" name="tAmt" type="hidden"><!-- total amount -->
+        <input value="<?php //= PostServices::findOne($accept->accepted->order_id)->price; ?>" name="tAmt" type="hidden"><!-- total amount -->
         <input value="testmerchant" name="scd" type="hidden"><!-- merchant service code -->
-        <input value="<?= $accept->post_id; ?>" name="pid" type="hidden"><!-- product id -->
+        <input value="<?php //= $accept->post_id; ?>" name="pid" type="hidden"><!-- product id -->
         <input value="https://21143750.ngrok.com/everyjobSite/web/user/payment?=success&via=esewa" type="hidden" name="su"><!-- success url -->
         <input value="https://21143750.ngrok.com/everyjobSite/web/user/payment?=failure&via=esewa" type="hidden" name="fu"><!-- failure url -->
         <input value="" type="submit" style="background: url(<?= Yii::getAlias('@web/images/esewa.png');?>); height: 90px; width: 233px; border:none">

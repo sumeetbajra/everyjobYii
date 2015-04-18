@@ -94,7 +94,7 @@ use yii\data\ActiveDataProvider;
                 <div class="tab-pane fade in" id="received">
                           <div class="list-group">
                                  <h4 class="leftborder">Received Orders</h4>
-                            <?php if(count($received) == 0) : echo "<br><i>Your outbox is empty.</i><br>"; endif; ?>
+                            <?php if(count($received) == 0) : echo "<br><i>You do not have active orders.</i><br>"; endif; ?>
                       
                         <?php 
         $dataProvider = new ActiveDataProvider(['query'=>$received, 'pagination' => [
@@ -125,12 +125,15 @@ use yii\data\ActiveDataProvider;
             'header'=>'Action',
             'format' =>'raw',
             'value'=>function($data){ 
-               if($data->type == 'Awaiting approval'){
+                $data->type = strtolower($data->type);
+               if($data->type == 'awaiting approval'){
                     $url = Url::to(['post/vieworder/'.$data->post_id]);
-                 }elseif ($data->type == 'Accepted') {
+                 }elseif ($data->type == 'accepted') {
                     $url = Url::to(['post/orderstatus/'.$data->order_id]);
-                }elseif ($data->type == 'In progress') {
+                }elseif ($data->type == 'in progress') {
                     $url = Url::to(['post/taskdashboard/'.$data->order_id]);
+                }else{
+                    $url = '#';
                 }
                 return '<a  class="btn btn-default btn-xs" href="' . $url . '" title="More information"><i class="fa fa-info-circle"></i></a>'; },
             ],

@@ -98,7 +98,6 @@ class UserController extends \yii\web\Controller
                 $name = 'User unavailable';
                 return $this->render('/site/error', ['message'=>$message, 'name'=>$name]);
             }
-            
         }
 
         /**
@@ -249,7 +248,6 @@ class UserController extends \yii\web\Controller
         $result = true;
         if(isset($_GET['id'])){
             $id = (int) $_GET['id'];
-
             foreach (Message::find()->where('thread_id = ' . $id . ' AND (from_user = ' . $user_id . ' OR to_user = ' . $user_id . ') AND status != 0')->each() as $message) {
                 if($message->status == 1){
                     $message->status = $user_id;

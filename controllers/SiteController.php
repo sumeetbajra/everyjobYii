@@ -93,10 +93,10 @@ class SiteController extends Controller
 
     }
 
+    /**
+    * Index or main landing page of the site
+    **/
     public function actionIndex(){
-       /* $created_at = strtotime('2015-02-21 21:02:33');
-        print_r(hash('sha256', (hash('sha256', $created_at)).'password'));
-        exit;*/
         $this->layout = 'master';
         $model = new LoginForm();
         $posts = PostServices::find()->joinWith('views')->where(['active'=>'1'])->orderBy('view_count DESC')->limit(8)->all();
@@ -110,7 +110,6 @@ class SiteController extends Controller
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $user = Users::findOne(\Yii::$app->user->getId());
@@ -124,7 +123,6 @@ class SiteController extends Controller
                 $message = 'Your account has been deactivated by the system administrator. Please message us at support@everyjob.com.np for further queries.';
                 $name = 'Account deactivated';
                 return $this->render('error', ['message'=>$message, 'name'=>$name]);
-
             }elseif($user->authKey == 'admin'){
                 return $this->redirect(['/admin']);
             }else{
@@ -137,10 +135,8 @@ class SiteController extends Controller
         }
     }
 
-    public function actionLogout()
-    {
+    public function actionLogout(){
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
 
@@ -150,6 +146,7 @@ class SiteController extends Controller
         $model = new Users;
         if($model->load(Yii::$app->request->post())){
             if($model->password == $_POST['re_password']){
+                \Yii::$app->session['password'] = $model->password;
                 $model->created_at = date('Y-m-d H:i:s', time());
                 $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $charactersLength = strlen($characters);
@@ -160,18 +157,24 @@ class SiteController extends Controller
                 }   
                 $model->address = $_POST['city'] . ', ' . $countries[$_POST['country']];
                 $file = UploadedFile::getInstance($model, 'profilePic');
-                $ext = explode('.', $file->name);
-                $model->profilePic = $randomString . '.' . $ext[count($ext)-1];
-            $token = array(); //remember to declare $pass as an array
-            $alphaLength = strlen($characters) - 1; //put the length -1 in cache
-            for ($i = 0; $i < 32; $i++) {
-                $n = rand(0, $alphaLength);
-                $token[] = $characters[$n];
-            }
+                if(!empty($file)){
+                    $ext = explode('.', $file->name);
+                    $model->profilePic = $randomString . '.' . $ext[count($ext)-1];
+                }else{
+                    $model->profilePic = 'default.jpg';
+                }
+                $token = array(); //remember to declare $pass as an array
+                $alphaLength = strlen($characters) - 1; //put the length -1 in cache
+                for ($i = 0; $i < 32; $i++) {
+                    $n = rand(0, $alphaLength);
+                    $token[] = $characters[$n];
+                }
                 $token = implode($token); //turn the array into a string
                 $model->accessToken = $token;
                 //encrypt password
-                $model->password = hash('sha256', (hash('sha256', strtotime($model->created_at))).$model->password);
+                if($model->password){
+                    $model->password = hash('sha256', (hash('sha256', strtotime($model->created_at))).$model->password);
+                }
                 if($model->save()){
                    Yii::$app->mailer->compose()
                    ->setTo($model->email)
@@ -179,10 +182,12 @@ class SiteController extends Controller
                    ->setSubject('Everyjob Account activation')
                    ->setHtmlBody('Dear ' . $model->fname . 'Please click  <a href="localhost/everyjobSite/web/site/activate?token='.$token.'">here</a> to activate your account. Please ignore this message if you did not sign up on <a href="#">https://www.everyjob.com.np</a><br><br> Thank you, <br>Everyjob Team')
                    ->send();
-                    $file->saveAs('images/users/' . $model->profilePic);
-                    $file=Yii::getAlias('@app/web/images/users/'.$model->profilePic); 
-                    $image=Yii::$app->image->load($file);
-                    $image->resize(800,800)->crop(500, 500)->save();
+                    if(!empty($file)){
+                        $file->saveAs('images/users/' . $model->profilePic);
+                        $file=Yii::getAlias('@app/web/images/users/'.$model->profilePic); 
+                        $image=Yii::$app->image->load($file);
+                        $image->resize(800,800)->crop(500, 500)->save();
+                    }
                     $message = 'An activation link has been sent to your email address. Please follow that link and sign in in order to activate your account.';
                 $name = 'Account Activation';
                 return $this->render('error', ['message'=>$message, 'name'=>$name]);

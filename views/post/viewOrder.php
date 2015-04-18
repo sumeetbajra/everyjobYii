@@ -52,7 +52,7 @@ $user = Users::findOne(\Yii::$app->user->getId());
 
         <div class="row">
             <div class="col-sm-1"><img src ="<?= Yii::getAlias('@web/images/users/'.Html::encode(Users::find()->where(['user_id'=>$order->user_id])->one()->profilePic)); ?>" class="img-responsive"></div>
-            <div class="col-sm-11" style="padding-left: 0px"><span class="montserrat" style="font-size: 12px"><?= Html::encode(Users::findOne($order->user_id)->display_name); ?></span> &bull; <font size="1" color="#AAA1A1"><?= date('F d Y', strtotime($order->datetimestamp)); ?></font>
+            <div class="col-sm-11" style="padding-left: 0px"><span class="montserrat" style="font-size: 12px"><a href="<?= Url::to(['user/profile/'.Users::findOne($order->user_id)->display_name]); ?>"><?= Html::encode(Users::findOne($order->user_id)->display_name); ?></a></span> &bull; <font size="1" color="#AAA1A1"><?= date('F d Y', strtotime($order->datetimestamp)); ?></font>
                   <?php $form = ActiveForm::begin(['action'=>['post/acceptorder'], 'options'=>['style'=>'float:right']]); ?>
     <?= Html::hiddenInput('order_id', $order->order_id);?>
     <button type="submit" href="#" class="btn btn-primary btn-success" id="confirmOrder"><i class="fa fa-check"></i> Accept</button> 
@@ -68,7 +68,7 @@ $user = Users::findOne(\Yii::$app->user->getId());
 <div class="reject-form hidden-form">
     <h4 class="montserrat">Let them know why their order got rejected</h4>
 <?php $form = ActiveForm::begin(['action'=>Url::to(['post/processorder'])]); ?>
-    <?= $form->field($reject, 'reason')->textarea(['rows' => 6, 'placeholder'=>'Make it concise and clear']) ?>
+    <?= $form->field($reject, 'reason')->textarea(['rows' => 6, 'placeholder'=>'Make it concise and clear', 'required'=>'true']) ?>
     <?= Html::activeHiddenInput($reject, 'order_id', ['value'=>$order->order_id]); ?>
     <?= Html::hiddenInput('post_id', $order->post_id); ?>
     <?= Html::hiddenInput('user_id', $order->user_id); ?>

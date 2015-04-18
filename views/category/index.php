@@ -12,6 +12,7 @@ $this->title = 'Post Categories';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-category-index col-sm-9">
+<div class="alert alert-success">The category has been deleted successfully.</div>
 
     <h4 class="montserrat"><?= Html::encode($this->title) ?></h4>
     <?php //echo $this->render('_search', ['model' => $searchModel]); ?>    

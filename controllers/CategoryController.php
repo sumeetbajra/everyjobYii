@@ -22,7 +22,7 @@ class CategoryController extends Controller
         'verbs' => [
         'class' => VerbFilter::className(),
         'actions' => [
-        'delete' => ['post'],
+        'delete' => ['get'],
         ],
         ],
         ];
@@ -75,24 +75,34 @@ class CategoryController extends Controller
                 $randomString .= $characters[rand(0, $charactersLength - 1)];
             }   
             $file = UploadedFile::getInstance($model, 'category_pic');
-            $ext = explode('.', $file->name);
-            $model->category_pic = $randomString . '.' . $ext[count($ext)-1];
-            if($model->save()){
-                $file->saveAs('images/categories/' . $model->category_pic);
-                $file=Yii::getAlias('@app/web/images/categories/'.$model->category_pic); 
-                $image=Yii::$app->image->load($file);
-                $image->resize(1000,1000)->crop(800, 500)->save();
+            $fileType = true;
+            if($file){
+                $ext = explode('.', $file->name);
+                $ext = $ext[count($ext)-1];
+                if($ext == 'jpg' || $ext == 'png' || $ext == 'jpeg' || $ext == 'bmp' || $ext =='gif'){
+                    $model->category_pic = $randomString . '.' . $ext[count($ext)-1];
+                }else{
+                    Yii::$app->session->setFlash('error', 'Invalid file type. Category picture can only be an image.');
+                    $fileType = false;
+                }
+            }else{
+                $model->category_pic = 'default.jpg';
+            }
+            if($model->validate() && $fileType){
+                if($file){
+                    $file->saveAs('images/categories/' . $model->category_pic);
+                    $file=Yii::getAlias('@app/web/images/categories/'.$model->category_pic); 
+                    $image=Yii::$app->image->load($file);
+                    $image->resize(1000,1000)->crop(800, 500)->save();
+                }
+                $model->save();
                 Yii::$app->session->setFlash('message', 'Category created successfully.');
                 return $this->redirect(['view', 'id' => $model->category_id]);
-            }else{
-                print_r(Yii::$app->user);
-                print_r($model->getErrors());
             }
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-                ]);
-        }
+        } 
+        return $this->render('create', [
+              'model' => $model,
+           ]);
     }
 
     /**

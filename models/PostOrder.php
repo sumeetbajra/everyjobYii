@@ -33,6 +33,7 @@ class PostOrder extends \yii\db\ActiveRecord
             [['post_id', 'user_id', 'details', 'status', 'datetimestamp'], 'required'],
             [['post_id', 'user_id', 'status'], 'integer'],
             [['details', 'type'], 'string'],
+            [['details'], 'string', 'min'=>15, 'max'=>255],
             [['datetimestamp'], 'safe']
         ];
     }

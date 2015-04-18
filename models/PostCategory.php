@@ -30,8 +30,10 @@ class PostCategory extends \yii\db\ActiveRecord
         return [
             [['category_name', 'created_by'], 'required'],
             [['category_name'], 'string'],
+            [['category_name'], 'match', 'pattern' => '/^[a-zA-Z\s]+$/', 'message' => 'Category name can only contain alphabet characters'],
             [['created_date', 'category_pic'], 'safe'],
-            [['created_by'], 'integer']
+            [['created_by'], 'integer'],
+            [['category_pic'], 'file', 'extensions'=>'png, jpg, jpeg, bmp'],
         ];
     }
 

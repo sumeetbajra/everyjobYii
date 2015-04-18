@@ -168,10 +168,12 @@ class PostController extends Controller
             $file = UploadedFile::getInstance($model, 'image_url');
             if(!empty($file)){
                 $ext = explode('.', $file->name);
-                $model->image_url = $user_id . '_' . $randomString . '.' . $ext[count($ext)-1];
-                $model->datetimestamp = date('Y-m-d H:i:s', time());
-                $model->featured = 0;
+                $model->image_url = $user_id . '_' . $randomString . '.' . $ext[count($ext)-1];               
+            }else{
+                $model->image_url = 'default.jpg';
             }
+            $model->datetimestamp = date('Y-m-d H:i:s', time());
+            $model->featured = 0;
             if($model->save()){
                 if(!empty($file)){
                     $file->saveAs('images/services/' . $model->image_url);
@@ -188,6 +190,9 @@ class PostController extends Controller
                 }
                 \Yii::$app->getSession()->setFlash('message', 'Post created successfully. You are ready to make some money.');
                 return $this->redirect(['user/dashboard']);
+            }else{
+                print_r($model->getErrors());
+                exit;
             }
         }
         return $this->render('create', [
@@ -261,6 +266,11 @@ class PostController extends Controller
         if($model->save()){
             \Yii::$app->getSession()->setFlash('message', 'Post updated successfully.');
             return $this->redirect(['user/dashboard']);
+        }else{
+            return $this->render('update', [
+            'model' => $model,
+            'categories' => $categoryList,
+            ]);
         }
     } else {
         return $this->render('update', [
@@ -467,6 +477,8 @@ public function actionProcessorder(){
             if($notification->save() && $model->save() && $old->save() && $order->save()){
                 \Yii::$app->session->setFlash('message', 'Order rejected successfully');
                 return $this->redirect(['post/vieworder/'. $post_id]);
+            }else{
+                 print_r($notification->getErrors());
             }
         }else{
             print_r($model->getErrors());
@@ -660,7 +672,7 @@ public function actionProcessorder(){
         $post = new PostServices;
         $ratings = new PostRatings;
         $posts = $post->sort($posts, $sort, $page);
-         foreach ($posts as $key => $post) {
+        foreach ($posts as $key => $post) {
                     $data[$key]['featured'] =  $post->featured;
                     $data[$key]['image_url'] = $post->image_url;
                     $data[$key]['currency'] = $post->currency;

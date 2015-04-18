@@ -132,8 +132,8 @@ use yii\captcha\Captcha;
             <div class="row">
                 <?php if($user->user_id != \Yii::$app->user->getId()): ?>
                 <?php $form = ActiveForm::begin(['action'=>['user/sendmessage/'.Html::encode($user->display_name)]]);?>
-                <?= $form->field($model, 'subject')->textInput(['placeholder'=>'Subject']);?>
-                <?= $form->field($model, 'message')->textarea(['placeholder'=>'Type your message', 'rows'=>'5']);?>
+                <?= $form->field($model, 'subject')->textInput(['placeholder'=>'Subject', 'maxLength'=>100, 'required'=>'true']);?>
+                <?= $form->field($model, 'message')->textarea(['placeholder'=>'Type your message', 'rows'=>'5', 'maxLength'=>255, 'required'=>'true']);?>
                 <?= Html::activeHiddenInput($model, 'to_user', ['value'=>$user->user_id]); ?>
                 <a class="btn btn-primary" href="#" data-toggle="modal" data-target="#captcha">Submit</a>
                 <div class="modal fade" id="captcha" tabindex="-1" role="dialog"  aria-hidden="true">

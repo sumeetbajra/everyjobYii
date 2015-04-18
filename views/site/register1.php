@@ -87,11 +87,12 @@
  					</div>
  					<div class="row">
  						<div class="col-xs-12 col-sm-6 col-md-6">
- 							<?= $form->field($model, 'password')->passwordInput(['maxlength'=>'50', 'placeholder'=>'Password']);?>
+ 							<?= $form->field($model, 'password')->passwordInput(['maxlength'=>'50', 'placeholder'=>'Password', 'value'=>\Yii::$app->session['password']]);?>
  						</div>
  						<div class="col-xs-12 col-sm-6 col-md-6">
  							<div class="form-group">
- 								<?= Html::passwordInput('re_password', '', ['class'=>'form-control input-lg', 'placeholder'=>'Confirm Password']);?>
+ 								<?= Html::passwordInput('re_password', \Yii::$app->session['password'], ['class'=>'form-control input-lg', 'placeholder'=>'Confirm Password']);?>
+ 								<?php unset(\Yii::$app->session['password']); ?>
  							</div>
  						</div>
  					</div>
@@ -112,7 +113,7 @@
  					<h4>Write about yourself</h4>
  					<div class="row">
  						<div class="col-xs-12 col-sm-12 col-md-12">
- 							<?= $form->field($model, 'about')->textarea(['minlength'=>'20', 'maxlength'=>'200', 'placeholder'=>'Describe yourself (min 20 words)', 'rows'=>'6']);?>
+ 							<?= $form->field($model, 'about')->textarea(['minlength'=>'1', 'maxlength'=>'200', 'placeholder'=>'Describe yourself (min 20 words)', 'rows'=>'6']);?>
  						</div>
  					</div>
  					<h4>Where do you live?</h4>
