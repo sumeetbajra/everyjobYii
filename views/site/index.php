@@ -27,7 +27,7 @@ use app\models\PostViews;
                     <h1>Showcase your skills</h1>        
                     <h3>Show people that you are awesome</h3>
                 </hgroup>
-                <button class="btn btn-hero btn-lg" role="button">Get Started</button>
+                <a class="btn btn-hero btn-lg" role="button" href="<?= Url::to(['site/register']);?>">Get Started</a>
             </div>
         </div>
         <div class="item slides">
@@ -38,7 +38,7 @@ use app\models\PostViews;
                 <h1>Get your things done</h1>        
                 <h3>Search, order, receive. Quick and easy</h3>
             </hgroup>       
-            <button class="btn btn-hero btn-lg" role="button">Get Started</button>
+            <a class="btn btn-hero btn-lg" role="button" href="<?= Url::to(['site/register']);?>">Get Started</a>
         </div>
     </div>
     <div class="item slides">
@@ -49,7 +49,7 @@ use app\models\PostViews;
             <h1>Safety and trust</h1>        
             <h3>Your safety is our first priority</h3>
         </hgroup>
-        <button class="btn btn-hero btn-lg" role="button">See all features</button>
+        <a class="btn btn-hero btn-lg" role="button" href="<?= Url::to(['site/register']);?>">See all features</a>
     </div>
 </div>
 </div> 
@@ -126,7 +126,7 @@ use app\models\PostViews;
                     <img src="<?= Yii::getAlias('@web'); ?>/images/services/<?= $post->image_url; ?>" alt="Promotional image" class="img-responsive">
                     <div class="caption">
                         <h4>Price: <?= $post->currency, ' ', $post->price; ?></h4>
-                        <p><?= $post->title; ?></p>
+                        <p><?= substr(Html::encode($post->title), 0, 60); ?></p>
                         <p>
                             <a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>" class="btn btn-primary">Order Now!</a> <a href="<?= Url::to(['post/view/'.$post->post_id.'/'.$post->slug]); ?>" class="btn btn-default">More Info</a>
                         </p>
@@ -150,36 +150,14 @@ use app\models\PostViews;
             </div>
             <div class="carousel slide" id="myCarousel">
               <div class="carousel-inner">
-                <div class="item active">
+              <?php foreach($categories as $key=>$category): ?>
+                <div class="item <?php if($key == 0): echo 'active'; endif;?>">
                   <div class="col-lg-4 col-xs-4 col-md-4 col-sm-4">
-                      <a href="#"><img src="<?= Yii::getAlias('@web'); ?> /images/categories/1.jpg" class="img-responsive"></a>
-                      <span class="category-caption ">Article Writing & Editing</span>
+                      <a href="<?= Url::to(['post/posts?category='.$category->category_id]);?>"><img src="<?= Yii::getAlias('@web'); ?> /images/categories/<?= $category->category_pic; ?>" class="img-responsive"></a>
+                      <span class="category-caption "><?= $category->category_name; ?></span>
                   </div>
               </div>
-              <div class="item">
-                  <div class="col-lg-4 col-xs-4 col-md-4 col-sm-4">
-                      <a href="#"><img src="<?= Yii::getAlias('@web'); ?> /images/categories/2.png" class="img-responsive"></a>
-                      <span class="category-caption ">Web Designing</span>
-                  </div>
-              </div>
-              <div class="item">
-                  <div class="col-lg-4 col-xs-4 col-md-4 col-sm-4">
-                      <a href="#"><img src="<?= Yii::getAlias('@web'); ?> /images/categories/3.png" class="img-responsive"></a>
-                      <span class="category-caption ">Graphics and Desgn</span>
-                  </div>
-              </div>
-              <div class="item">
-                  <div class="col-lg-4 col-xs-4 col-md-4 col-sm-4">
-                      <a href="#"><img src="<?= Yii::getAlias('@web'); ?> /images/categories/4.jpg" class="img-responsive"></a>
-                      <span class="category-caption ">Computer and Programming</span>
-                  </div>
-              </div>
-              <div class="item">
-                  <div class="col-lg-4 col-xs-4 col-md-4 col-sm-4">
-                      <a href="#"><img src="<?= Yii::getAlias('@web'); ?> /images/categories/5.jpg" class="img-responsive"></a>
-                      <span class="category-caption ">Multimedia & Editing</span>
-                  </div>
-              </div>
+            <?php endforeach; ?>
           </div>
           <a class="left carousel-control" href="#myCarousel" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
           <a class="right carousel-control" href="#myCarousel" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
@@ -243,9 +221,9 @@ use app\models\PostViews;
                           <li><span class="fa fa-check text-success"></span> Secure transactions</li>
                           <li><span class="fa fa-check text-success"></span> Fast Checkout</li>
                           <li><span class="fa fa-check text-success"></span> Support Nepalese currency</li>
-                          <li><a href="/read-more/"><u>Read more</u></a></li>
+                          <li><a href="<?= Url::to(['site/about']);?>"><u>Read more</u></a></li>
                       </ul>
-                      <p><a href="/new-customer/" class="btn btn-info btn-block">Yes please, register now!</a></p>
+                      <p><a href="<?= Url::to(['site/register']); ?>" class="btn btn-info btn-block">Yes please, register now!</a></p>
                   </div>
               </div>
           </div>

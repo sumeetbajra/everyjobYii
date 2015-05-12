@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\PostRatings;
 use app\models\Notification;
+use app\models\PostCategory;
 use app\models\ContactForm;
 use app\models\User;
 use app\models\PostServices;
@@ -97,11 +98,16 @@ class SiteController extends Controller
     * Index or main landing page of the site
     **/
     public function actionIndex(){
+        $user = Users::findOne(\Yii::$app->user->getId());
+        if($user->authKey == 'admin'){
+           return $this->redirect(['/admin']);
+        }
         $this->layout = 'master';
         $model = new LoginForm();
+        $categories = PostCategory::find()->all();
         $posts = PostServices::find()->joinWith('views')->where(['active'=>'1'])->orderBy('view_count DESC')->limit(8)->all();
         $ratings = new PostRatings;
-        return $this->render('index', ['model'=>$model, 'posts'=>$posts, 'ratings'=>$ratings]);
+        return $this->render('index', ['model'=>$model, 'posts'=>$posts, 'ratings'=>$ratings, 'categories'=>$categories]);
     }
 
     public function actionLogin()
@@ -164,6 +170,7 @@ class SiteController extends Controller
                     $model->profilePic = 'default.jpg';
                 }
                 $token = array(); //remember to declare $pass as an array
+                $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $alphaLength = strlen($characters) - 1; //put the length -1 in cache
                 for ($i = 0; $i < 32; $i++) {
                     $n = rand(0, $alphaLength);

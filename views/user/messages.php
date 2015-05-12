@@ -80,6 +80,7 @@ use yii\data\ActiveDataProvider;
                                 </span></span></a>
                                 <?php }?>
                     </div>
+                     <a href="#" class="btn btn-primary disabled msg-delete" id="inbox"><i class="fa fa-trash-o"></i> Delete selected</a>
                 </div>
                 <div class="tab-pane fade in" id="sent">
                           <div class="list-group">
@@ -88,7 +89,7 @@ use yii\data\ActiveDataProvider;
                         <a href="<?= Url::to(['user/conversation/'.$message->thread_id]); ?>" class="list-group-item read">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox">
+                                    <input type="checkbox" name="deleteSent[]">
                                 </label>
                             </div>
                              <span class="glyphicon glyphicon-star-empty"></span>
@@ -100,9 +101,8 @@ use yii\data\ActiveDataProvider;
                                 </span></span></a>
                                 <?php }?>
                     </div>
+                     <a href="#" class="btn btn-primary disabled msg-delete" id="outbox"><i class="fa fa-trash-o"></i> Delete selected</a>
                 </div>  
-
-                <a href="#" class="btn btn-primary disabled" id="msg-delete"><i class="fa fa-trash-o"></i> Delete selected</a>
 </div>
 
 </div>

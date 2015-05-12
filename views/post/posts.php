@@ -5,6 +5,7 @@ use yii\widgets\ActiveForm;
 use app\models\User;
 use app\models\PostViews;
 use app\models\PostRatings;
+use app\models\PostCategory;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -13,11 +14,15 @@ use yii\helpers\Url;
 
 $ratings = new PostRatings;
 ?>
-
-<h3 class="montserrat">All the posts</h3><hr><br>
+<?php if($category == ''): ?>
+    <h3 class="montserrat">All the posts</h3><hr><br>
+<?php else: ?>
+    <h3 class="montserrat">Posts belonging to category '<?= PostCategory::findOne($category)->category_name; ?>'</h3><hr><br>
+<?php endif;?>
 <input type="hidden" value="<?= ceil(count($posts) / 8)?>" name="totalPages">
  <input type="hidden" value="<?= $sort?>" name="sort">
  <input type="hidden" value="<?= $keywords?>" name="keywords">
+ <input type="hidden" value="<?= $category?>" name="category">
 
 
  <div class="row">
@@ -34,6 +39,8 @@ $ratings = new PostRatings;
 	<input class="form-control" placeholder="What are looking to get done?" id="search-input" value="<?= $result = str_replace('+', ' ', $keywords);?>"></input>
 	</span>
 <span class="col-sm-3">
+<div style="font-size:15px; margin-bottom:7px"></div><br>
+    <a class="btn btn-danger" href="<?= Url::to(['post/posts']);?>">Reset</a>
 </span>
 <div class="clear-fix"></div>
 </div>
@@ -46,7 +53,7 @@ $ratings = new PostRatings;
 <br>
     <div class="row text-center" id="content">
 
-             <?php foreach ($posts as $post) { ?>
+             <?php foreach ($posts as $key=>$post) { ?>
              <div class="col-md-3  hero-feature">
                 <div class="thumbnail">
                     <?php if($post->featured == 1) : ?>
@@ -65,6 +72,9 @@ $ratings = new PostRatings;
 
             <?php  } ?>
         </div>
+        <?php if(empty($key)): ?>
+                Sorry, no posts to display.
+            <?php endif;?>
 
 <div class="page-selection pull-left"></div>
 <div class="clear-fix"></div>

@@ -38,6 +38,7 @@ use app\models\Notification;
     <h3 class="montserrat">Notifications</h3>
     All the important activities related to your profile
     <hr>
+    <div class="notific-div">
 <?php foreach($notifications as $notification){ ?>
 
 <div class="notification">
@@ -49,7 +50,7 @@ use app\models\Notification;
 </div>
 
 <?php } ?>
-
+</div><!--notific div ends-->
    
 </div>
 

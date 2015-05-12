@@ -35,25 +35,34 @@ use yii\grid\GridView;
     <?php if(Yii::$app->session->getFlash('message')){ ?>
     <div class="col-md-12 alert alert-info"><?= Yii::$app->session->getFlash('message'); ?></div><br><br>
     <?php } ?>
+    <?php if($order->type != 'Completed'): ?> <!--for task history purpose-->
     Here you can upload files and post the updates on the task<br><br>
-    <?php 
+     <?php 
     $accepted = AcceptedOrders::findOne($order->order_id);
     if($accepted->complete_request == 1 && $order->user_id == \Yii::$app->user->getId()){ ?>
     <div class="col-md-12 alert alert-warning">Kriti has requested you to close the task. <br><br> 
       <a href="#" data-toggle = "modal" data-target="#completeModal" class="btn btn-success"><i class="fa fa-check-circle-o"></i> Close</a>&nbsp;
       <a href="#" class="btn btn-danger" onclick="bootbox.confirm('Are you sure?', function(message){if(message){window.location='<?=Url::to(['post/rejectcompletionrequest/'.$order->order_id]); ?>';} })"><i class="fa fa-times-circle-o"></i> Reject request</a></div>
     <?php } ?>
+  <?php else: ?>
+      Here you can see all the files and updates on the task. &nbsp; &nbsp;<a href="<?= Url::to(['user/taskhistory']); ?>" class="btn btn-default btn-small"><i class="fa fa-chevron-circle-left"></i> Back</a><br><br>
+  <?php endif; ?><!--for task history purpose-->
     <table class="table table-bordered ">
       <tr>
         <td  colspan="2"><h4 class="montserrat" style="font-size='16px'"><?= Html::encode($order->post->title);?></h4></td>
       </tr>
       <tr>
         <td>Ordered: <?= date('Y/m/d', strtotime($order->datetimestamp));?></td>
+        <?php if($order->type != 'Completed'): ?><!--for task history purpose-->
         <td>Status: In progress</td>
+      <?php else: ?>
+        <td>Status: Completed</td>
+      <?php endif;?><!--for task history purpose-->
       </tr>
       <tr>
         <td>Delivery: <?= date('Y/m/d', strtotime($order->datetimestamp) + $order->post->max_delivery_days*86400); ?></td>
         <td>
+    <?php if($order->type != 'Completed'): ?> <!--for task history purpose-->
           <?php if($order->user_id == \Yii::$app->user->getId()): ?>
           <a href="#" data-toggle = "modal" data-target="#completeModal" class="btn btn-success"><i class="fa fa-check-circle-o"></i> Set as Completed</a>
         <?php else: ?>
@@ -71,14 +80,18 @@ use yii\grid\GridView;
         ],
         ]) ?><?php endif; ?>
       <?php endif; ?>
+    <?php endif; ?><!--for task history purpose-->
+
     </td>
   </tr>
 </table>
 <ul class="nav nav-tabs">
   <li class="active"><a href="#status" data-toggle="tab"><span class="fa fa-comment"></span> 
     Status</a></li>
+    <?php if($order->type != 'Completed'): ?> <!--for task history purpose-->
     <li><a href="#update" data-toggle="tab"><i class="fa fa-pencil-square"></i>
       Update Status</a></li>
+    <?php endif; ?>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -115,6 +128,7 @@ use yii\grid\GridView;
 
           </div>
         </div>
+        <?php if($order->type != 'Completed'): ?> <!--for task history purpose-->
         <div class="tab-pane fade in" id="update">
           <div class="list-group">
            <br>
@@ -131,6 +145,7 @@ use yii\grid\GridView;
            <div class="clear-fix"></div>
          </div>
        </div>
+     <?php endif; ?><!--for task history purpose-->
      </div>
    </div>  
    <div class="modal fade" id="completeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

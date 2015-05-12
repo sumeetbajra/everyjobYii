@@ -77,7 +77,7 @@ use yii\helpers\Html;
 <?php } ?>
 </div>
 
-         
+<a href="<?= Url::to(['user/taskhistory']); ?>" class="btn btn-default btn-small"><i class="fa fa-history"></i> Task History</a><br><br>         
 
     </div>
 </div>

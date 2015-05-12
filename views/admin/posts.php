@@ -74,7 +74,7 @@ $ratings = new PostRatings;
                 <img src="<?= Yii::getAlias('@web'); ?>/images/services/<?= $post->image_url; ?>" alt="Promotional image">
                 <div class="caption" style="text-align:left">
                     <h4 class="text-center">Price: <?= $post->currency, ' ', Html::encode($post->price); ?></h4>
-                    <p align="left" style="min-height: 40px"><?= substr(Html::encode($post->title), 0, 70); ?></p><br>
+                    <p align="left" style="min-height: 40px"><?= substr(Html::encode($post->title), 0, 60); ?></p><br>
                     <span style="position: relative; top: -16px">by <b><a href="#"><?= User::findIdentity($post->owner_id)->display_name; ?></b></a></span><br>
                     <span style="position: relative; top: -12px">Sold:  <?= \Yii::$app->function->getSoldCount($post->post_id);?>&nbsp;&nbsp;<i class="fa fa-eye"></i> <?= (PostViews::find()->where(['post_id'=>$post->post_id])->count() == 0 ? 0 : PostViews::find()->where(['post_id'=>$post->post_id])->one()->view_count);?> &nbsp;<i class="fa fa-thumbs-up"></i> <?= $ratings->postRating($post->post_id)['likes'];?> &nbsp;<i class="fa fa-thumbs-down"></i> <?= $ratings->postRating($post->post_id)['dislikes'];?></span>                    
                     <?php $form = ActiveForm::begin([
@@ -130,6 +130,7 @@ $ratings = new PostRatings;
     <a href="<?= Url::to(['/admin'])?>"><i class="fa fa-th"></i>Dashboard</a></li>
     <li><a href="<?= Url::to(['category/index'])?>"><i class="fa fa-th-list"></i>Categories</a></li>
     <li><a href="<?= Url::to(['category/create'])?>"><i class="fa fa-plus"></i>Add category</a></li>
+    <li><a href="<?= Url::to(['admin/listposts'])?>"><i class="fa fa-list"></i>List view</a></li>
     </ul>
     </div>
     </div>

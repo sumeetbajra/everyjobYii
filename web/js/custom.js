@@ -14,8 +14,9 @@ $(document).ready(function(){
 
     $('#sort-type').on('change', function(){
         var type = $(this).val();
+        var category =$('input[name="category"]').val(); 
         var keyword = $('input[name="keywords"]').val();
-        window.location = 'posts?sort='+type+'&q='+keyword;
+        window.location = 'posts?sort='+type+'&category='+category+'&q='+keyword;
     });
 
     $("#search-input").keypress(function(event) {
@@ -322,16 +323,34 @@ $('input[name="delete[]"]').on('click', function(){
         }
     });
     if(count >= 1){
-        $('#msg-delete').removeClass('disabled');
+        $('.msg-delete').removeClass('disabled');
     }else{
-        $('#msg-delete').addClass('disabled');
+        $('.msg-delete').addClass('disabled');
     }
 });
 
-$('#msg-delete').on('click', function(){
+$('input[name="deleteSent[]"]').on('click', function(){
+    var count = 0;
+    $('input[name="deleteSent[]"]').each(function(){
+        if($(this).is(':checked')){
+            count += 1;
+        }
+    });
+    if(count >= 1){
+        $('.msg-delete').removeClass('disabled');
+    }else{
+        $('.msg-delete').addClass('disabled');
+    }
+});
 
+$('.msg-delete').on('click', function(){
+    if($(this).attr('id') == 'inbox'){
+        var del = $('input[name="delete[]"]');
+    }else{
+        var del = $('input[name="deleteSent[]"]');
+    }
 
-    $('input[name="delete[]"]').each(function(){
+    del.each(function(){
         if($(this).is(':checked')){
             var hreff = $(this).parents('a').attr('href').split('/');
             var sizee = hreff.length - 1;

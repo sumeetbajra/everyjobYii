@@ -75,19 +75,16 @@ use yii\data\ActiveDataProvider;
             'type',
             [
             'header'=>'Ordered date',
-            'value'=>function($data){ return date("Y-m-d", strtotime($data->datetimestamp)); },
+            'value'=>function($data){ return date("M d, Y", strtotime($data->datetimestamp)); },
             ], 
              [
             'header'=>'Action',
             'format' =>'raw',
-            'value'=>function($data){ return '<a class="btn btn-default btn-xs" href="' . Url::to(['/user/profile/' . $uname = Html::encode(Users::findOne($data->post->owner_id)->display_name)]) . '" title="More information"><i class="fa fa-info-circle"></i></a>'. ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->payment == 'unpaid') ?  '<a class="btn btn-default btn-xs" href="' . Url::to(['/post/acceptedorder/' . $data->post_id]) . '" title="Make payment"><i class="fa fa-money"></i></a>' : '') . ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->payment == 'paid') ?  '<a href="' . Url::to(['post/taskdashboard/'.$data->order_id]) . '" class="btn btn-default btn-xs"><i class="fa fa-th" title="Service Dashboard"></i></a>' : ''); },
+            'value'=>function($data){ return '<a class="btn btn-default btn-xs" href="' . Url::to(['/post/orderstatus/' . $data->order_id]) . '" title="More information"><i class="fa fa-info-circle"></i></a>'. ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->payment == 'unpaid') ?  '<a class="btn btn-default btn-xs" href="' . Url::to(['/post/acceptedorder/' . $data->post_id]) . '" title="Make payment"><i class="fa fa-money"></i></a>' : '') . ((AcceptedOrders::find()->where(['order_id'=>$data->order_id])->count() == '1' && AcceptedOrders::find()->where(['order_id'=>$data->order_id])->one()->payment == 'paid') ?  '<a href="' . Url::to(['post/taskdashboard/'.$data->order_id]) . '" class="btn btn-default btn-xs"><i class="fa fa-th" title="Service Dashboard"></i></a>' : ''); },
             ],
            
         ],
     ]); 
-
- 
-
     ?>
                     </div>
                 </div>
@@ -119,7 +116,7 @@ use yii\data\ActiveDataProvider;
             'type',
             [
             'header'=>'Ordered date',
-            'value'=>function($data){ return date("Y-m-d", strtotime($data->datetimestamp)); },
+            'value'=>function($data){ return date("M d, Y", strtotime($data->datetimestamp)); },
             ], 
              [
             'header'=>'Action',

@@ -128,4 +128,37 @@ class AdminController extends \yii\web\Controller
 		return $this->render('withdraw', ['transaction'=>$transaction]);
 	}
 
+	public function actionListposts(){
+		$posts = PostServices::find()->joinWith('views')->where(['active'=>'1'])->all();
+		return $this->render('listPosts', ['posts'=>$posts]);
+	}
+
+	public function actionDeletepost(){
+		$a = true;
+		if(isset($_GET['posts']) && isset($_GET['action'])){
+			$posts = $_GET['posts'];
+			$action = htmlentities($_GET['action']);
+			foreach ($posts as $key => $post) {
+				$p = PostServices::findOne((int) $post);
+				if($action == 'delete'){
+					$p->active = 0;
+				}elseif($action == 'add'){
+					$p->featured = 1;
+				}else{
+					$p->featured = 0;
+				}				
+				if($p->save()){
+					$a = $a && true;
+				}else{
+					print_r($p->getErrors());
+					$a = false;
+				}
+			}
+			if($a){
+				echo "true";
+			}else{
+				print_r($p->getErrors());
+			}
+		}
+	}
 }

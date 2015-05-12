@@ -1338,3 +1338,8 @@ a.linkedin:hover {
     table.profile-settings tr:hover td:last-child a{
     	display: inline-block;
     }
+
+    .notific-div{
+    	max-height: 500px;
+    	overflow-y: scroll;
+    }

@@ -32,7 +32,7 @@ class UserController extends \yii\web\Controller
             'class' => AccessControl::className(),
             'rules' => [
             [
-            'actions' => ['dashboard', 'profile', 'update', 'clearnotific', 'activetasks', 'sendmessage', 'inbox', 'conversation', 'deletemsg', 'orderedservices', 'reportuser', 'transaction', 'withdraw', 'search', 'settings', 'deactivate'],
+            'actions' => ['dashboard', 'profile', 'update', 'clearnotific', 'activetasks', 'sendmessage', 'inbox', 'conversation', 'deletemsg', 'orderedservices', 'reportuser', 'transaction', 'withdraw', 'search', 'settings', 'deactivate', 'taskhistory'],
             'allow' => true,
             'roles' => ['@'],
             ],
@@ -272,8 +272,8 @@ class UserController extends \yii\web\Controller
     public function actionOrderedservices(){
         $user_id = \Yii::$app->user->getID();
         $user = User::findIdentity($user_id);
-        $orders = PostOrder::find()->joinWith('post')->where('user_id = ' . $user_id . ' AND status = 1 AND type != "Cancelled" AND type != "Completed" AND type != "Rejected"');
-        $received = PostOrder::find()->joinWith('post')->where('post_services.owner_id = ' . $user_id . ' AND status = 1 AND type != "Cancelled" AND type != "Completed" AND type != "Rejected"');
+        $orders = PostOrder::find()->joinWith('post')->where('user_id = ' . $user_id . ' AND status = 1 AND type != "Cancelled" AND type != "Completed" AND type != "Rejected"')->orderBy('datetimestamp DESC');
+        $received = PostOrder::find()->joinWith('post')->where('post_services.owner_id = ' . $user_id . ' AND status = 1 AND type != "Cancelled" AND type != "Completed" AND type != "Rejected"')->orderBy('datetimestamp DESC');
         return $this->render('orderedServices', ['user'=>$user, 'orders'=>$orders, 'received'=>$received]);
     }
 
@@ -393,5 +393,14 @@ class UserController extends \yii\web\Controller
             }
 
         }
+    }
+
+    /**
+    * Action to display the history of tasks of the user
+    */
+    public function actionTaskhistory(){
+        $user = Users::findOne(\Yii::$app->user->getID());
+        $tasks =  AcceptedOrders::find()->joinWith('posts')->joinWith('order')->where('(post_services.owner_id = '.\Yii::$app->user->getID() . ' OR accepted_orders.user_id = ' . \Yii::$app->user->getID() . ') AND accepted_orders.payment = "paid" AND closed_date != ""')->all();
+        return $this->render('taskHistory', ['tasks'=>$tasks, 'user'=>$user]);
     }
 }

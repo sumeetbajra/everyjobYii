@@ -43,12 +43,12 @@ Welcome admin!! You are in the backend of the website. Below are the facilities 
     Registered users</a>
     </div>
     </div>
-     <div class="col-sm-3">
+     <!-- <div class="col-sm-3">
     <div class="classWithPadding well text-center"><a href="#">
     <font size="8"><i class="fa fa-file"></i></font><br>
     Manage Content</a>
     </div>
-    </div>
+    </div> -->
   </div>
 </div>
 </div>
@@ -60,7 +60,7 @@ Welcome admin!! You are in the backend of the website. Below are the facilities 
   <li>
     <a href="#"><i class="fa fa-user"></i>Admin details</a></li>
     <li><a href="#"><i class="fa fa-cog"></i>Profile settings</a></li>
-    <li><a href="#"><i class="fa fa-eye"></i>View live site</a></li>
+    <li><a href="<?= Url::to(['/site']); ?>"><i class="fa fa-eye"></i>View live site</a></li>
     </ul>
     </div>
     </div>

@@ -40,7 +40,7 @@ class PostController extends Controller
         //'only' => ['logout'],
         'rules' => [
         [
-        'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view', 'processorder', 'rejectedorder', 'acceptorder', 'acceptedorder', 'taskdashboard', 'completetask', 'requestcompletion', 'rejectcompletionrequest', 'cancelorder'],
+        'actions' => ['logout', 'order', 'create', 'update', 'delete', 'rate', 'vieworder', 'view', 'processorder', 'rejectedorder', 'acceptorder', 'acceptedorder', 'taskdashboard', 'completetask', 'requestcompletion', 'rejectcompletionrequest', 'cancelorder', 'orderstatus'],
         'allow' => true,
         'roles' => ['@'],
         ],
@@ -518,7 +518,7 @@ public function actionProcessorder(){
         }
     }
     $status = new TaskStatus;
-    if(empty($_FILES) && !empty($order->datetimestamp) && $accepted->closed_date == '' && ($order->post->owner_id == $user_id || $order->user_id == $user_id)){
+    if(empty($_FILES) && !empty($order->datetimestamp) /**&& $accepted->closed_date == ''**/ && ($order->post->owner_id == $user_id || $order->user_id == $user_id)){
         if(\Yii::$app->request->post()){
             $status->order_id = $order_id;
             $status->user_id = $user_id;
@@ -643,10 +643,14 @@ public function actionProcessorder(){
      * @param  string $sort [criteria for sorting]
      * @param  string $q    [keyword for search]
      */
-    public function actionPosts($sort = 'view', $q = ''){
+    public function actionPosts($sort = 'view', $q = '', $category = ''){
         $this->layout = 'noSideMenu';
         $searchKeys = str_replace(' ', '+', $q);
-        if(!empty($q)){
+        if(!empty($category)){
+            $category = (int) $category;
+            $posts = PostServices::find()->joinWith('category')->joinWith('views')->where(['post_category.category_id' => $category])->orderBy('post_views.view_count DESC')->all();
+        }elseif(!empty($q)){
+            $category = '';
             $q = explode(' ', $q);
             $search = 'active = 1 AND ';
             foreach ($q as $key => $keyword) {
@@ -662,7 +666,7 @@ public function actionProcessorder(){
         }
         $post = new PostServices;
         $posts = $post->sort($posts, $sort);
-        return $this->render('posts', ['posts'=>$posts, 'sort'=>$sort, 'keywords'=>$searchKeys]);
+        return $this->render('posts', ['posts'=>$posts, 'sort'=>$sort, 'keywords'=>$searchKeys, 'category'=>$category]);
     }
 
     public function actionLoadpost($sort, $page){
@@ -700,6 +704,21 @@ public function actionProcessorder(){
             if($order->save()){
                 return $this->redirect(\Yii::$app->request->referrer);
             }
+        }
+    }
+
+    /**
+    * Details about the order
+    * @param [id] [id of the order]
+    */
+    public function actionOrderstatus($id){
+        $id = (int) $id;
+        $order = PostOrder::find()->joinWith('post')->where(['order_id'=>$id, 'status'=>'1'])->one();
+        if($order){
+            return $this->render('orderStatus', ['order'=>$order]);
+        }else{
+            return $this->redirect(['user/orderedservices']);
+             //return $this->render('../site/error', ['name'=>'Page Not Found', 'message'=>'Sorry, the page you were looking for was not found. Sorry for your inconvenience.']);
         }
     }
 }

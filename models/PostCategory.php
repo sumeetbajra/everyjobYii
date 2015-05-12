@@ -50,4 +50,9 @@ class PostCategory extends \yii\db\ActiveRecord
             'category_pic' => 'Category Picture',
         ];
     }
+
+
+      public function getPosts(){
+        return $this->hasMany(PostServices::className(), ['category_id'=>'category_id']);
+    }
 }

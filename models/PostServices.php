@@ -42,11 +42,11 @@ class PostServices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'category_id', 'owner_id', 'price', 'currency', 'datetimestamp', 'max_active_orders', 'max_delivery_days', 'slug'], 'required'],
+            [['title', 'description', 'owner_id', 'price', 'currency', 'datetimestamp', 'max_active_orders', 'max_delivery_days', 'slug'], 'required'],
             [['description'], 'string'],
             [['category_id', 'owner_id', 'featured', 'max_active_orders', 'max_delivery_days', 'active'], 'integer'],
             [['expiry_date', 'datetimestamp'], 'safe'],
-            [['title'], 'match', 'pattern' => '/^[a-zA-Z ]+$/', 'message' => 'The title can only contain alphanumeric characters'],
+            [['title'], 'match', 'pattern' => '/^[a-zA-Z0-9., ]+$/', 'message' => 'The title can only contain alphanumeric characters'],
             [['price'], 'match', 'pattern' => '/^[0-9]+$/', 'message' => 'The price can only contain numbers'],
             [['title'], 'string', 'max' => 100],
             [['price', 'currency'], 'string', 'max' => 5],
