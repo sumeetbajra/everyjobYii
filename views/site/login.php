@@ -22,7 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <fieldset>
                 <h2>Please Sign In</h2>
-                   
+                   <?php if(Yii::$app->session->getFlash('success')){ ?>
+        <div class="col-md-12 alert alert-success"><?= Yii::$app->session->getFlash('success'); ?></div>
+        <?php } ?>
                    <?=  $form->errorSummary($model, ['class'=>'alert alert-warning']); ?>
                 <hr class="colorgraph">
               

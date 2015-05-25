@@ -194,25 +194,15 @@ use app\models\PostViews;
 
 <?= $form->errorSummary($model); ?>
     <?= $form->field($model, 'email', ['options'=>['id'=>'email', 'placeholder'=>'example@gmail.com']])->label('Email')->input('email'); ?>
-
     <?= $form->field($model, 'password')->passwordInput() ?>
-
     <?= $form->field($model, 'rememberMe', ['options'=>['class'=>'']])->checkbox() ?>
-
-
-
 <p class="help-block">(if this is a private computer)</p>
                        
         <?= Html::submitButton('Login', ['class' => 'btn btn-success btn-block', 'name' => 'login-button']) ?>
-            <a href="/forgot/" class="btn btn-default btn-block">Help to login</a>
-            <?php ActiveForm::end(); ?>
-
-
-    
+            <a href="#" class="btn btn-default btn-block" data-toggle = "modal" data-target="#recoverModal">Help to login</a>
+            <?php ActiveForm::end(); ?>    
         </div>
-    </div>
-
-                        
+    </div>                        
                   <div class="col-xs-6">
                       <p class="lead">Register now for <span class="text-success">FREE</span></p>
                       <ul class="list-unstyled" style="line-height: 2">
@@ -224,6 +214,32 @@ use app\models\PostViews;
                           <li><a href="<?= Url::to(['site/about']);?>"><u>Read more</u></a></li>
                       </ul>
                       <p><a href="<?= Url::to(['site/register']); ?>" class="btn btn-info btn-block">Yes please, register now!</a></p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!--login modal ends-->
+
+
+<!--login modal-->
+<div class="modal fade" id="recoverModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div id="login-overlay" class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="myModalLabel">Password Recovery</h4>
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                  <div class="col-xs-12">                     
+                    <div class="well">
+                      Please enter your email address:<br><br>
+                      <input type="email" name="recoverEmail" class="form-control" placeholder="Email address" id="recoverEmail"><br>
+                      <div id="recoverError" style="color:red; margin-bottom: 7px"></div>
+                      <button class="btn btn-success" name="recoverBtn" id="recoverBtn">Recover password</button>
+                    </div>
                   </div>
               </div>
           </div>

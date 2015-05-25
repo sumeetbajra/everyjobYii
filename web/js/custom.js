@@ -10,6 +10,33 @@ $(document).ready(function(){
     }, 1);
 });*/
 
+$('#recoverBtn').on('click', function(){
+    var email = $('#recoverEmail').val();
+    if(email != ''){
+        var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
+        console.log(pattern.test(email));
+        if(pattern.test(email)) {
+            $('#recoverError').hide();
+            $.ajax({
+                method: 'GET',
+                url: 'site/checkemail',
+                data: {email: email},
+                success:function(response){
+                    if(response == 'true'){
+                        $('#recoverModal .well').html('A recovery link has been sent to your email address. Please follow that link.');                        
+                    }else{
+                        $('#recoverError').show();
+                        $('#recoverError').html('Sorry, the email address you entered doesnt exist in the database.');            
+                    }
+                }
+            });
+        }else{
+            $('#recoverError').show();
+            $('#recoverError').html('Please enter valid email address');
+        }
+    }
+});
+
     $('#sort-type').val($('input[name="sort"]').val());
 
     $('#sort-type').on('change', function(){
@@ -457,8 +484,7 @@ $('.completeAjaxButton').on('click', function(){
 
 $('.myTable').DataTable();
 
-$('a.settings-edit').on('click', function(){
-    
+$('a.settings-edit').on('click', function(){  
 })
 
 });
