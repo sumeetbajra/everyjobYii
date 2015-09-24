@@ -175,7 +175,7 @@
  					<div class="row">
  						<div class="col-xs-12"> 
  						<div class="form-group">
- 							<h4><i class="fa fa-facebook-official"></i> LinkdeIn Id: </h4>
+ 							<h4><i class="fa fa-linkedin"></i> LinkdeIn Id: </h4>
  							<?= $form->field($model, 'linked_url')->textInput(['value'=>'https://www.linkedin.com/profile/view?id=', 'placeholder'=>'LinkedIn Username', 'class'=>'social-input input-lg form-control']);?>
  						</div>
  						</div>

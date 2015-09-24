@@ -184,10 +184,10 @@ AppAsset::register($this);
     <div class="container">
         <div class="row">
             <!-- About -->
-            <div class="col-md-3 md-margin-bottom-40">
+              <div class="col-md-3 md-margin-bottom-40">
                 <a href="index.html" class="logo">everyjob</a>
-                <p>About Unify dolor sit amet, consectetur adipiscing elit. Maecenas eget nisl id libero tincidunt sodales.</p>
-                <p>Duis eleifend fermentum ante ut aliquam. Cras mi risus, dignissim sed adipiscing ut, placerat non arcu.</p>    
+                <p>About everyjob, it is an online marketplace website for freelancers to work and get paid online.</p>
+                <p>Simply just register and you are ready to go.</p>    
             </div><!--/col-md-3-->
             <!-- End About -->
 
@@ -217,11 +217,19 @@ AppAsset::register($this);
             <div class="col-md-3 md-margin-bottom-40">
                 <div class="headline"><h2>Useful Links</h2></div>
                 <ul class="list-unstyled link-list">
-                    <li><a href="#">About us</a></li>
-                    <li><a href="#">Portfolio</a></li>
-                    <li><a href="#">Latest jobs</a></li>
-                    <li><a href="#">Community</a></li>
-                    <li><a href="#">Contact us</a></li>
+                    <li> <a href="<?= Url::to(['site/about'])?>">About</a></li>
+                    <li><a href="<?= Url::to(['post/posts'])?>">Services</a></li>
+                   <?php  if(Yii::$app->user->isGuest) : ?>
+            <li>
+                <a href="<?= Url::to(['site/register'])?>">Register</a>
+            </li>
+            <li>
+                <a href="#" data-toggle="modal" data-target="#myModal">Sign In</a>
+            </li>
+            <?php else: ?>
+                  <a href="<?= Url::to(['user/dashboard'])?>">Dashboard</a>
+        <?php endif;?>
+                    <!-- <li><a href="#">Contact us</a></li> -->
                 </ul>
             </div><!--/col-md-3-->
             <!-- End Link List -->                    

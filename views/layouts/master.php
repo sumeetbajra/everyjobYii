@@ -123,7 +123,7 @@ AppAsset::register($this);
 
             <!-- Latest -->
              <div class="col-md-3 md-margin-bottom-40">
-               <!--  <div class="posts">
+                <div class="posts">
                     <div class="headline"><h2>Latest Posts</h2></div>
                     <ul class="list-unstyled latest-list">
                         <li>
@@ -139,7 +139,7 @@ AppAsset::register($this);
                             <small>September 15, 2014</small>
                         </li>
                     </ul>
-                </div> -->
+                </div>
             </div><!--/col-md-3  -->
             <!-- End Latest --> 
 

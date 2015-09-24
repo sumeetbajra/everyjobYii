@@ -96,16 +96,16 @@ use app\models\PostServices;
       <b>Choose payment option: </b>
   </td>
   <td>
-     <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" style="float:left; margin-right: 30px">
+     <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" style="float:left; margin-right: 30px" target="_new">
         <img src="<?= Yii::getAlias('@web/images/paypal.png');?>" style="display:block">
         <input type="hidden" name="cmd" value="_xclick">
-        <input type="hidden" name="return" value="https://29e7afd0.ngrok.com/everyjobSite/web/user/dashboard">
+        <input type="hidden" name="return" value="https://47320069.ngrok.com/college/everyjobSite/web/user/dashboard">
         <input type="hidden" name="business" value="sumeetbazra@gmail.com">
         <input type="hidden" name="item_name" value="<?= Html::encode($title);?>">
         <input type="hidden" name="item_number" value="<?= $accept->post_id; ?>">
         <input type="hidden" name="amount" value="<?= Html::encode($price); ?>">
-        <input type="hidden" name="notify_url" value="https://29e7afd0.ngrok.com/everyjobSite/web/payment/paypalipn">
-        <input type="hidden" name="cancel_return" value="https://29e7afd0.ngrok.com/everyjobSite/web/user/dashboard">
+        <input type="hidden" name="notify_url" value="https://47320069.ngrok.com/college/everyjobSite/web/payment/paypalipn">
+        <input type="hidden" name="cancel_return" value="https://47320069.ngrok.com/college/everyjobSite/web/user/dashboard">
         <input type="hidden" name="tax" value="0">
         <input type="hidden" name="quantity" value="1">
         <input type="hidden" name="no_note" value="1">

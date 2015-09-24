@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 use app\models\PostServices;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use app\models\PostRatings;
 use app\models\Users;
 use app\models\Message;
@@ -13,6 +15,29 @@ use yii\helpers\Url;
 
 class AdminController extends \yii\web\Controller
 {
+
+	public function behaviors()
+        	{
+	            return [
+	            'access' => [
+	            'class' => AccessControl::className(),
+	            'rules' => [
+	            [
+	            'actions' => ['index', 'login', 'posts', 'addtofeatured', 'viewusers', 'user', 'userreports', 'closereport', 'message', 'withdrawrequests', 'listposts', 'deletepost'],
+	            'allow' => true,
+	            'roles' => ['@'],
+	            ],
+	            ],
+	            ],
+	            'verbs' => [
+	            'class' => VerbFilter::className(),
+	            'actions' => [
+	            //'logout' => ['post'],
+	            ],
+	            ],
+	            ];
+        	}
+
 	public function actionIndex()
 	{
 		return $this->render('dashboard');

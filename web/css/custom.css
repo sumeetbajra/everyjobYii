@@ -13,6 +13,24 @@
 	src: url('../fonts/proxima-nova-soft.otf');
 }
 
+@media screen and (max-width: 991px) {
+    .user-search {
+        display: none;
+    }
+
+    .navbar-collapse{
+    	width: 100%;
+    }
+
+    .navbar-collapse li.dropdown:nth-last-child(2){
+    	display: none;
+    }
+
+   .navbar-inverse .navbar-toggle .icon-bar{
+    	background-color: black;
+    }
+}
+
 body{
 	font-family: proxima;
 }

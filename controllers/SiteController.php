@@ -189,18 +189,18 @@ class SiteController extends Controller
                     $model->password = hash('sha256', (hash('sha256', strtotime($model->created_at))).$model->password);
                 }
                 if($model->save()){
-                   Yii::$app->mailer->compose()
-                   ->setTo($model->email)
-                   ->setFrom(['mail-noreply@example.com' => 'Everyjob'])
-                   ->setSubject('Everyjob Account activation')
-                   ->setHtmlBody('Dear ' . $model->fname . 'Please click  <a href="localhost/everyjobSite/web/site/activate?token='.$token.'">here</a> to activate your account. Please ignore this message if you did not sign up on <a href="#">https://www.everyjob.com.np</a><br><br> Thank you, <br>Everyjob Team')
-                   ->send();
                     if(!empty($file)){
                         $file->saveAs('images/users/' . $model->profilePic);
                         $file=Yii::getAlias('@app/web/images/users/'.$model->profilePic); 
                         $image=Yii::$app->image->load($file);
                         $image->resize(800,800)->crop(500, 500)->save();
                     }
+                      Yii::$app->mailer->compose()
+                       ->setTo($model->email)
+                       ->setFrom(['mail-noreply@example.com' => 'Everyjob'])
+                       ->setSubject('Everyjob Account activation')
+                       ->setHtmlBody('Dear ' . $model->fname . 'Please click  <a href="localhost/everyjobSite/web/site/activate?token='.$token.'">here</a> to activate your account. Please ignore this message if you did not sign up on <a href="#">https://www.everyjob.com.np</a><br><br> Thank you, <br>Everyjob Team')
+                       ->send();
                     $message = 'An activation link has been sent to your email address. Please follow that link and sign in in order to activate your account.';
                 $name = 'Account Activation';
                 return $this->render('error', ['message'=>$message, 'name'=>$name]);

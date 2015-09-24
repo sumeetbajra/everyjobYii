@@ -9,7 +9,7 @@ $(document).ready(function(){
 	 $('.admin-msg-btn').on('click', function(){
 	 	var id = $(this).attr('id');
 	 	$('#message-to_user').val(id);
-	 	$('#admin-msg-form').attr('action', '/everyjobSite/web/admin/message/'+id);
+	 	$('#admin-msg-form').attr('action', '/college/everyjobSite/web/admin/message/'+id);
 	 });
 
 	 $('.go').on('click', function(){

@@ -67,7 +67,7 @@ $('#recoverBtn').on('click', function(){
         $(this).html('Order waiting approval');
     });
 
-    var searchPath = window.location.protocol + "//" + window.location.host + "/everyjobSite/web/user/search";
+    var searchPath = window.location.protocol + "//" + window.location.host + "/college/everyjobSite/web/user/search";
     $('#select-to').searchbox({
          url: searchPath,
   param: 'q',

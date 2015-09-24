@@ -233,7 +233,7 @@ class UserController extends \yii\web\Controller
         $user_id = \Yii::$app->user->getID();
         $user = User::findIdentity($user_id);
         $message = new Message(['scenario'=>'nonadmin']);
-        $tasks = AcceptedOrders::find()->joinWith('posts')->joinWith('order')->where('post_services.owner_id = '.$user_id . ' AND accepted_orders.payment = "paid" AND post_order.type != "Completed"')->all();
+        $tasks = AcceptedOrders::find()->joinWith('posts')->joinWith('order')->where('(post_services.owner_id = ' . $user_id . ' OR post_order.user_id = ' . $user_id . ') AND accepted_orders.payment = "paid" AND post_order.type != "Completed"')->all();
         return $this->render('activeTasks', ['tasks'=>$tasks, 'user'=>$user, 'message'=>$message]);
     }
 

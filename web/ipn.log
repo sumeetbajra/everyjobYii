@@ -6017,3 +6017,89 @@ Content-Type: text/html; charset=UTF-8
 
 VERIFIED
 [2015-03-31 10:04 Europe/Paris] Verified IPN: cmd=_notify-validate&mc_gross=35.00&protection_eligibility=Ineligible&payer_id=QKLEQDDK5GW4W&tax=0.00&payment_date=01%3A04%3A42+Mar+31%2C+2015+PDT&payment_status=Completed&charset=windows-1252&first_name=Sumit&mc_fee=1.32&notify_version=3.8&custom=10&payer_status=verified&business=sumeetbazra%40gmail.com&quantity=1&verify_sign=Ai4qGBvHMY6.1Qfr5VRqWjAV6GXSAulsYlCF5olsHUj8wu0X4l.XIeUJ&payer_email=sumeetbajra%40gmail.com&txn_id=2X165429U5624134L&payment_type=instant&last_name=Bajracharya&receiver_email=sumeetbazra%40gmail.com&payment_fee=1.32&receiver_id=NV3K6LCZ39FP8&txn_type=web_accept&item_name=I+can+create+a+cartoon+image+on+any+genre+for+you.&mc_currency=USD&item_number=9&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=10&payment_gross=35.00&shipping=0.00&ipn_track_id=631ed7986238 
+[2015-05-31 12:11 Europe/Paris] HTTP request of validation request:POST /cgi-bin/webscr HTTP/1.1
+Host: www.sandbox.paypal.com
+Accept: */*
+Connection: Close
+Content-Length: 850
+Content-Type: application/x-www-form-urlencoded
+
+ for IPN payload: cmd=_notify-validate&mc_gross=15.00&protection_eligibility=Ineligible&payer_id=QKLEQDDK5GW4W&tax=0.00&payment_date=03%3A10%3A45+May+31%2C+2015+PDT&payment_status=Completed&charset=windows-1252&first_name=Sumit&mc_fee=0.74&notify_version=3.8&custom=20&payer_status=verified&business=sumeetbazra%40gmail.com&quantity=1&verify_sign=AfcJQ6hE4rGj.0wMpKgV9A4.VEDWAikiGc9R2c6Wg3mRpyE0SnBLRI90&payer_email=sumeetbajra%40gmail.com&txn_id=6V358038F3025430F&payment_type=instant&last_name=Bajracharya&receiver_email=sumeetbazra%40gmail.com&payment_fee=0.74&receiver_id=NV3K6LCZ39FP8&txn_type=web_accept&item_name=I+will+proof+read+your+article+and+correct+all+the+grammatical+mistakes+and+typos&mc_currency=USD&item_number=4&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=20&payment_gross=15.00&shipping=0.00&ipn_track_id=a560347372fb5
+[2015-05-31 12:11 Europe/Paris] HTTP response of validation request: HTTP/1.1 200 OK
+Date: Sun, 31 May 2015 10:11:05 GMT
+Server: Apache
+X-Frame-Options: SAMEORIGIN
+Set-Cookie: c9MWDuvPtT9GIMyPc3jwol1VSlO=k3PG3HkE8PJHUiBZUhubedPeGjqT5DCD0uHEwbsmayS3DXYHtFN0EyYivKngypYHw08-C1qM5FrKuOQWX8xmq7dzq3y077hCuelPlbylCKG38O4cNlLZbX9w-PzPe1bQYasAshe5Z5xkEJMmH_zdtJtsobxrAvfFNemTwqieihcgI5hhjkvdq1XMKumpgLVPx3WqtkFuy_UkmiGHJhKRH2RWjsXudnJGTcmHtzUhS93WMUW1HiXBS5nD5OTh6jafw_jPex44vNh3n0djTRw7-ptV_-9E5jmXo9aNUfIBt9BP2pUbxJu5ySgnt_kR59n65wAnuUOUCy8acVSBQ4IxbRSMSI5l7hqhdKZ9eHf55f5Efdi6MLqvz3v68dxKZYtKXUBIhun6D4qkgxT1_O7McmeovUQBU7XZnxgb6BKRNMOIR1grm1bZWpZM1s8; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: cookie_check=yes; expires=Wed, 28-May-2025 10:11:05 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navlns=0.0; expires=Tue, 30-May-2017 10:11:05 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: Apache=10.72.108.11.1433067065463689; path=/; expires=Tue, 23-May-45 10:11:05 GMT
+Vary: Accept-Encoding,User-Agent
+Connection: close
+Set-Cookie: X-PP-SILOVER=name%3DSANDBOX3.WEB.1%26silo_version%3D880%26app%3Dappdispatcher%26TIME%3D970877525; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+Set-Cookie: Apache=10.72.128.11.1433067065446308; path=/; expires=Tue, 23-May-45 10:11:05 GMT
+Strict-Transport-Security: max-age=14400
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=UTF-8
+
+VERIFIED
+[2015-05-31 12:11 Europe/Paris] Verified IPN: cmd=_notify-validate&mc_gross=15.00&protection_eligibility=Ineligible&payer_id=QKLEQDDK5GW4W&tax=0.00&payment_date=03%3A10%3A45+May+31%2C+2015+PDT&payment_status=Completed&charset=windows-1252&first_name=Sumit&mc_fee=0.74&notify_version=3.8&custom=20&payer_status=verified&business=sumeetbazra%40gmail.com&quantity=1&verify_sign=AfcJQ6hE4rGj.0wMpKgV9A4.VEDWAikiGc9R2c6Wg3mRpyE0SnBLRI90&payer_email=sumeetbajra%40gmail.com&txn_id=6V358038F3025430F&payment_type=instant&last_name=Bajracharya&receiver_email=sumeetbazra%40gmail.com&payment_fee=0.74&receiver_id=NV3K6LCZ39FP8&txn_type=web_accept&item_name=I+will+proof+read+your+article+and+correct+all+the+grammatical+mistakes+and+typos&mc_currency=USD&item_number=4&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=20&payment_gross=15.00&shipping=0.00&ipn_track_id=a560347372fb5 
+[2015-09-24 18:54 Europe/Paris] HTTP request of validation request:POST /cgi-bin/webscr HTTP/1.1
+Host: www.sandbox.paypal.com
+Accept: */*
+Connection: Close
+Content-Length: 809
+Content-Type: application/x-www-form-urlencoded
+
+ for IPN payload: cmd=_notify-validate&mc_gross=4.50&protection_eligibility=Ineligible&payer_id=QKLEQDDK5GW4W&tax=0.00&payment_date=09%3A53%3A54+Sep+24%2C+2015+PDT&payment_status=Completed&charset=windows-1252&first_name=Sumit&mc_fee=0.43&notify_version=3.8&custom=1&payer_status=verified&business=sumeetbazra%40gmail.com&quantity=1&verify_sign=ALHnRl6xuWUyjHt4mk6uGfpwv7DeAh8vVQaItsx-pYuUrnl6dYkdR5eJ&payer_email=sumeetbajra%40gmail.com&txn_id=3WB53476LH322093N&payment_type=instant&last_name=Bajracharya&receiver_email=sumeetbazra%40gmail.com&payment_fee=0.43&receiver_id=NV3K6LCZ39FP8&txn_type=web_accept&item_name=I+will+create+HTML+signature+for+your+email&mc_currency=USD&item_number=13&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=1&payment_gross=4.50&shipping=0.00&ipn_track_id=472048cd2fbdf
+[2015-09-24 18:54 Europe/Paris] HTTP response of validation request: HTTP/1.1 200 OK
+Date: Thu, 24 Sep 2015 16:54:33 GMT
+Server: Apache
+X-Frame-Options: SAMEORIGIN
+Set-Cookie: c9MWDuvPtT9GIMyPc3jwol1VSlO=dAHf-P929vznCc-JNs-Qi5tSMf2OsxC-qNy4vby7z_AK1ogJqNFZvsbHSDtSh1q6W3ejJcKmT0EU3OHiZarmyv40wgsJirjxKvwz_AC9JSMgI0gHfxmp9Ra0KO6bsXZOkk0aw50_qp05xr6XWpRpoyLXFtH4_MWX4JBckX1jQUOqVMT8kFvJOVTxazP0o_M2gFiKDq_hDPNpGFHZxXzPuk6x83V2nxTV6xSNAnvQ7W33xA2HJeFdn3TzSPscDppU6F66k3WRpv49NSDZBHG2kQ101Fu--FjIoNU1FojncedpfUTSYJiHbhmEBKEf-GbBmL46CUDgrRUelokD0cuy8v4p5js8oyL0DCN_Xfj8HPnAyeKbO63q7g6QXCtOCUhdqHoNFc9hQ77KIOSTwbzzFX1KdR-CrcDcgSAjzmvLi8Y6RFpk2vgPZZw0qN4; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: cookie_check=yes; expires=Sun, 21-Sep-2025 16:54:33 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navlns=0.0; expires=Sat, 23-Sep-2017 16:54:33 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: Apache=10.72.108.11.1443113673209055; path=/; expires=Sat, 16-Sep-45 16:54:33 GMT
+Vary: Accept-Encoding,User-Agent
+Connection: close
+Paypal-Debug-Id: 54a151f12f194
+Set-Cookie: X-PP-SILOVER=name%3DSANDBOX3.WEB.1%26silo_version%3D880%26app%3Dappdispatcher%26TIME%3D3374974038; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+Set-Cookie: Apache=10.72.128.11.1443113673192659; path=/; expires=Sat, 16-Sep-45 16:54:33 GMT
+Strict-Transport-Security: max-age=14400
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=UTF-8
+
+VERIFIED
+[2015-09-24 18:54 Europe/Paris] Verified IPN: cmd=_notify-validate&mc_gross=4.50&protection_eligibility=Ineligible&payer_id=QKLEQDDK5GW4W&tax=0.00&payment_date=09%3A53%3A54+Sep+24%2C+2015+PDT&payment_status=Completed&charset=windows-1252&first_name=Sumit&mc_fee=0.43&notify_version=3.8&custom=1&payer_status=verified&business=sumeetbazra%40gmail.com&quantity=1&verify_sign=ALHnRl6xuWUyjHt4mk6uGfpwv7DeAh8vVQaItsx-pYuUrnl6dYkdR5eJ&payer_email=sumeetbajra%40gmail.com&txn_id=3WB53476LH322093N&payment_type=instant&last_name=Bajracharya&receiver_email=sumeetbazra%40gmail.com&payment_fee=0.43&receiver_id=NV3K6LCZ39FP8&txn_type=web_accept&item_name=I+will+create+HTML+signature+for+your+email&mc_currency=USD&item_number=13&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=1&payment_gross=4.50&shipping=0.00&ipn_track_id=472048cd2fbdf 
+[2015-09-24 19:15 Europe/Paris] HTTP request of validation request:POST /cgi-bin/webscr HTTP/1.1
+Host: www.sandbox.paypal.com
+Accept: */*
+Connection: Close
+Content-Length: 807
+Content-Type: application/x-www-form-urlencoded
+
+ for IPN payload: cmd=_notify-validate&mc_gross=7.00&protection_eligibility=Ineligible&payer_id=QKLEQDDK5GW4W&tax=0.00&payment_date=10%3A15%3A08+Sep+24%2C+2015+PDT&payment_status=Completed&charset=windows-1252&first_name=Sumit&mc_fee=0.50&notify_version=3.8&custom=2&payer_status=verified&business=sumeetbazra%40gmail.com&quantity=1&verify_sign=AWpMnKw3H7-RTlX8aQqN9gT5YiHVABEABkXX.CJ4YbW.VL7EsdurEFqP&payer_email=sumeetbajra%40gmail.com&txn_id=6DT50515LT897713X&payment_type=instant&last_name=Bajracharya&receiver_email=sumeetbazra%40gmail.com&payment_fee=0.50&receiver_id=NV3K6LCZ39FP8&txn_type=web_accept&item_name=I+will+draw+making+vector+portrait+for+you&mc_currency=USD&item_number=6&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=2&payment_gross=7.00&shipping=0.00&ipn_track_id=4ceab9358a7e0
+[2015-09-24 19:15 Europe/Paris] HTTP response of validation request: HTTP/1.1 200 OK
+Date: Thu, 24 Sep 2015 17:15:24 GMT
+Server: Apache
+X-Frame-Options: SAMEORIGIN
+Set-Cookie: c9MWDuvPtT9GIMyPc3jwol1VSlO=84swYYm_ImmUzsqmQBKCGBz8mls1ulCWbWFhi57a4f1HYbQv32hb1WRm5PlgYU7RNihWtadSC515PqwTOSD5GtPCO4sVI7_PkXKjed4WSaMKV7I_P20ETvhjojqm7LmE1vq70eZ6bA3Iv6lctMDKbMrNc0Nax7iREqf6sOHzWGm9Ra8dw_81fEs-oJrs0-eCFtxApASdY99-b0J7FODxQJ_t2aLVth67BwBAR5DHAS16lqn-atipKZwWWl5Ng0ipWHt9Ph-RmUtKMMtL4T-h9Emou1SHMYz-PmmPCSNeRO-lD9X3jvztJFdkaDBO7UqztEciJ4XkkmZUWlYI4dq3VC3oaaldsCGfe_PzDi3AoZ7svhFb0I1TX3L2K6DFPhfBUkDuEUZ-oGvTgdBVRNeVwNlWhOL6ZKW96YLIQSkHq1BYDIXQVfd86d_P_eu; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: cookie_check=yes; expires=Sun, 21-Sep-2025 17:15:24 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navcmd=_notify-validate; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: navlns=0.0; expires=Sat, 23-Sep-2017 17:15:24 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: Apache=10.72.108.11.1443114924125978; path=/; expires=Sat, 16-Sep-45 17:15:24 GMT
+Vary: Accept-Encoding,User-Agent
+Connection: close
+Paypal-Debug-Id: e4d88e2119dd4
+Set-Cookie: X-PP-SILOVER=name%3DSANDBOX3.WEB.1%26silo_version%3D880%26app%3Dappdispatcher%26TIME%3D2888762454; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+Set-Cookie: Apache=10.72.128.11.1443114924105628; path=/; expires=Sat, 16-Sep-45 17:15:24 GMT
+Strict-Transport-Security: max-age=14400
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=UTF-8
+
+VERIFIED
+[2015-09-24 19:15 Europe/Paris] Verified IPN: cmd=_notify-validate&mc_gross=7.00&protection_eligibility=Ineligible&payer_id=QKLEQDDK5GW4W&tax=0.00&payment_date=10%3A15%3A08+Sep+24%2C+2015+PDT&payment_status=Completed&charset=windows-1252&first_name=Sumit&mc_fee=0.50&notify_version=3.8&custom=2&payer_status=verified&business=sumeetbazra%40gmail.com&quantity=1&verify_sign=AWpMnKw3H7-RTlX8aQqN9gT5YiHVABEABkXX.CJ4YbW.VL7EsdurEFqP&payer_email=sumeetbajra%40gmail.com&txn_id=6DT50515LT897713X&payment_type=instant&last_name=Bajracharya&receiver_email=sumeetbazra%40gmail.com&payment_fee=0.50&receiver_id=NV3K6LCZ39FP8&txn_type=web_accept&item_name=I+will+draw+making+vector+portrait+for+you&mc_currency=USD&item_number=6&residence_country=US&test_ipn=1&handling_amount=0.00&transaction_subject=2&payment_gross=7.00&shipping=0.00&ipn_track_id=4ceab9358a7e0 
